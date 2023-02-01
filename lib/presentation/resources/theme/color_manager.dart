@@ -13,4 +13,8 @@ class ColorManager {
   static const Color lightGrey = Color(0xffbfd7e9);
   static const Color darkRed = Color(0xFFB71C1C);
   static const Color lightRed = Color(0xFFD32F2F);
+  
+  static const Color signBtnColor = Color(0xFFC32A33);
+  
+  
 }

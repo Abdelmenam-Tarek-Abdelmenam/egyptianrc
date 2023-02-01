@@ -38,8 +38,5 @@ TextTheme _textTheme() => TextTheme(
       labelLarge:
           GoogleFonts.notoSansArabic(fontSize: 22, fontWeight: FontWeight.w500),
       labelSmall: GoogleFonts.notoSansArabic(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 1.5,
-          color: ColorManager.blackColor),
+          fontSize: 14.sp, fontWeight: FontWeight.w500),
     );

@@ -49,7 +49,6 @@ class CustomScaffold extends StatelessWidget {
                   ),
                 ),
               ),
-              Dividers.h10,
               child,
             ],
           ),

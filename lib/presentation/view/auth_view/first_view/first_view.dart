@@ -2,11 +2,11 @@ import 'package:egyptianrc/presentation/resources/routes_manger.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:egyptianrc/presentation/shared/custom_scafffold/animated_splash.dart';
 import 'package:egyptianrc/presentation/shared/widget/dividers.dart';
-import 'package:egyptianrc/presentation/view/login_view/widgets/login_icons.dart';
+import 'package:egyptianrc/presentation/view/auth_view/sign_in_view/widgets/login_icons.dart';
 import 'package:flutter/material.dart';
 
-import '../../shared/on_will_pop.dart';
-import '../../shared/widget/buttons.dart';
+import '../../../shared/on_will_pop.dart';
+import '../../../shared/widget/buttons.dart';
 
 class FirstLoginView extends StatefulWidget {
   const FirstLoginView({Key? key}) : super(key: key);
