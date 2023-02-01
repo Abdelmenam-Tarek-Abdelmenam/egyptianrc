@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:egyptianrc/presentation/shared/custom_scafffold/animated_splash.dart';
 import 'package:flutter/material.dart';
 
 import '../../shared/on_will_pop.dart';
@@ -20,7 +21,9 @@ class LoginView extends StatelessWidget {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: const Scaffold(),
+        child: SplashView(
+          child: Container(),
+        ),
       ),
     );
   }

@@ -4,7 +4,7 @@ TextTheme _textTheme(bool dark) => TextTheme(
       displayLarge: GoogleFonts.poppins(
           fontSize: 26,
           fontWeight: FontWeight.bold,
-          color: dark ? ColorManager.whiteColor : ColorManager.darkBlue),
+          color: dark ? ColorManager.whiteColor : ColorManager.darkColor),
       displayMedium: GoogleFonts.alegreyaSans(
           fontSize: 22,
           fontWeight: FontWeight.w800,
@@ -12,7 +12,7 @@ TextTheme _textTheme(bool dark) => TextTheme(
       displaySmall: GoogleFonts.alegreyaSans(
           fontSize: 22,
           fontWeight: FontWeight.w700,
-          color: dark ? ColorManager.mainBlue : ColorManager.darkBlue),
+          color: dark ? ColorManager.mainColor : ColorManager.darkColor),
       headlineMedium: GoogleFonts.alegreyaSans(
           fontSize: 20,
           fontWeight: FontWeight.w700,
@@ -29,7 +29,7 @@ TextTheme _textTheme(bool dark) => TextTheme(
       titleSmall: GoogleFonts.alegreyaSans(
           fontSize: 24,
           fontWeight: FontWeight.w400,
-          color: dark ? ColorManager.lightBlue : ColorManager.mainBlue),
+          color: dark ? ColorManager.mainColor : ColorManager.mainColor),
       labelLarge:
           GoogleFonts.alegreyaSans(fontSize: 22, fontWeight: FontWeight.w500),
       labelSmall: GoogleFonts.alegreyaSans(

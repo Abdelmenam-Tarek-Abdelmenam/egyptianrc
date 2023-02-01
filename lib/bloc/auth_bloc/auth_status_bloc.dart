@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../data/data_sources/pref_repository.dart';
 import '../../data/models/app_user.dart';
-import '../../domain_layer/error_state.dart';
+import '../../data/error_state.dart';
 import '../../domain_layer/repository_implementer/sigining_repo.dart';
 import '../../presentation/shared/toast_helper.dart';
 

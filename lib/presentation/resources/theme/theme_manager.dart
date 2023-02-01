@@ -7,9 +7,9 @@ part "font_manager.dart";
 
 ThemeData lightThemeData = ThemeData(
   appBarTheme: AppBarTheme(
-      color: Colors.transparent,
-      iconTheme: IconThemeData(
-          color: ColorManager.whiteColor.withOpacity(0.8), size: 28),
+      color: ColorManager.whiteColor,
+      iconTheme:
+          IconThemeData(color: ColorManager.darkRed.withOpacity(0.8), size: 28),
       titleTextStyle: GoogleFonts.acme(
           fontWeight: FontWeight.w600,
           color: ColorManager.whiteColor.withOpacity(0.8),
@@ -18,7 +18,7 @@ ThemeData lightThemeData = ThemeData(
           statusBarColor: Colors.white.withOpacity(0),
           statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark)),
-  dividerColor: ColorManager.mainBlue.withOpacity(0.4),
+  dividerColor: ColorManager.mainColor.withOpacity(0.4),
   splashFactory: InkRipple.splashFactory,
   scaffoldBackgroundColor: ColorManager.whiteColor,
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -26,11 +26,11 @@ ThemeData lightThemeData = ThemeData(
     foregroundColor: ColorManager.darkGrey,
   ),
   primaryTextTheme: _textTheme(false),
-  primaryColor: ColorManager.mainBlue,
+  primaryColor: ColorManager.mainColor,
   iconTheme:
       IconThemeData(color: ColorManager.whiteColor.withOpacity(0.8), size: 30),
-  primaryColorDark: ColorManager.mainBlue,
-  primaryColorLight: ColorManager.mainBlue,
+  primaryColorDark: ColorManager.mainColor,
+  primaryColorLight: ColorManager.mainColor,
   listTileTheme: ListTileThemeData(
     tileColor: ColorManager.whiteColor,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -42,7 +42,7 @@ ThemeData lightThemeData = ThemeData(
   )),
   elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(ColorManager.mainBlue),
+    backgroundColor: MaterialStateProperty.all(ColorManager.mainColor),
     fixedSize: MaterialStateProperty.all(const Size(120, 30)),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
@@ -55,16 +55,16 @@ ThemeData lightThemeData = ThemeData(
       style: ButtonStyle(
     side: MaterialStateBorderSide.resolveWith((states) =>
         BorderSide(color: Colors.grey.withOpacity(0.4), width: 2.0)),
-    foregroundColor: MaterialStateProperty.all(ColorManager.mainBlue),
+    foregroundColor: MaterialStateProperty.all(ColorManager.mainColor),
   )),
   textTheme: _textTheme(false),
   colorScheme: const ColorScheme(
-    background: ColorManager.lightBlue, // used
-    onSurface: ColorManager.mainBlue, // used
-    onBackground: ColorManager.darkBlue, // used
+    background: ColorManager.lightColor, // used
+    onSurface: ColorManager.mainColor, // used
+    onBackground: ColorManager.darkColor, // used
     onSecondary: ColorManager.lightGrey, // used
     onPrimary: ColorManager.whiteColor, // used
-    primary: ColorManager.mainBlue,
+    primary: ColorManager.mainColor,
     secondary: ColorManager.darkGrey, //used
     surface: ColorManager.darkWhite,
     error: ColorManager.darkRed,
@@ -79,7 +79,7 @@ ThemeData darkThemeData = ThemeData(
           statusBarColor: Colors.black,
           statusBarBrightness: Brightness.light,
           statusBarIconBrightness: Brightness.light)),
-  dividerColor: ColorManager.mainBlue.withOpacity(0.5),
+  dividerColor: ColorManager.mainColor.withOpacity(0.5),
   splashFactory: InkRipple.splashFactory,
   scaffoldBackgroundColor: Colors.transparent,
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -87,17 +87,17 @@ ThemeData darkThemeData = ThemeData(
     foregroundColor: ColorManager.darkGrey,
   ),
   primaryTextTheme: _textTheme(true),
-  primaryColor: ColorManager.mainBlue,
+  primaryColor: ColorManager.mainColor,
   iconTheme: const IconThemeData(color: ColorManager.whiteColor, size: 30),
-  primaryColorDark: ColorManager.mainBlue,
-  primaryColorLight: ColorManager.mainBlue,
+  primaryColorDark: ColorManager.mainColor,
+  primaryColorLight: ColorManager.mainColor,
   listTileTheme: ListTileThemeData(
     tileColor: ColorManager.whiteColor,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(ColorManager.mainBlue),
+    backgroundColor: MaterialStateProperty.all(ColorManager.mainColor),
     fixedSize: MaterialStateProperty.all(const Size(120, 30)),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
@@ -110,20 +110,20 @@ ThemeData darkThemeData = ThemeData(
       style: ButtonStyle(
     side: MaterialStateBorderSide.resolveWith((states) =>
         BorderSide(color: Colors.grey.withOpacity(0.4), width: 2.0)),
-    foregroundColor: MaterialStateProperty.all(ColorManager.mainBlue),
+    foregroundColor: MaterialStateProperty.all(ColorManager.mainColor),
   )),
   textTheme: _textTheme(true),
   colorScheme: const ColorScheme(
-    background: ColorManager.lightBlue,
-    onSurface: ColorManager.mainBlue,
-    onBackground: ColorManager.lightBlue,
+    background: ColorManager.lightColor,
+    onSurface: ColorManager.mainColor,
+    onBackground: ColorManager.lightColor,
     onSecondary: ColorManager.whiteColor,
-    onPrimary: ColorManager.mainBlue,
-    primary: ColorManager.mainBlue,
+    onPrimary: ColorManager.mainColor,
+    primary: ColorManager.mainColor,
     secondary: ColorManager.lightGrey,
     surface: ColorManager.darkWhite,
     error: ColorManager.whiteColor,
-    onError: ColorManager.mainBlue,
+    onError: ColorManager.mainColor,
     brightness: Brightness.light,
   ),
 );

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../resources/asstes_manager.dart';
 
@@ -39,10 +40,12 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       appBar: AppBar(
-        leading: widget.menuIcon,
-        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark,
+          statusBarColor: Colors.white,
+        ),
         elevation: 0,
         actions: widget.action == null
             ? null
@@ -54,10 +57,8 @@ class _SplashViewState extends State<SplashView> {
               ],
         title: widget.title == null ? null : Text(widget.title!),
       ),
-      backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          Visibility(visible: widget.showDivider, child: whiteDivider(context)),
           splashImage(),
           AnimatedCrossFade(
               firstChild: Container(),
@@ -77,14 +78,14 @@ class _SplashViewState extends State<SplashView> {
         duration: const Duration(seconds: 1),
         alignment: animationFinished == AnimationState.idle
             ? Alignment.center
-            : Alignment.bottomCenter,
+            : Alignment.topCenter,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 30.0),
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: Hero(
             tag: "Logo",
             child: Image.asset(
               AssetsManager.logo,
-              width: MediaQuery.of(context).size.width / 2.5,
+              width: MediaQuery.of(context).size.width / 1.9,
             ),
           ),
         ),

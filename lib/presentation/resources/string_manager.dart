@@ -7,4 +7,5 @@ class StringManger {
   static const yes = "Yes";
   static const no = "No";
   static const account = "Account";
+  static const defaultError = "An unknown exception occurred.";
 }

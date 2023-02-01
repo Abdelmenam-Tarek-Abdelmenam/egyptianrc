@@ -1,46 +1,39 @@
-abstract class DisasterType {
+class DisasterType {
   int? levelOfDanger;
-  DisasterType({this.levelOfDanger});
+  DisasterType(this.levelOfDanger);
+
+  factory DisasterType.fromMap(Map<String, dynamic> map) =>
+      DisasterType(map['levelOfDanger']);
+
+  Map<String, dynamic> toMap() => {"levelOfDanger": levelOfDanger};
 }
 
 class Flood extends DisasterType {
   int? waterLevel;
-  Flood(this.waterLevel) : super() {
-    this.levelOfDanger = levelOfDanger;
-  }
+  Flood({this.waterLevel}) : super(waterLevel);
 }
 
 class Rain extends DisasterType {
   int? rainfallIntensity;
-  Rain({this.rainfallIntensity}) : super() {
-    this.levelOfDanger = levelOfDanger;
-  }
+  Rain({this.rainfallIntensity}) : super(rainfallIntensity);
 }
 
 class Fire extends DisasterType {
   int? size;
-  Fire({this.size}) : super() {
-    this.levelOfDanger = levelOfDanger;
-  }
+  Fire({this.size}) : super(size);
 }
 
 class BuildingCollapse extends DisasterType {
   int? numberOfCasualties;
-  BuildingCollapse(this.numberOfCasualties) : super() {
-    this.levelOfDanger = levelOfDanger;
-  }
+  BuildingCollapse(this.numberOfCasualties) : super(numberOfCasualties);
 }
 
 class Accident extends DisasterType {
   int? numberOfVehiclesInvolved;
-  Accident(this.numberOfVehiclesInvolved) : super() {
-    this.levelOfDanger = levelOfDanger;
-  }
+  Accident(this.numberOfVehiclesInvolved) : super(numberOfVehiclesInvolved);
 }
 
 class Explosion extends DisasterType {
   int? blastRadius;
-  Explosion(this.blastRadius) : super() {
-    this.levelOfDanger = levelOfDanger;
-  }
+  Explosion(this.blastRadius) : super(blastRadius);
 }

@@ -2,7 +2,7 @@ import 'package:either_dart/either.dart';
 
 import '../../data/models/app_user.dart';
 import '../../data/repositories/auth_repository.dart';
-import '../error_state.dart';
+import '../../data/error_state.dart';
 
 class SigningRepository {
   final AuthRepository _authRepository = AuthRepository();
@@ -11,8 +11,8 @@ class SigningRepository {
     try {
       AppUser user = await _authRepository.signInUsingGoogle();
       return Right(await getUser(user));
-    } on FireBaseAuthErrors catch (err) {
-      return Left(Failure.fromError(err));
+    } on Failure catch (err) {
+      return Left(err);
     } catch (_) {
       return const Left(Failure("Error happened while getting user data"));
     }
@@ -28,8 +28,8 @@ class SigningRepository {
       AppUser user =
           await _authRepository.signInWithEmailAndPassword(email, pass);
       return Right(await getUser(user));
-    } on FireBaseAuthErrors catch (e) {
-      return Left(Failure.fromError(e));
+    } on Failure catch (err) {
+      return Left(err);
     } catch (_) {
       return const Left(Failure("Error happened while sign in"));
     }
@@ -45,8 +45,8 @@ class SigningRepository {
       AppUser user =
           await _authRepository.signUpWithEmailAndPassword(email, pass);
       return Right(user);
-    } on FireBaseAuthErrors catch (e) {
-      return Left(Failure.fromError(e));
+    } on Failure catch (err) {
+      return Left(err);
     } catch (_) {
       return const Left(Failure("Error happened while sign in"));
     }
@@ -60,8 +60,8 @@ class SigningRepository {
     try {
       await _authRepository.forgetPassword(email);
       return const Right(null);
-    } on FireBaseAuthErrors catch (e) {
-      return Left(Failure.fromError(e));
+    } on Failure catch (err) {
+      return Left(err);
     } catch (_) {
       return const Left(Failure("Error happened while sign in"));
     }
