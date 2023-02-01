@@ -6,6 +6,7 @@ class StringManger {
   static const exitQ = "هل انت متأكد انك تريد المغادره";
   static const yes = "نعم";
   static const no = "لا";
+  static const name = "الاسم";
   static const defaultError = "حدثت مشكله غير معروفه";
   static const needHelp = "احتاج المساعده";
   static const fastLogin = "دخول سريع";

@@ -1,4 +1,5 @@
 import 'package:egyptianrc/presentation/resources/asstes_manager.dart';
+import 'package:egyptianrc/presentation/resources/routes_manger.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:egyptianrc/presentation/view/auth_view/shared/sign_options.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,8 @@ class FastSignInView extends StatelessWidget {
           const SignOptions(
             text1: StringManger.signup,
             text2: StringManger.login,
+            route1: Routes.signup,
+            route2: Routes.login,
           ),
         ],
       )),
