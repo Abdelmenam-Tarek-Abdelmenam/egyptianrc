@@ -5,8 +5,6 @@ import '../../../bloc/auth_bloc/auth_status_bloc.dart';
 import '../../../data/repositories/auth_repository.dart';
 
 import '../../resources/routes_manger.dart';
-import '../../resources/string_manager.dart';
-
 import '../../shared/custom_scafffold/custom_scaffold.dart';
 import '../../shared/widget/loading_text.dart';
 
@@ -16,7 +14,6 @@ class UserView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-        title: StringManger.account,
         action: BlocBuilder<AuthBloc, AuthStates>(
           builder: (context, state) {
             return IconButton(
@@ -24,7 +21,7 @@ class UserView extends StatelessWidget {
                 onPressed: () async {
                   AuthRepository.signOut();
                   Navigator.of(context)
-                      .pushNamedAndRemoveUntil(Routes.login, (route) => false);
+                      .pushNamedAndRemoveUntil(Routes.first, (route) => false);
                 });
           },
         ),

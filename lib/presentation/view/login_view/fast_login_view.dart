@@ -1,10 +1,10 @@
+import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:flutter/material.dart';
-import '../../resources/string_manager.dart';
 
 import '../../shared/custom_scafffold/custom_scaffold.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class FastLoginView extends StatelessWidget {
+  const FastLoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class LoginView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            StringManger.login,
+            StringManger.fastLogin,
             style: Theme.of(context).textTheme.headlineLarge,
           )
         ],

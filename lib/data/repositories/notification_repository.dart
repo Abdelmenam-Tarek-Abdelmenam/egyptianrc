@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:egyptianrc/data/error_state.dart';
 
-const String _fcmKey = "";
+const String _accessToken = "";
 
 class NotificationSender {
   late Dio dio;
 
   NotificationSender() {
     dio = Dio(BaseOptions(
-      baseUrl: 'https://fcm.googleapis.com/fcm/',
+      baseUrl:
+          'https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send',
       receiveDataWhenStatusError: true,
       connectTimeout: 5000,
       sendTimeout: 5000,
@@ -19,7 +20,7 @@ class NotificationSender {
   }
 
   Future<Response> postData({
-    String path = 'send',
+    String path = 'messages:send',
     required Map<String, String> sendData,
     required String receiver,
     required String title,
@@ -27,21 +28,14 @@ class NotificationSender {
   }) async {
     dio.options.headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'key=$_fcmKey',
+      'Authorization': 'Bearer $_accessToken'
     };
 
     Map<String, dynamic> data = {
-      "to": "/topics/$receiver",
-      "notification": {"title": title, "body": body, "sound": "default"},
-      "android": {
-        "priority": "HIGH",
-        "notification": {
-          "notification_priority": "PRIORITY_MAX",
-          "sound": "default",
-          "default_sound": true,
-          "default_vibrate_timings": true,
-          "default_light_settings": true
-        }
+      "message": {
+        "topic": receiver,
+        "notification": {"title": title, "body": body},
+        "data": sendData
       }
     };
 

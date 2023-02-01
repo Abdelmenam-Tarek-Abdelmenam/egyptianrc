@@ -1,40 +1,45 @@
 part of 'theme_manager.dart';
 
-TextTheme _textTheme(bool dark) => TextTheme(
-      displayLarge: GoogleFonts.poppins(
+TextTheme _textTheme() => TextTheme(
+      headlineLarge: GoogleFonts.notoSansArabic(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: ColorManager.blackColor),
+      headlineMedium: GoogleFonts.notoSansArabic(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: ColorManager.blackColor),
+      // till here
+      displayLarge: GoogleFonts.notoSansArabic(
           fontSize: 26,
           fontWeight: FontWeight.bold,
-          color: dark ? ColorManager.whiteColor : ColorManager.darkColor),
-      displayMedium: GoogleFonts.alegreyaSans(
+          color: ColorManager.darkColor),
+      displayMedium: GoogleFonts.notoSansArabic(
           fontSize: 22,
           fontWeight: FontWeight.w800,
-          color: dark ? ColorManager.whiteColor : ColorManager.whiteColor),
-      displaySmall: GoogleFonts.alegreyaSans(
+          color: ColorManager.whiteColor),
+      displaySmall: GoogleFonts.notoSansArabic(
           fontSize: 22,
           fontWeight: FontWeight.w700,
-          color: dark ? ColorManager.mainColor : ColorManager.darkColor),
-      headlineMedium: GoogleFonts.alegreyaSans(
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-          color: dark ? ColorManager.lightGrey : ColorManager.lightGrey),
-      bodySmall: GoogleFonts.alegreyaSans(
+          color: ColorManager.darkColor),
+      bodySmall: GoogleFonts.notoSansArabic(
           fontSize: 18,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.4,
-          color: dark ? ColorManager.whiteColor : ColorManager.darkGrey),
-      titleMedium: GoogleFonts.alegreyaSans(
+          color: ColorManager.darkGrey),
+      titleMedium: GoogleFonts.notoSansArabic(
           fontSize: 22,
           fontWeight: FontWeight.w700,
-          color: dark ? ColorManager.whiteColor : ColorManager.whiteColor),
-      titleSmall: GoogleFonts.alegreyaSans(
+          color: ColorManager.whiteColor),
+      titleSmall: GoogleFonts.notoSansArabic(
           fontSize: 24,
           fontWeight: FontWeight.w400,
-          color: dark ? ColorManager.mainColor : ColorManager.mainColor),
+          color: ColorManager.mainColor),
       labelLarge:
-          GoogleFonts.alegreyaSans(fontSize: 22, fontWeight: FontWeight.w500),
-      labelSmall: GoogleFonts.alegreyaSans(
+          GoogleFonts.notoSansArabic(fontSize: 22, fontWeight: FontWeight.w500),
+      labelSmall: GoogleFonts.notoSansArabic(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           letterSpacing: 1.5,
-          color: dark ? ColorManager.blackColor : ColorManager.blackColor),
+          color: ColorManager.blackColor),
     );

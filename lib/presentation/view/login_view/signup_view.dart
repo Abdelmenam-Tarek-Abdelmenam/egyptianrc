@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../resources/string_manager.dart';
 
-import '../../../bloc/auth_bloc/auth_status_bloc.dart';
+import '../../shared/custom_scafffold/custom_scaffold.dart';
 
 class SignupView extends StatelessWidget {
-  SignupView({super.key});
-  final TextEditingController nameController =
-      TextEditingController(text: AuthBloc.user.name);
+  const SignupView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,16 @@ class SignupView extends StatelessWidget {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: const Scaffold(),
+      child: CustomScaffold(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            StringManger.signup,
+            style: Theme.of(context).textTheme.headlineLarge,
+          )
+        ],
+      )),
     );
   }
 }

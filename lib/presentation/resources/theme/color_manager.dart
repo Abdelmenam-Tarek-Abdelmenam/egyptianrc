@@ -1,7 +1,7 @@
 part of 'theme_manager.dart';
 
 class ColorManager {
-  static const darkColor = Color(0xFFB71C1C);
+  static const Color darkColor = Color(0xFFC32A33);
   static const Color mainColor = Color(0xFFD32F2F);
   static const Color lightColor = Color(0xffeaa6a6);
 

@@ -1,24 +1,28 @@
+import 'package:egyptianrc/presentation/shared/widget/dividers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../resources/asstes_manager.dart';
 
 class CustomScaffold extends StatelessWidget {
-  const CustomScaffold(
-      {required this.child, required this.title, this.action, Key? key})
+  const CustomScaffold({required this.child, this.title, this.action, Key? key})
       : super(key: key);
   final Widget child;
-  final String title;
+  final String? title;
   final Widget? action;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
         elevation: 0,
-        title: Text(title),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark,
+          statusBarColor: Colors.white,
+        ),
+        // title: Text(title),
         actions: action == null
             ? null
             : [
@@ -28,31 +32,29 @@ class CustomScaffold extends StatelessWidget {
                 )
               ],
       ),
-      body: Stack(
-        children: [
-          whiteDivider(context),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: Hero(
-                tag: "Logo",
-                child: Image.asset(
-                  AssetsManager.logo,
-                  width: MediaQuery.of(context).size.width / 2.5,
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Hero(
+                  tag: "Logo",
+                  child: Image.asset(
+                    AssetsManager.textLogo,
+                    width: MediaQuery.of(context).size.width / 1.2,
+                  ),
                 ),
               ),
-            ),
+              Dividers.h10,
+              child,
+            ],
           ),
-          child,
-        ],
+        ),
       ),
     );
   }
-
-  Widget whiteDivider(BuildContext context) => Divider(
-        thickness: 2,
-        height: 0,
-        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
-      );
 }
