@@ -1,4 +1,3 @@
-import 'package:egyptianrc/presentation/shared/widget/dividers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,8 +14,9 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
@@ -37,20 +37,22 @@ class CustomScaffold extends StatelessWidget {
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Hero(
-                  tag: "Logo",
-                  child: Image.asset(
-                    AssetsManager.textLogo,
-                    width: MediaQuery.of(context).size.width / 1.2,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Hero(
+                    tag: "Logo",
+                    child: Image.asset(
+                      AssetsManager.textLogo,
+                      width: MediaQuery.of(context).size.width / 1.2,
+                    ),
                   ),
                 ),
-              ),
-              child,
-            ],
+                child,
+              ],
+            ),
           ),
         ),
       ),

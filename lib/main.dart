@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
-import 'package:device_preview/device_preview.dart';
 
 import 'data/data_sources/fcm.dart';
 import 'data/data_sources/pref_repository.dart';
@@ -22,14 +21,13 @@ void main() async {
   Bloc.observer = MyBlocObserver();
 
   String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);
-  CompleteUser? user =
-      userData == null ? null : CompleteUser.fromJson(userData);
+  AppUser? user = userData == null ? null : AppUser.fromJson(userData);
   runApp(MyApp(user));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp(this.user, {super.key});
-  final CompleteUser? user;
+  final AppUser? user;
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
@@ -46,13 +44,13 @@ class MyApp extends StatelessWidget {
                 textDirection: TextDirection.rtl,
                 child: child!,
               ),
-              useInheritedMediaQuery: true,
+              // useInheritedMediaQuery: true,
               title: StringManger.appName,
               theme: lightThemeData,
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.light,
               onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: user == null ? Routes.first : Routes.landing,
+              initialRoute: user == null ? Routes.first : Routes.first,
               // ),
             );
           },

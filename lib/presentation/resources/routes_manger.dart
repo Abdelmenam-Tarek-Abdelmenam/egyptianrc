@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 
 import '../view/auth_view/fast_sign_in_view/fast_sign_in_view.dart';
 import '../view/auth_view/first_view/first_view.dart';
+import '../view/auth_view/sign_up_view/otp_view.dart';
 import '../view/landing_view/landing_view.dart';
-
 
 class Routes {
   static const String first = "/first";
   static const String fastLogin = "/fastsignin";
   static const String login = "/signin";
   static const String signup = "/signup";
+  static const String otp = "/otp";
   static const String landing = "/";
   static const String home = "/home";
   static const String user = "/user";
@@ -27,6 +28,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const FastSignInView());
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const SignInView());
+      case Routes.otp:
+        return MaterialPageRoute(builder: (_) => const OtpView());
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => const SignUpView());
       case Routes.landing:

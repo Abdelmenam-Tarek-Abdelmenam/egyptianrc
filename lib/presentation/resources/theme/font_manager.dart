@@ -9,6 +9,10 @@ TextTheme _textTheme() => TextTheme(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: ColorManager.blackColor),
+      headlineSmall: GoogleFonts.notoSansArabic(
+          fontSize: 16,
+          fontWeight: FontWeight.w200,
+          color: ColorManager.darkGrey),
       // till here
       displayLarge: GoogleFonts.notoSansArabic(
           fontSize: 26,

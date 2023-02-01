@@ -1,5 +1,7 @@
+import 'package:egyptianrc/data/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 
+import '../../../bloc/auth_bloc/auth_status_bloc.dart';
 import '../../resources/routes_manger.dart';
 import '../../resources/string_manager.dart';
 
@@ -30,8 +32,12 @@ class LandingView extends StatelessWidget {
   }
 
   Widget action(BuildContext context) => IconButton(
-      onPressed: () => Navigator.of(context).pushNamed(Routes.user),
-      icon: const Icon(Icons.person_outline_outlined));
+      onPressed: () {
+        AuthRepository.signOut();
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(Routes.first, (_) => false);
+      },
+      icon: const Icon(Icons.logout));
 }
 
 class HomeViewWidget extends StatelessWidget {
@@ -39,7 +45,21 @@ class HomeViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            "الصفحه الرئيسيه",
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge!
+                .copyWith(color: Theme.of(context).colorScheme.primary),
+          ),
+          Text("اهلا بك ${AuthBloc.user.name ?? "الضيف"}",
+              style: Theme.of(context).textTheme.headlineSmall),
+        ],
+      ),
+    );
   }
 }
 

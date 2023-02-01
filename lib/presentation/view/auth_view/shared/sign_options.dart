@@ -2,8 +2,6 @@ import 'package:egyptianrc/presentation/resources/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../resources/routes_manger.dart';
-
 class SignOptions extends StatelessWidget {
   final String text1;
   final String text2;

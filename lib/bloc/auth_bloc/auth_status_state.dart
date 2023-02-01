@@ -2,12 +2,14 @@ part of "auth_status_bloc.dart";
 
 enum AuthStatus {
   initial,
-  registerUser,
-  submittingEmail,
   submittingGoogle,
-  doneConfirm,
+  gettingUser,
+  checkingOtp,
+  gettingOtp,
+  setOtp,
   successLogIn,
   successSignUp,
+  registerUser,
   error,
 }
 
@@ -16,7 +18,7 @@ class AuthStates extends Equatable {
 
   const AuthStates({required this.status});
 
-  factory AuthStates.initial(CompleteUser? appUser) {
+  factory AuthStates.initial(AppUser? appUser) {
     return const AuthStates(
       status: AuthStatus.initial,
     );
