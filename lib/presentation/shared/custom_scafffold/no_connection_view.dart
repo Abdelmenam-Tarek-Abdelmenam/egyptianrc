@@ -23,31 +23,37 @@ class NoConnectionView extends StatelessWidget {
     return StreamBuilder<ConnectivityResult>(
         stream: Connectivity().onConnectivityChanged,
         builder: (context, snapShot) {
-          print("snapShot.data");
+          Widget widget = noConnection(context);
           print(snapShot.data);
+          widget = snapShot.data == ConnectivityResult.none ? widget : child;
 
-          bool connected = snapShot.data == ConnectivityResult.none;
+          if (!snapShot.hasData) {
+            widget = FutureBuilder<ConnectivityResult>(
+                future: Connectivity().checkConnectivity(),
+                builder: (context, val) => val.data == ConnectivityResult.none
+                    ? noConnection(context)
+                    : child);
+          }
 
-          return connected
-              ? Column(
-                  children: [
-                    Dividers.h30,
-                    Text(
-                      StringManger.noConnection,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineLarge!
-                          .copyWith(
-                              color: Theme.of(context).colorScheme.primary),
-                    ),
-                    Text(StringManger.contactChannel,
-                        style: Theme.of(context).textTheme.headlineSmall),
-                    ContactsIcons(),
-                  ],
-                )
-              : child;
+          return widget;
         });
   }
+
+  Widget noConnection(BuildContext context) => Column(
+        children: [
+          Dividers.h30,
+          Text(
+            StringManger.noConnection,
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge!
+                .copyWith(color: Theme.of(context).colorScheme.primary),
+          ),
+          Text(StringManger.contactChannel,
+              style: Theme.of(context).textTheme.headlineSmall),
+          ContactsIcons(),
+        ],
+      );
 }
 
 class ContactsIcons extends StatelessWidget {
