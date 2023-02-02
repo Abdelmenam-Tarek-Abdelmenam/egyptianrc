@@ -29,8 +29,7 @@ class NoConnectionView extends StatelessWidget {
           bool connected = snapShot.data == ConnectivityResult.none;
 
           return connected
-              ? child
-              : Column(
+              ? Column(
                   children: [
                     Dividers.h30,
                     Text(
@@ -45,7 +44,8 @@ class NoConnectionView extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineSmall),
                     ContactsIcons(),
                   ],
-                );
+                )
+              : child;
         });
   }
 }
