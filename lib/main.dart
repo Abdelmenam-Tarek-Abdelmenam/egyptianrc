@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.light,
               onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: user == null ? Routes.first : Routes.first,
+              initialRoute: user == null ? Routes.first : Routes.landing,
               // ),
             );
           },

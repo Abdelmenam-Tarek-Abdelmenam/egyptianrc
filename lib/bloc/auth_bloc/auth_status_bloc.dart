@@ -4,10 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:egyptianrc/presentation/shared/toast_helper.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../data/data_sources/pref_repository.dart';
 import '../../data/models/app_user.dart';
 import '../../data/error_state.dart';
+import '../../data/repositories/auth_repository.dart';
 import '../../domain_layer/repository_implementer/sigining_repo.dart';
 import '../../presentation/resources/string_manager.dart';
 part 'auth_status_event.dart';
@@ -15,8 +17,6 @@ part 'auth_status_state.dart';
 
 class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
   AuthBloc(AppUser? appUser) : super(AuthStates.initial(appUser)) {
-    if (appUser != null) user = appUser;
-
     on<LoginInUsingGoogleEvent>(_loginUsingGoogleHandler);
     on<LoginInAsGuest>(_loginAsGuestHandler);
     on<LoginInUsingPhoneAndPassword>(_loginUsingPhoneHandler);
@@ -26,6 +26,12 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     // on<RegisterUserDataEvent>(_registerUserDataHandler);
     on<ThrowErrorEvent>(_handleError);
     on<ResendCodeEvent>(_resendCodeHandler);
+    on<GetUserInfoEvent>(_getUserInfo);
+    on<LogOutEvent>(_logoutHandler);
+    if (appUser != null) {
+      user = appUser;
+      add(GetUserInfoEvent());
+    }
   }
 
   bool get loading => [
@@ -38,6 +44,52 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
 
   final SigningRepository _authRepository = SigningRepository();
   static AppUser user = AppUser.empty();
+
+  Future<void> _logoutHandler(LogOutEvent event, Emitter emit) async {
+    {
+      emit(state.copyWith(status: AuthStatus.loggingOut));
+      await AuthRepository.signOut();
+      print(user.subscribeId);
+      try {
+        FirebaseMessaging.instance.unsubscribeFromTopic(user.subscribeId);
+      } catch (err) {
+        print(err);
+      }
+      AuthBloc.user = AppUser.empty();
+
+      emit(state.copyWith(status: AuthStatus.finishSession));
+
+      try {} catch (_) {
+        showToast(StringManger.defaultError);
+        emit(state.copyWith(status: AuthStatus.finishSession));
+      }
+    }
+  }
+
+  Future<void> _getUserInfo(GetUserInfoEvent event, Emitter emit) async {
+    {
+      emit(state.copyWith(status: AuthStatus.gettingUser));
+      Either<Failure, AppUser> value =
+          await _authRepository.getUserInfo(user.id);
+
+      await value.fold((failure) {
+        failure.show;
+        emit(state.copyWith(status: AuthStatus.error));
+      }, (completeUser) async {
+        user = completeUser;
+        if (user.panned) {
+          showToast(StringManger.panned);
+          AuthRepository.signOut();
+          FirebaseMessaging.instance.unsubscribeFromTopic(user.subscribeId);
+          emit(state.copyWith(status: AuthStatus.finishSession));
+        } else {
+          FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
+          PreferenceRepository.putData(
+              key: PreferenceKey.userData, value: completeUser.toJson);
+        }
+      });
+    }
+  }
 
   Future<void> _loginUsingPhoneHandler(
       LoginInUsingPhoneAndPassword event, Emitter emit) async {
@@ -56,9 +108,17 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
         showToast(StringManger.noAccount);
         emit(state.copyWith(status: AuthStatus.error));
       } else {
-        if (user.password == event.pass) {
+        if (user.panned) {
+          FirebaseMessaging.instance.unsubscribeFromTopic(user.subscribeId);
+          showToast(StringManger.panned);
+          AuthRepository.signOut();
+          user = AppUser.empty();
+
+          emit(state.copyWith(status: AuthStatus.finishSession));
+        } else if (user.password == event.pass) {
           PreferenceRepository.putData(
               key: PreferenceKey.userData, value: user.toJson);
+          FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
           emit(state.copyWith(status: AuthStatus.successLogIn));
         } else {
           showToast(StringManger.wrongPass);
@@ -84,18 +144,31 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
       if (completeUser.isEmpty) {
         emit(state.copyWith(status: AuthStatus.error));
       } else if (completeUser.isComplete) {
-        PreferenceRepository.putData(
-            key: PreferenceKey.userData, value: completeUser.toJson);
-        emit(state.copyWith(status: AuthStatus.successLogIn));
+        if (user.panned) {
+          showToast(StringManger.panned);
+          AuthRepository.signOut();
+          user = AppUser.empty();
+          emit(state.copyWith(status: AuthStatus.finishSession));
+        } else {
+          PreferenceRepository.putData(
+              key: PreferenceKey.userData, value: completeUser.toJson);
+          FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
+          emit(state.copyWith(status: AuthStatus.successLogIn));
+        }
       } else {
         await _authRepository.registerUser(user);
+        FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
         emit(state.copyWith(status: AuthStatus.successSignUp));
       }
     });
   }
 
   Future<void> _loginAsGuestHandler(LoginInAsGuest event, Emitter emit) async {
-    user = AppUser(id: user.id);
+    user = AppUser(id: event.phone, phoneNumber: event.phone);
+    print(user.subscribeId);
+    FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
+    PreferenceRepository.putData(
+        key: PreferenceKey.userData, value: user.toJson);
     emit(state.copyWith(status: AuthStatus.successLogIn));
   }
 

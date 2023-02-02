@@ -1,3 +1,4 @@
+import 'package:egyptianrc/presentation/shared/custom_scafffold/no_connection_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -50,7 +51,7 @@ class CustomScaffold extends StatelessWidget {
                     ),
                   ),
                 ),
-                child,
+                NoConnectionView(child),
               ],
             ),
           ),

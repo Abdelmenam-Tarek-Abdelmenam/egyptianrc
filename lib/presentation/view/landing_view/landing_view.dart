@@ -1,5 +1,7 @@
-import 'package:egyptianrc/data/repositories/auth_repository.dart';
+import 'package:egyptianrc/presentation/view/landing_view/widgets/record_sound_widget.dart';
+import 'package:egyptianrc/presentation/view/landing_view/widgets/record_video_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/auth_bloc/auth_status_bloc.dart';
 import '../../resources/routes_manger.dart';
@@ -21,7 +23,9 @@ class LandingView extends StatelessWidget {
           ? SplashView(
               title: StringManger.appName,
               action: action(context),
-              child: const HomeViewWidget(),
+              child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: HomeViewWidget()),
             )
           : CustomScaffold(
               title: StringManger.appName,
@@ -31,13 +35,23 @@ class LandingView extends StatelessWidget {
     );
   }
 
-  Widget action(BuildContext context) => IconButton(
-      onPressed: () {
-        AuthRepository.signOut();
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(Routes.first, (_) => false);
-      },
-      icon: const Icon(Icons.logout));
+  Widget action(BuildContext context) => BlocConsumer<AuthBloc, AuthStates>(
+        listener: (context, state) {
+          if (state.status == AuthStatus.finishSession) {
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(Routes.first, (route) => false);
+          }
+        },
+        builder: (context, state) {
+          return IconButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(LogOutEvent());
+              },
+              icon: state.status == AuthStatus.loggingOut
+                  ? const CircularProgressIndicator()
+                  : const Icon(Icons.logout));
+        },
+      );
 }
 
 class HomeViewWidget extends StatelessWidget {
@@ -55,8 +69,10 @@ class HomeViewWidget extends StatelessWidget {
                 .headlineLarge!
                 .copyWith(color: Theme.of(context).colorScheme.primary),
           ),
-          Text("اهلا بك ${AuthBloc.user.name ?? "الضيف"}",
+          Text("اهلا بك يا ${AuthBloc.user.name ?? "الضيف"}",
               style: Theme.of(context).textTheme.headlineSmall),
+          const RecordSoundWidget(),
+          const RecordVideoWidget(),
         ],
       ),
     );

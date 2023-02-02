@@ -1,5 +1,3 @@
-import 'package:egyptianrc/bloc/auth_bloc/auth_status_bloc.dart';
-import 'package:egyptianrc/data/models/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -60,8 +58,7 @@ class AuthRepository {
   }
 
   static Future<void> signOut() async {
-    PreferenceRepository.clearAll();
-    AuthBloc.user = AppUser.empty();
+    await PreferenceRepository.clearAll();
     await FirebaseAuth.instance.signOut();
     await _googleSignIn.signOut();
   }

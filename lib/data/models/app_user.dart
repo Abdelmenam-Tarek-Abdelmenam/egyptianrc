@@ -17,6 +17,9 @@ class AppUser {
   double? age;
   List<String>? postsId;
   List<Position>? places;
+  bool panned = false;
+
+  String get subscribeId => id.replaceAll("+", "");
 
   @override
   String toString() {
@@ -26,6 +29,7 @@ class AppUser {
   AppUser(
       {required this.id,
       this.name,
+      this.panned = false,
       this.email,
       this.photoUrl,
       this.phoneNumber,
@@ -55,6 +59,7 @@ class AppUser {
   factory AppUser.fromJson(dynamic jsonData) {
     jsonData = jsonData is String ? json.decode(jsonData) : jsonData;
     return AppUser(
+      panned: jsonData['panned'] ?? false,
       id: jsonData['id'],
       password: jsonData['password'],
       name: jsonData["name"],

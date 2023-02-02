@@ -2,6 +2,7 @@ part of "auth_status_bloc.dart";
 
 enum AuthStatus {
   initial,
+  loggingOut,
   submittingGoogle,
   gettingUser,
   checkingOtp,
@@ -11,6 +12,7 @@ enum AuthStatus {
   successSignUp,
   registerUser,
   error,
+  finishSession,
 }
 
 class AuthStates extends Equatable {

@@ -24,16 +24,19 @@ class FireNotificationHelper {
   Future<void> _firebaseMessagingForegroundHandler(
       RemoteMessage message) async {
     Vibrate.vibrate();
+    showToast(message.notification?.body ?? "اشعار جاء اليك",
+        type: ToastType.success);
     notificationCallback(message.data);
   }
 
   Future<void> _firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
+    showToast(message.notification?.body ?? "اشعار جاء اليك",
+        type: ToastType.success);
     notificationCallback(message.data);
   }
 
   Future<void> notificationCallback(Map<String, dynamic> data) async {
-    showToast("Notification come", type: ToastType.info);
     _callback(data);
   }
 }

@@ -28,6 +28,16 @@ class ResendCodeEvent extends AuthStatusEvent {
   List<Object?> get props => [0];
 }
 
+class GetUserInfoEvent extends AuthStatusEvent {
+  @override
+  List<Object?> get props => [0];
+}
+
+class LogOutEvent extends AuthStatusEvent {
+  @override
+  List<Object?> get props => [0];
+}
+
 class ThrowErrorEvent extends AuthStatusEvent {
   final Failure failure;
   const ThrowErrorEvent(this.failure);

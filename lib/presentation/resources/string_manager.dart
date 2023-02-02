@@ -7,7 +7,13 @@ class StringManger {
   static const yes = "نعم";
   static const no = "لا";
   static const name = "الاسم";
+  static const call = "الاتصال بنا";
+  static const email = "الايميل";
+  static const chat = "راسلنا";
   static const defaultError = "حدثت مشكله غير معروفه";
+  static const noConnection = "لا يتوفر اتصال بالانترنت";
+  static const contactsErrors = "لا يمكن استخدام هذا الوسيله حاليا";
+  static const contactChannel = "يمكنك الاتصال بنا عن طريق هذه الطرق";
   static const needHelp = "احتاج المساعده";
   static const fastLogin = "دخول سريع";
   static const login = "تسجيل الدخول";
@@ -25,6 +31,7 @@ class StringManger {
   static const wrongCode = "برجاء التاكد من رمز التحقق واعاده المحاوله";
   static const noAccount = "لا يوجد حساب مرتبط بهذا الرقم";
   static const wrongPass = "الرقم السري خطا";
+  static const panned = "هذا الحساب محظور لا يمكن استخدامه مره اخري";
   static const notReceive = "لم تستلم الكود";
   static const resend = "اعاده الارسال";
   static const submit = "تاكيد";
