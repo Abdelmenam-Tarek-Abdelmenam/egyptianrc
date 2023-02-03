@@ -19,6 +19,18 @@ ThemeData lightThemeData = ThemeData(
           statusBarColor: Colors.white.withOpacity(0),
           statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark)),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    showUnselectedLabels: true,
+    selectedIconTheme: const IconThemeData(color: ColorManager.mainColor),
+    backgroundColor: Colors.transparent,
+    selectedLabelStyle:
+        GoogleFonts.notoSansArabic(fontWeight: FontWeight.bold, fontSize: 12.w),
+    unselectedLabelStyle:
+        GoogleFonts.notoSansArabic(fontWeight: FontWeight.bold, fontSize: 12.w),
+    elevation: 0,
+    unselectedItemColor: ColorManager.lightGrey,
+    selectedItemColor: ColorManager.mainColor,
+  ),
   dividerColor: ColorManager.mainColor.withOpacity(0.4),
   splashFactory: InkRipple.splashFactory,
   scaffoldBackgroundColor: ColorManager.whiteColor,
@@ -68,7 +80,7 @@ ThemeData lightThemeData = ThemeData(
     onPrimary: ColorManager.darkWhite, // used
     secondary: ColorManager.lightColor, //used
 
-    surface: ColorManager.darkWhite,
+    surface: ColorManager.blackColor,
     error: ColorManager.darkRed,
     onError: ColorManager.lightRed,
     brightness: Brightness.light,

@@ -9,4 +9,12 @@ class AssetsManager {
 class IconsManager {
   static const google = "${iconsPath}Google_Logo.svg";
   static const facebook = "${iconsPath}Facebook_Logo.svg";
+  static const home = "${iconsPath}home.svg";
+  static const post = "${iconsPath}post.svg";
+  static const person = "${iconsPath}person.svg";
+  static const location = "${iconsPath}location.svg";
+  static const call = "${iconsPath}call.svg";
+  static const notification = "${iconsPath}notification.svg";
+  static const message = "${iconsPath}message.svg";
+  static const phone = "${iconsPath}phone.svg";
 }

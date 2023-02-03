@@ -43,7 +43,6 @@ class _RecordSoundWidgetState extends State<RecordSoundWidget> {
                         if (recorder.isRecording) {
                           final path = await recorder.stopRecorder();
                           audioFile = File(path!);
-                          print(audioFile);
                         } else {
                           audioFile = null;
                           await recorder.startRecorder(toFile: 'audio');
@@ -101,7 +100,6 @@ class _SoundPlayerWidgetState extends State<SoundPlayerWidget> {
   @override
   void didUpdateWidget(_) {
     if (widget.source != null) {
-      print("ll");
       player.seek(Duration.zero);
       player.pause();
       position = Duration.zero;

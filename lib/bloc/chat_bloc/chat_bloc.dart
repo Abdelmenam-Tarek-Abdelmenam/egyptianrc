@@ -23,25 +23,20 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   Future<void> _getInitialDataHandler(
       GetInitialMessagesEvent event, Emitter emit) async {
-    print("getting data");
     emit(state.copyWith(status: ChatStatus.gettingInitial));
     Either<Failure, List<MessageChat>> value = await _repository.getMessages();
     value.fold((failure) {
-      print("error");
       failure.show;
       emit(state.copyWith(status: ChatStatus.error));
     }, (right) {
-      print("get");
       emit(state.copyWith(messages: right, status: ChatStatus.idle));
     });
     _repository.getChatStream((message) => add(AddNewMessagesEvent(message)));
   }
 
   void _addNewMessageHandler(AddNewMessagesEvent event, Emitter emit) {
-    print("new messsage come ${event.message.content}");
     int index =
         state.messages.indexWhere((element) => element.id == event.message.id);
-    print(index);
     if (index < 0) {
       emit(state.addMessage(event.message));
     }
@@ -59,7 +54,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }, (right) {
       int index =
           state.messages.indexWhere((element) => element.id == right.id);
-      print(index);
       if (index < 0) {
         emit(state.addMessage(right));
       }

@@ -25,6 +25,7 @@ class ChatRepository {
           .toList()
         ..sort((a, b) => b.id.compareTo(a.id));
       await repository.setSeenInfo();
+      AuthBloc.user.seen = false;
       return Right(messages);
     } on FirebaseException catch (err) {
       return Left(Failure.fromFirebaseCode(err.code));

@@ -13,6 +13,7 @@ class RealTimeDataBaseRepository {
   Future<bool> getSeenInfo() async {
     DataSnapshot data =
         await reference.child(userId).child(_seenUserChild).get();
+
     return (data.value as bool?) ?? false;
   }
 
@@ -23,10 +24,7 @@ class RealTimeDataBaseRepository {
       await reference.child(userId).update({_seenAdminChild: true});
 
   void setCallback(Function(String key, Object value) callback) {
-    print("set listner");
     reference.child(userId).child(_messagesChild).onChildAdded.listen((event) {
-      print(event.snapshot.value);
-      print(event.snapshot.key);
       callback(event.snapshot.key!, event.snapshot.value!);
     });
   }

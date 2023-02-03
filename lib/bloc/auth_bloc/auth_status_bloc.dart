@@ -47,19 +47,14 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
 
   Future<void> _logoutHandler(LogOutEvent event, Emitter emit) async {
     {
-      emit(state.copyWith(status: AuthStatus.loggingOut));
-      await AuthRepository.signOut();
-      print(user.subscribeId);
       try {
+        emit(state.copyWith(status: AuthStatus.loggingOut));
+        await AuthRepository.signOut();
         FirebaseMessaging.instance.unsubscribeFromTopic(user.subscribeId);
-      } catch (err) {
-        print(err);
-      }
-      AuthBloc.user = AppUser.empty();
+        AuthBloc.user = AppUser.empty();
 
-      emit(state.copyWith(status: AuthStatus.finishSession));
-
-      try {} catch (_) {
+        emit(state.copyWith(status: AuthStatus.finishSession));
+      } catch (_) {
         showToast(StringManger.defaultError);
         emit(state.copyWith(status: AuthStatus.finishSession));
       }
@@ -166,7 +161,6 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
 
   Future<void> _loginAsGuestHandler(LoginInAsGuest event, Emitter emit) async {
     user = AppUser(id: event.phone, phoneNumber: event.phone);
-    print(user.subscribeId);
     FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
     PreferenceRepository.putData(
         key: PreferenceKey.userData, value: user.toJson);

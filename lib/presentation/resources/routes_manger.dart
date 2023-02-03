@@ -15,7 +15,6 @@ class Routes {
   static const String login = "/signin";
   static const String signup = "/signup";
   static const String otp = "/otp";
-  static const String landing = "/landing";
   static const String home = "/home";
   static const String user = "/user";
   static const String chat = "/chat";
@@ -36,12 +35,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ChatView());
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => const SignUpView());
-      case Routes.landing:
-        return MaterialPageRoute(
-            builder: (_) => const LandingView(HomePageStates.splash));
       case Routes.home:
-        return MaterialPageRoute(
-            builder: (_) => const LandingView(HomePageStates.landing));
+        return MaterialPageRoute(builder: (_) => const LandingView());
 
       default:
         return _unDefinedRoute();

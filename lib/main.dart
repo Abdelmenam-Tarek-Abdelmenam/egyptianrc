@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
-import 'bloc/chat_bloc/chat_bloc.dart';
+import 'bloc/home_bloc/home_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
 
 import 'data/data_sources/fcm.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => AuthBloc(user), lazy: false),
-          BlocProvider(create: (context) => ChatBloc()),
+          BlocProvider(create: (context) => HomeBloc()),
         ],
         child: ScreenUtilInit(
           designSize: const Size(360, 690),
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.light,
               onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: user == null ? Routes.first : Routes.landing,
+              initialRoute: user == null ? Routes.first : Routes.home,
 
               // ),
             );

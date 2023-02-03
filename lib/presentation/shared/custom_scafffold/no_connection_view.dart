@@ -24,7 +24,6 @@ class NoConnectionView extends StatelessWidget {
         stream: Connectivity().onConnectivityChanged,
         builder: (context, snapShot) {
           Widget widget = noConnection(context);
-          print(snapShot.data);
           widget = snapShot.data == ConnectivityResult.none ? widget : child;
 
           if (!snapShot.hasData) {

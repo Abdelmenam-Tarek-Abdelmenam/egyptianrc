@@ -4,6 +4,17 @@ class StringManger {
   static const appName = "الهلال الاحمر";
   static const warning = "تحذير !";
   static const exitQ = "هل انت متأكد انك تريد المغادره";
+  static const home = "الرئيسيه";
+  static const needHelpLong = "تحتاج لمساعده طارئة ؟";
+  static const clickHelp = "فقط اضغل علي الذر المساعده";
+  static const nearHelp = "الابلاغ عن حادثه بالقرب منك";
+  static const post = "الابلاغ عن حادث";
+  static const location = "الموقع";
+  static const account = "الحساب";
+  static const accident = "حادث";
+  static const fire = "حرايق";
+  static const explosion = "انفجار";
+  static const buildingFall = "انهيار عقار";
   static const yes = "نعم";
   static const no = "لا";
   static const name = "الاسم";
@@ -21,6 +32,7 @@ class StringManger {
   static const needHelp = "احتاج المساعده";
   static const fastLogin = "دخول سريع";
   static const login = "تسجيل الدخول";
+  static const logout = "تسجيل الخروج";
   static const signup = "انشاء حساب";
   static const continueWith = "او الاستمرار مع";
   static const mobilePhone = "رقم الهاتف";
