@@ -1,4 +1,5 @@
 import 'package:egyptianrc/presentation/resources/asstes_manager.dart';
+import 'package:egyptianrc/presentation/resources/routes_manger.dart';
 import 'package:egyptianrc/presentation/shared/widget/customs_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -10,7 +11,7 @@ class CallIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () => Navigator.of(context).pushNamed(Routes.post),
       style: ElevatedButton.styleFrom(
         fixedSize: Size(200.r, 200.r),
         shape: const CircleBorder(),

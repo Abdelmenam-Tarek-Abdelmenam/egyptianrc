@@ -60,7 +60,6 @@ class AppUser {
 
   factory AppUser.fromJson(dynamic jsonData, {bool seen = false}) {
     jsonData = jsonData is String ? json.decode(jsonData) : jsonData;
-    print("user seen $seen");
     return AppUser(
       panned: jsonData['panned'] ?? false,
       seen: seen,

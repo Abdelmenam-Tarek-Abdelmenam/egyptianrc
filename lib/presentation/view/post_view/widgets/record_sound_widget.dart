@@ -1,14 +1,15 @@
-import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart' as audio_player;
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:egyptianrc/presentation/resources/asstes_manager.dart';
 import 'package:egyptianrc/presentation/resources/styles_manager.dart';
+import 'package:egyptianrc/presentation/shared/widget/customs_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class RecordSoundWidget extends StatefulWidget {
-  const RecordSoundWidget({Key? key}) : super(key: key);
+  const RecordSoundWidget(this.controller, {Key? key}) : super(key: key);
+  final ValueNotifier<String?> controller;
 
   @override
   State<RecordSoundWidget> createState() => _RecordSoundWidgetState();
@@ -17,7 +18,7 @@ class RecordSoundWidget extends StatefulWidget {
 class _RecordSoundWidgetState extends State<RecordSoundWidget> {
   final recorder = FlutterSoundRecorder();
   bool recorderIsReady = false;
-  File? audioFile;
+  // File? audioFile;
 
   @override
   void initState() {
@@ -27,37 +28,35 @@ class _RecordSoundWidgetState extends State<RecordSoundWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return recorderIsReady
-        ? Row(
-            children: [
-              AvatarGlow(
-                glowColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.8),
-                endRadius: 38.0,
-                animate: recorder.isRecording,
-                child: CircleAvatar(
-                  radius: 24,
-                  child: IconButton(
-                      iconSize: 30,
-                      onPressed: () async {
-                        if (recorder.isRecording) {
-                          final path = await recorder.stopRecorder();
-                          audioFile = File(path!);
-                        } else {
-                          audioFile = null;
-                          await recorder.startRecorder(toFile: 'audio');
-                        }
-                        setState(() {});
-                      },
-                      icon: Icon(recorder.isRecording
-                          ? Icons.mic_off_outlined
-                          : Icons.mic_none)),
+    return FloatingActionButton(
+      onPressed: () async {
+        if (recorderIsReady) return;
+        if (recorder.isRecording) {
+          widget.controller.value = await recorder.stopRecorder();
+        } else {
+          widget.controller.value = null;
+          await recorder.startRecorder(toFile: 'audio');
+        }
+        setState(() {});
+      },
+      // backgroundColor: Theme.of(context).colorScheme.background,
+      child: AvatarGlow(
+        glowColor: Theme.of(context).colorScheme.primary,
+        endRadius: 38.0,
+        animate: recorder.isRecording,
+        child: recorderIsReady
+            ? (const CustomIcon(
+                IconsManager.mic,
+                width: 35,
+              ))
+            : Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               ),
-              Expanded(child: SoundPlayerWidget(audioFile?.path)),
-            ],
-          )
-        : const LinearProgressIndicator();
+      ),
+    );
   }
 
   Future<void> initRecord() async {

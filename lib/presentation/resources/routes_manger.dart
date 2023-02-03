@@ -8,6 +8,7 @@ import '../view/auth_view/first_view/first_view.dart';
 import '../view/auth_view/sign_up_view/otp_view.dart';
 import '../view/chat_view/chat_view.dart';
 import '../view/landing_view/landing_view.dart';
+import '../view/post_view/post_view.dart';
 
 class Routes {
   static const String first = "/";
@@ -18,6 +19,7 @@ class Routes {
   static const String home = "/home";
   static const String user = "/user";
   static const String chat = "/chat";
+  static const String post = "/post";
 }
 
 class RouteGenerator {
@@ -32,11 +34,13 @@ class RouteGenerator {
       case Routes.otp:
         return MaterialPageRoute(builder: (_) => const OtpView());
       case Routes.chat:
-        return MaterialPageRoute(builder: (_) => const ChatView());
+        return MaterialPageRoute(builder: (_) => ChatView());
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => const SignUpView());
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const LandingView());
+      case Routes.post:
+        return MaterialPageRoute(builder: (_) => const PostView());
 
       default:
         return _unDefinedRoute();

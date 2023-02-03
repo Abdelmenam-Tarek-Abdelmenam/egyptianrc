@@ -8,14 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../bloc/chat_bloc/chat_bloc.dart';
 import '../../../data/models/chat_model.dart';
 
-class ChatView extends StatefulWidget {
-  const ChatView({Key? key}) : super(key: key);
+class ChatView extends StatelessWidget {
+  ChatView({Key? key}) : super(key: key);
 
-  @override
-  ChatPageState createState() => ChatPageState();
-}
-
-class ChatPageState extends State<ChatView> {
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
 
@@ -56,7 +51,7 @@ class ChatPageState extends State<ChatView> {
                 );
               },
             ),
-            buildInput(),
+            buildInput(context),
           ],
         ),
       ),
@@ -137,7 +132,7 @@ class ChatPageState extends State<ChatView> {
     }
   }
 
-  Widget buildInput() {
+  Widget buildInput(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 50,
@@ -151,7 +146,7 @@ class ChatPageState extends State<ChatView> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: TextField(
-                onSubmitted: (value) => onSendMessage(),
+                onSubmitted: (value) => onSendMessage(context),
                 style: const TextStyle(color: Colors.black, fontSize: 15),
                 controller: textEditingController,
                 decoration: const InputDecoration.collapsed(
@@ -177,7 +172,7 @@ class ChatPageState extends State<ChatView> {
                         )
                       : IconButton(
                           icon: const Icon(Icons.send),
-                          onPressed: () => onSendMessage());
+                          onPressed: () => onSendMessage(context));
                 },
               ),
             ),
@@ -187,7 +182,7 @@ class ChatPageState extends State<ChatView> {
     );
   }
 
-  void onSendMessage() {
+  void onSendMessage(BuildContext context) {
     if (textEditingController.text.trim().isNotEmpty) {
       context
           .read<ChatBloc>()

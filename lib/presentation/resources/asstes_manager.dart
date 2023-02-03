@@ -23,4 +23,6 @@ class IconsManager {
   static const email = "${iconsPath}email.svg";
   static const profile = "${iconsPath}profile.svg";
   static const address = "${iconsPath}address.svg";
+  static const mic = "${iconsPath}mic.svg";
+  static const cam = "${iconsPath}cam.svg";
 }
