@@ -37,5 +37,5 @@ class PreferenceRepository {
 
   static void clearData({required String key}) => pref.remove(key);
 
-  static void clearAll() => pref.clear();
+  static Future<void> clearAll() async => await pref.clear();
 }

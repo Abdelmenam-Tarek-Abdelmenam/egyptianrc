@@ -1,3 +1,4 @@
+import 'package:egyptianrc/presentation/shared/widget/dividers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -11,15 +12,14 @@ class LoadingText extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "loading ",
-            style: Theme.of(context)
-                .textTheme
-                .displayLarge!
-                .copyWith(fontSize: 20),
+            "جاري التحميل",
+            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                fontSize: 20, color: Theme.of(context).colorScheme.primary),
           ),
+          Dividers.w5,
           SpinKitThreeBounce(
-            color: Theme.of(context).colorScheme.onBackground,
-            size: 15,
+            color: Theme.of(context).colorScheme.primary,
+            size: 20,
           )
         ],
       ),

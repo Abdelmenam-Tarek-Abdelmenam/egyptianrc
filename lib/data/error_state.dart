@@ -55,6 +55,10 @@ class Failure implements Exception {
         return const Failure(
           'Email is not valid or badly formatted.',
         );
+      case 'invalid-phone-number':
+        return const Failure(
+          'Invalid phone number. please check it.',
+        );
       case 'Email not verified':
         return const Failure(
           'Email is not verified. please check it.',
@@ -91,6 +95,10 @@ class Failure implements Exception {
         return const Failure(
           'The credential received is malformed or has expired.',
         );
+      case "too-many-requests":
+        return const Failure(
+          'Too many request , try again later.',
+        );
       case 'invalid-verification-code':
         return const Failure(
           'The credential verification code received is invalid.',
@@ -100,7 +108,7 @@ class Failure implements Exception {
           'The credential verification ID received is invalid.',
         );
       default:
-        return const Failure();
+        return Failure(code);
     }
   }
 }

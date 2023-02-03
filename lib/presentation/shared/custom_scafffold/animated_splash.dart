@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../resources/asstes_manager.dart';
+import 'no_connection_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView(
@@ -57,12 +58,14 @@ class _SplashViewState extends State<SplashView> {
               ],
         title: widget.title == null ? null : Text(widget.title!),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          splashImage(),
+          animationFinished == AnimationState.end
+              ? splashImage()
+              : Expanded(child: splashImage()),
           AnimatedCrossFade(
               firstChild: Container(),
-              secondChild: widget.child,
+              secondChild: NoConnectionView(widget.child),
               crossFadeState: animationFinished.fadeState,
               duration: const Duration(milliseconds: 500)),
         ],
@@ -80,21 +83,15 @@ class _SplashViewState extends State<SplashView> {
             ? Alignment.center
             : Alignment.topCenter,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          padding: const EdgeInsets.symmetric(vertical: 30),
           child: Hero(
             tag: "Logo",
             child: Image.asset(
-              AssetsManager.logo,
-              width: MediaQuery.of(context).size.width / 1.9,
+              AssetsManager.textLogo,
+              width: MediaQuery.of(context).size.width / 1.2,
             ),
           ),
         ),
-      );
-
-  Widget whiteDivider(BuildContext context) => Divider(
-        thickness: 2,
-        height: 0,
-        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
       );
 }
 

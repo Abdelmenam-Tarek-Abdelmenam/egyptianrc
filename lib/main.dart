@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
@@ -20,28 +21,39 @@ void main() async {
   Bloc.observer = MyBlocObserver();
 
   String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);
-  CompleteUser? user =
-      userData == null ? null : CompleteUser.fromJson(userData);
+  AppUser? user = userData == null ? null : AppUser.fromJson(userData);
   runApp(MyApp(user));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp(this.user, {super.key});
-  final CompleteUser? user;
+  final AppUser? user;
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => AuthBloc(user), lazy: false),
         ],
-        child: MaterialApp(
-          title: StringManger.appName,
-          theme: lightThemeData,
-          debugShowCheckedModeBanner: false,
-          themeMode: ThemeMode.light,
-          onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: user == null ? Routes.login : Routes.landing,
-          // ),
+        child: ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (BuildContext context, Widget? child) {
+            return MaterialApp(
+              builder: (context, child) => Directionality(
+                textDirection: TextDirection.rtl,
+                child: child!,
+              ),
+              // useInheritedMediaQuery: true,
+              title: StringManger.appName,
+              theme: lightThemeData,
+              debugShowCheckedModeBanner: false,
+              themeMode: ThemeMode.light,
+              onGenerateRoute: RouteGenerator.getRoute,
+              initialRoute: user == null ? Routes.first : Routes.landing,
+              // ),
+            );
+          },
         ),
       );
 }
