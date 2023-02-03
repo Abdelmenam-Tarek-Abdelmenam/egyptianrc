@@ -2,13 +2,17 @@ part of "auth_status_bloc.dart";
 
 enum AuthStatus {
   initial,
-  registerUser,
-  submittingEmail,
+  loggingOut,
   submittingGoogle,
-  doneConfirm,
+  gettingUser,
+  checkingOtp,
+  gettingOtp,
+  setOtp,
   successLogIn,
   successSignUp,
+  registerUser,
   error,
+  finishSession,
 }
 
 class AuthStates extends Equatable {
@@ -16,18 +20,18 @@ class AuthStates extends Equatable {
 
   const AuthStates({required this.status});
 
-  factory AuthStates.initial(CompleteUser? appUser) {
+  factory AuthStates.initial(AppUser? appUser) {
     return const AuthStates(
       status: AuthStatus.initial,
     );
   }
-
-  @override
-  List<Object?> get props => [status];
 
   AuthStates copyWith({AuthStatus? status}) {
     return AuthStates(
       status: status ?? this.status,
     );
   }
+
+  @override
+  List<Object?> get props => [status];
 }

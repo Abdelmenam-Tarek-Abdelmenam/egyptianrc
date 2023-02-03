@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-Map<String, PostDisasterFailure> _postDisasterFailureLookUp = const {
-  
-};
+Map<String, PostDisasterFailure> _postDisasterFailureLookUp = const {};
 
 @immutable
 class PostDisasterFailure implements Exception {

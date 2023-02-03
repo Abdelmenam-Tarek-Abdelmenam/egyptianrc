@@ -12,7 +12,7 @@ Future<bool> showMyDialog(BuildContext context) async {
             StringManger.exitQ,
             style: Theme.of(context)
                 .textTheme
-                .displayLarge!
+                .headlineMedium!
                 .copyWith(fontSize: 16),
           ),
           actions: <Widget>[
@@ -20,7 +20,7 @@ Future<bool> showMyDialog(BuildContext context) async {
               onPressed: () => Navigator.of(context).pop(false),
               child: const Text(
                 StringManger.no,
-                style: TextStyle(color: Colors.greenAccent),
+                style: TextStyle(color: Colors.green),
               ),
             ),
             TextButton(

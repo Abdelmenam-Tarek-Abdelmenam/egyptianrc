@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StyleManager {
   static final List<BoxShadow> smallShadow = [
@@ -23,6 +24,17 @@ class StyleManager {
   );
 
   static const Radius radius10 = Radius.circular(10);
+  static final Radius radius15 = Radius.circular(15.r);
+
+  static ButtonStyle signBtnStyle = ButtonStyle(
+    shape: MaterialStateProperty.all(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          radius15,
+        ),
+      ),
+    ),
+  );
 }
 
 class PaddingManager {

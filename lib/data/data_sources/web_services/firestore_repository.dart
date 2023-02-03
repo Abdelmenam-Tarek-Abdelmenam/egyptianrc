@@ -47,13 +47,13 @@ class FireStoreRepository {
     return data.docs.map((e) => e.data()).toList();
   }
 
-  Future<Map<String, dynamic>?> getUserInfo() async {
+  Future<Map<String, dynamic>?> getUserInfo(String id) async {
     DocumentSnapshot<Map<String, dynamic>> data =
-        await _fireStore.collection(usersColl).doc(_userId).get();
+        await _fireStore.collection(usersColl).doc(id).get();
     return data.data();
   }
 
-  void setUserInfo(Map<String, dynamic> data) async =>
+  Future<void> setUserInfo(Map<String, dynamic> data) async =>
       await _fireStore.collection(usersColl).doc(_userId).set(data);
 
   void updateUserInfo(Map<String, dynamic> data) async =>

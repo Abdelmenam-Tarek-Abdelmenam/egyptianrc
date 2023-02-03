@@ -1,5 +1,9 @@
+import 'package:egyptianrc/presentation/view/landing_view/widgets/record_sound_widget.dart';
+import 'package:egyptianrc/presentation/view/landing_view/widgets/record_video_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../bloc/auth_bloc/auth_status_bloc.dart';
 import '../../resources/routes_manger.dart';
 import '../../resources/string_manager.dart';
 
@@ -19,7 +23,9 @@ class LandingView extends StatelessWidget {
           ? SplashView(
               title: StringManger.appName,
               action: action(context),
-              child: const HomeViewWidget(),
+              child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: HomeViewWidget()),
             )
           : CustomScaffold(
               title: StringManger.appName,
@@ -29,9 +35,32 @@ class LandingView extends StatelessWidget {
     );
   }
 
-  Widget action(BuildContext context) => IconButton(
-      onPressed: () => Navigator.of(context).pushNamed(Routes.user),
-      icon: const Icon(Icons.person_outline_outlined));
+  Widget action(BuildContext context) => Row(
+        children: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.chat);
+              },
+              icon: const Icon(Icons.chat)),
+          BlocConsumer<AuthBloc, AuthStates>(
+            listener: (context, state) {
+              if (state.status == AuthStatus.finishSession) {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(Routes.first, (route) => false);
+              }
+            },
+            builder: (context, state) {
+              return IconButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(LogOutEvent());
+                  },
+                  icon: state.status == AuthStatus.loggingOut
+                      ? const CircularProgressIndicator()
+                      : const Icon(Icons.logout));
+            },
+          )
+        ],
+      );
 }
 
 class HomeViewWidget extends StatelessWidget {
@@ -39,7 +68,23 @@ class HomeViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            "الصفحه الرئيسيه",
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge!
+                .copyWith(color: Theme.of(context).colorScheme.primary),
+          ),
+          Text("اهلا بك يا ${AuthBloc.user.name ?? "الضيف"}",
+              style: Theme.of(context).textTheme.headlineSmall),
+          const RecordSoundWidget(),
+          const RecordVideoWidget(),
+        ],
+      ),
+    );
   }
 }
 

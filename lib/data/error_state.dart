@@ -100,7 +100,7 @@ class Failure implements Exception {
           'The credential verification ID received is invalid.',
         );
       default:
-        return const Failure();
+        return Failure(code);
     }
   }
 }

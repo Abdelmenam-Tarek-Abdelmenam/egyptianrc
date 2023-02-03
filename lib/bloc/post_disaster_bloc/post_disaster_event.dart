@@ -9,7 +9,7 @@ abstract class PostDisasterEvent extends Equatable {
 
 class PostLocationEvent extends PostDisasterEvent {
   const PostLocationEvent({required this.location});
-  
+
   final Location location;
 
   @override
