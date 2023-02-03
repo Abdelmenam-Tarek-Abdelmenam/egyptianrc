@@ -74,11 +74,12 @@ class Location {
     return geoHashList.join('');
   }
 
-  /// Converts a String geohash into List<int> bits
-  List<int> _geoHashToBits(String geohash) {
+  /// Converts a String geo hash into List<int> bits
+  // ignore: unused_element
+  List<int> _geoHashToBits(String geoHash) {
     final bitList = <int>[];
 
-    for (final letter in geohash.split('')) {
+    for (final letter in geoHash.split('')) {
       if (_base32Map[letter] == null) {
         continue;
       }

@@ -1,46 +1,34 @@
+import 'package:egyptianrc/bloc/home_bloc/home_bloc.dart';
+import 'package:egyptianrc/presentation/view/landing_view/widgets/bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../bloc/auth_bloc/auth_status_bloc.dart';
 
 import '../../resources/routes_manger.dart';
-import '../../resources/string_manager.dart';
-
-import '../../shared/custom_scafffold/animated_splash.dart';
-import '../../shared/custom_scafffold/custom_scaffold.dart';
 import '../../shared/on_will_pop.dart';
 
 class LandingView extends StatelessWidget {
-  const LandingView(this.state, {Key? key}) : super(key: key);
-  final HomePageStates state;
+  const LandingView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => showMyDialog(context),
-      child: state == HomePageStates.splash
-          ? SplashView(
-              title: StringManger.appName,
-              action: action(context),
-              child: const HomeViewWidget(),
-            )
-          : CustomScaffold(
-              title: StringManger.appName,
-              action: action(context),
-              child: const HomeViewWidget(),
-            ),
+      child: BlocListener<AuthBloc, AuthStates>(
+        listener: (context, state) {
+          if (state.status == AuthStatus.finishSession) {
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(Routes.first, (route) => false);
+          }
+        },
+        child: Scaffold(
+          bottomNavigationBar: const HomeBottomBar(),
+          body: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            child: context.watch<HomeBloc>().state.toWidget(),
+          ),
+        ),
+      ),
     );
   }
-
-  Widget action(BuildContext context) => IconButton(
-      onPressed: () => Navigator.of(context).pushNamed(Routes.user),
-      icon: const Icon(Icons.person_outline_outlined));
 }
-
-class HomeViewWidget extends StatelessWidget {
-  const HomeViewWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-enum HomePageStates { splash, landing }
