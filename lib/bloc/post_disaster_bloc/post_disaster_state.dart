@@ -2,7 +2,7 @@ part of 'post_disaster_bloc.dart';
 
 class PostDisasterState extends Equatable {
   final Location location;
-  final Either<PostDisasterFailure, dynamic> successOrFailureOption;
+  final Either<PostDisasterFailure, void> successOrFailureOption;
   final bool isSubmitting;
   final DisasterMedia? mediaEvidence;
   final String? description;
