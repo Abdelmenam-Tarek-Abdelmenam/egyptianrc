@@ -17,4 +17,10 @@ class IconsManager {
   static const notification = "${iconsPath}notification.svg";
   static const message = "${iconsPath}message.svg";
   static const phone = "${iconsPath}phone.svg";
+
+  static const lock = "${iconsPath}lock.svg";
+  static const phoneNum = "${iconsPath}phone_num.svg";
+  static const email = "${iconsPath}email.svg";
+  static const profile = "${iconsPath}profile.svg";
+  static const address = "${iconsPath}address.svg";
 }

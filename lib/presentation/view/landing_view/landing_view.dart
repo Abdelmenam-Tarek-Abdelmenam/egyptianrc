@@ -23,7 +23,10 @@ class LandingView extends StatelessWidget {
         },
         child: Scaffold(
           bottomNavigationBar: const HomeBottomBar(),
-          body: context.watch<HomeBloc>().state.toWidget(),
+          body: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            child: context.watch<HomeBloc>().state.toWidget(),
+          ),
         ),
       ),
     );

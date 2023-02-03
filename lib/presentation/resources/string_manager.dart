@@ -15,11 +15,17 @@ class StringManger {
   static const fire = "حرايق";
   static const explosion = "انفجار";
   static const buildingFall = "انهيار عقار";
+  static const guest = "ضيف";
+  static const noEmail = "لا يوجد ايميل مرتبط";
   static const yes = "نعم";
   static const no = "لا";
   static const name = "الاسم";
+  static const email = "البريد الالكتروني";
+  static const password = "كلمة المرور";
+  static const mobilePhone = "رقم الهاتف";
+  static const address = "العنوان";
+
   static const call = "الاتصال بنا";
-  static const email = "الايميل";
   static const chat = "راسلنا";
   static const writeMessage = "اكتب رسالتك هنا";
   static const chatWithRc = "محادثه مع الهلال الاحمر";
@@ -35,8 +41,6 @@ class StringManger {
   static const logout = "تسجيل الخروج";
   static const signup = "انشاء حساب";
   static const continueWith = "او الاستمرار مع";
-  static const mobilePhone = "رقم الهاتف";
-  static const password = "كلمة المرور";
   static const passwordConfirm = "تاكيد كلمة المرور";
   static const twoPassError = "الارقام السريه يجب ان تكون مطابقه";
   static const male = "ذكر";

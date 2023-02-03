@@ -21,10 +21,7 @@ class DefaultFilledButton extends StatelessWidget {
     return ElevatedButton(
       style: StyleManager.signBtnStyle.copyWith(
         fixedSize: MaterialStateProperty.all(
-          Size(
-            width.w,
-            height.h,
-          ),
+          Size(width.w, height.h),
         ),
       ),
       onPressed: onPressed,
@@ -42,10 +39,16 @@ class DefaultFilledButton extends StatelessWidget {
 
 class DefaultOutlinedButton extends StatelessWidget {
   const DefaultOutlinedButton(
-      {required this.title, required this.onPressed, Key? key})
+      {required this.title,
+      required this.onPressed,
+      this.height = 50,
+      this.width = 300,
+      Key? key})
       : super(key: key);
   final String title;
   final VoidCallback onPressed;
+  final double height;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,7 @@ class DefaultOutlinedButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
           foregroundColor: Theme.of(context).colorScheme.primary,
-          fixedSize: Size(300.w, 50.h),
+          fixedSize: Size(width.w, height.h),
           side: BorderSide(
               width: 1.5, color: Theme.of(context).colorScheme.primary),
           shape: RoundedRectangleBorder(
