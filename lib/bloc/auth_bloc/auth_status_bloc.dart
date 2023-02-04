@@ -5,6 +5,7 @@ import 'package:egyptianrc/presentation/shared/toast_helper.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../data/data_sources/pref_repository.dart';
 import '../../data/models/app_user.dart';
@@ -50,7 +51,7 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
       try {
         emit(state.copyWith(status: AuthStatus.loggingOut));
         await AuthRepository.signOut();
-        FirebaseMessaging.instance.unsubscribeFromTopic(user.subscribeId);
+        FirebaseMessaging.instance.unSubscribeToTopicModified(user.subscribeId);
         AuthBloc.user = AppUser.empty();
 
         emit(state.copyWith(status: AuthStatus.finishSession));
@@ -76,10 +77,11 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
         if (user.panned) {
           showToast(StringManger.panned);
           AuthRepository.signOut();
-          FirebaseMessaging.instance.unsubscribeFromTopic(user.subscribeId);
+          FirebaseMessaging.instance
+              .unSubscribeToTopicModified(user.subscribeId);
           emit(state.copyWith(status: AuthStatus.finishSession));
         } else {
-          FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
+          FirebaseMessaging.instance.subscribeToTopicModified(user.subscribeId);
           PreferenceRepository.putData(
               key: PreferenceKey.userData, value: completeUser.toJson);
         }
@@ -105,7 +107,8 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
         emit(state.copyWith(status: AuthStatus.error));
       } else {
         if (user.panned) {
-          FirebaseMessaging.instance.unsubscribeFromTopic(user.subscribeId);
+          FirebaseMessaging.instance
+              .unSubscribeToTopicModified(user.subscribeId);
           showToast(StringManger.panned);
           AuthRepository.signOut();
           user = AppUser.empty();
@@ -114,7 +117,7 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
         } else if (user.password == event.pass) {
           PreferenceRepository.putData(
               key: PreferenceKey.userData, value: user.toJson);
-          FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
+          FirebaseMessaging.instance.subscribeToTopicModified(user.subscribeId);
           emit(state.copyWith(status: AuthStatus.successLogIn));
         } else {
           showToast(StringManger.wrongPass);
@@ -148,20 +151,20 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
         } else {
           PreferenceRepository.putData(
               key: PreferenceKey.userData, value: completeUser.toJson);
-          FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
+          FirebaseMessaging.instance.subscribeToTopicModified(user.subscribeId);
           emit(state.copyWith(status: AuthStatus.successLogIn));
         }
       } else {
         await _authRepository.registerUser(user);
-        FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
+        FirebaseMessaging.instance.subscribeToTopicModified(user.subscribeId);
         emit(state.copyWith(status: AuthStatus.successSignUp));
       }
     });
   }
 
   Future<void> _loginAsGuestHandler(LoginInAsGuest event, Emitter emit) async {
-    user = AppUser(id: event.phone, phoneNumber: event.phone);
-    FirebaseMessaging.instance.subscribeToTopic(user.subscribeId);
+    user = AppUser(id: "temp${event.phone}", phoneNumber: event.phone);
+    FirebaseMessaging.instance.subscribeToTopicModified(user.subscribeId);
     PreferenceRepository.putData(
         key: PreferenceKey.userData, value: user.toJson);
     emit(state.copyWith(status: AuthStatus.successLogIn));
@@ -262,4 +265,18 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
   //     emit(state.copyWith(status: AuthStatus.successLogIn));
   //   });
   // }
+}
+
+extension on FirebaseMessaging {
+  Future<void> subscribeToTopicModified(String topic) async {
+    if (kIsWeb) return;
+
+    subscribeToTopic(topic);
+  }
+
+  Future<void> unSubscribeToTopicModified(String topic) async {
+    if (kIsWeb) return;
+
+    unsubscribeFromTopic(topic);
+  }
 }

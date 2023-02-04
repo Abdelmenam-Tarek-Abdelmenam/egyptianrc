@@ -30,7 +30,7 @@ class _RecordSoundWidgetState extends State<RecordSoundWidget> {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        if (recorderIsReady) return;
+        if (!recorderIsReady) return;
         if (recorder.isRecording) {
           widget.controller.value = await recorder.stopRecorder();
         } else {

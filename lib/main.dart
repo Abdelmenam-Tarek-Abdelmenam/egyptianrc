@@ -34,6 +34,7 @@ void main() async {
     await Firebase.initializeApp();
     FireNotificationHelper(print);
   }
+
   Bloc.observer = MyBlocObserver();
 
   String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);

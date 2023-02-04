@@ -24,9 +24,9 @@ ThemeData lightThemeData = ThemeData(
     selectedIconTheme: const IconThemeData(color: ColorManager.mainColor),
     backgroundColor: Colors.transparent,
     selectedLabelStyle:
-        GoogleFonts.notoSansArabic(fontWeight: FontWeight.bold, fontSize: 12.w),
+        GoogleFonts.notoSansArabic(fontWeight: FontWeight.bold, fontSize: 12),
     unselectedLabelStyle:
-        GoogleFonts.notoSansArabic(fontWeight: FontWeight.bold, fontSize: 12.w),
+        GoogleFonts.notoSansArabic(fontWeight: FontWeight.bold, fontSize: 12),
     elevation: 0,
     unselectedItemColor: ColorManager.lightGrey,
     selectedItemColor: ColorManager.mainColor,

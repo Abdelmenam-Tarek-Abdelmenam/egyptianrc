@@ -12,23 +12,25 @@ class ErrorImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(url);
     return CachedNetworkImage(
       imageUrl: url,
       height: height,
       width: width,
       fit: fit,
-      progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox(
+      progressIndicatorBuilder: (_, __, progress) => SizedBox(
         width: 15,
         height: 15,
-        child: SizedBox(
-          width: width,
-          height: height,
-          child: const Center(
-            child: Icon(
-              Icons.downloading,
-              size: 30,
-            ),
-          ),
+        child: CircularProgressIndicator(
+          value: progress.progress,
+          // width: width,
+          // height: height,
+          // child: const Center(
+          //   child: Icon(
+          //     Icons.downloading,
+          //     size: 30,
+          //   ),
+          // ),
         ),
       ),
       errorWidget: (context, url, error) => SizedBox(

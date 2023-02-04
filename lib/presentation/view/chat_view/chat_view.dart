@@ -29,11 +29,11 @@ class ChatView extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: Column(
-          children: <Widget>[
-            BlocBuilder<ChatBloc, ChatState>(
-              builder: (context, state) {
-                return Flexible(
+        body: BlocBuilder<ChatBloc, ChatState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                Flexible(
                   child: state.status != ChatStatus.gettingInitial
                       ? state.messages.isNotEmpty
                           ? ListView.builder(
@@ -48,11 +48,11 @@ class ChatView extends StatelessWidget {
                       : const Center(
                           child: CircularProgressIndicator(),
                         ),
-                );
-              },
-            ),
-            buildInput(context),
-          ],
+                ),
+                buildInput(context),
+              ],
+            );
+          },
         ),
       ),
     );

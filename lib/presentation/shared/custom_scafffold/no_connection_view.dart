@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -20,22 +21,26 @@ class NoConnectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ConnectivityResult>(
-        stream: Connectivity().onConnectivityChanged,
-        builder: (context, snapShot) {
-          Widget widget = noConnection(context);
-          widget = snapShot.data == ConnectivityResult.none ? widget : child;
+    return kIsWeb
+        ? child
+        : StreamBuilder<ConnectivityResult>(
+            stream: Connectivity().onConnectivityChanged,
+            builder: (context, snapShot) {
+              Widget widget = noConnection(context);
+              widget =
+                  snapShot.data == ConnectivityResult.none ? widget : child;
 
-          if (!snapShot.hasData) {
-            widget = FutureBuilder<ConnectivityResult>(
-                future: Connectivity().checkConnectivity(),
-                builder: (context, val) => val.data == ConnectivityResult.none
-                    ? noConnection(context)
-                    : child);
-          }
+              if (!snapShot.hasData) {
+                widget = FutureBuilder<ConnectivityResult>(
+                    future: Connectivity().checkConnectivity(),
+                    builder: (context, val) =>
+                        val.data == ConnectivityResult.none
+                            ? noConnection(context)
+                            : child);
+              }
 
-          return widget;
-        });
+              return widget;
+            });
   }
 
   Widget noConnection(BuildContext context) => Column(

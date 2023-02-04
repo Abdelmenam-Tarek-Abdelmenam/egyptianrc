@@ -1,6 +1,7 @@
 import 'package:egyptianrc/presentation/shared/custom_scafffold/no_connection_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../resources/asstes_manager.dart';
 
@@ -47,7 +48,7 @@ class CustomScaffold extends StatelessWidget {
                     tag: "Logo",
                     child: Image.asset(
                       AssetsManager.textLogo,
-                      width: MediaQuery.of(context).size.width / 1.2,
+                      width: 300.r,
                     ),
                   ),
                 ),

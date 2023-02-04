@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../resources/asstes_manager.dart';
 import 'no_connection_view.dart';
@@ -88,7 +89,7 @@ class _SplashViewState extends State<SplashView> {
             tag: "Logo",
             child: Image.asset(
               AssetsManager.textLogo,
-              width: MediaQuery.of(context).size.width / 1.2,
+              width: 300.r,
             ),
           ),
         ),
