@@ -27,8 +27,14 @@ class StringManger {
   static const name = "الاسم";
   static const email = "البريد الالكتروني";
   static const password = "كلمة المرور";
+  static const oldPass = "كلمة المرور القديمه";
+  static const newPass = "كلمة المرور الجديده";
+  static const newPassConform = "تاكيد كلمة المرور";
+  static const noPass = "لا يمكن تعديل كلمة المرور لهذا الحساب";
   static const mobilePhone = "رقم الهاتف";
   static const address = "العنوان";
+  static const edit = "تعديل";
+  static const save = "حفظ";
 
   static const call = "الاتصال بنا";
   static const chat = "راسلنا";
@@ -66,4 +72,5 @@ class StringManger {
   static const wrongPass = "الرقم السري خطا";
   static const panned = "هذا الحساب محظور لا يمكن استخدامه مره اخري";
   static const timeout = "وقت انتظار الرساله تعدي و برجاء المحاوله مره اخري";
+  static const phoneInvalid = "هذا الرقم غير صحيح";
 }

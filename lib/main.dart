@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
+import 'bloc/edit_user_bloc/edit_user_bloc.dart';
 import 'bloc/home_bloc/home_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
 
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => AuthBloc(user), lazy: false),
           BlocProvider(create: (context) => HomeBloc()),
+          BlocProvider(create: (context) => EditUserBloc()),
         ],
         child: ScreenUtilInit(
           designSize: const Size(360, 690),
@@ -69,8 +71,6 @@ class MyApp extends StatelessWidget {
               themeMode: ThemeMode.light,
               onGenerateRoute: RouteGenerator.getRoute,
               initialRoute: user == null ? Routes.first : Routes.home,
-
-              // ),
             );
           },
         ),

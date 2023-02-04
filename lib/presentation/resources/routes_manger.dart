@@ -1,6 +1,11 @@
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:egyptianrc/presentation/view/auth_view/sign_in_view/sign_in_view.dart';
 import 'package:egyptianrc/presentation/view/auth_view/sign_up_view/sign_up_view.dart';
+import 'package:egyptianrc/presentation/view/landing_view/user_view/edit_views/edit_address.dart';
+import 'package:egyptianrc/presentation/view/landing_view/user_view/edit_views/edit_email.dart';
+import 'package:egyptianrc/presentation/view/landing_view/user_view/edit_views/edit_name.dart';
+import 'package:egyptianrc/presentation/view/landing_view/user_view/edit_views/edit_password.dart';
+import 'package:egyptianrc/presentation/view/landing_view/user_view/edit_views/edit_phone.dart';
 import 'package:flutter/material.dart';
 
 import '../view/auth_view/fast_sign_in_view/fast_sign_in_view.dart';
@@ -20,6 +25,12 @@ class Routes {
   static const String user = "/user";
   static const String chat = "/chat";
   static const String post = "/post";
+
+  static const String editName = "/editName";
+  static const String editEmail = "/editEmail";
+  static const String editPassword = "/editPass";
+  static const String editPhone = "/editPhone";
+  static const String editAddress = "/editAddress";
 }
 
 class RouteGenerator {
@@ -41,7 +52,16 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const LandingView());
       case Routes.post:
         return MaterialPageRoute(builder: (_) => const PostView());
-
+      case Routes.editPhone:
+        return MaterialPageRoute(builder: (_) => EditPhoneView());
+      case Routes.editAddress:
+        return MaterialPageRoute(builder: (_) => EditAddressView());
+      case Routes.editPassword:
+        return MaterialPageRoute(builder: (_) => EditPasswordView());
+      case Routes.editEmail:
+        return MaterialPageRoute(builder: (_) => EditEmailView());
+      case Routes.editName:
+        return MaterialPageRoute(builder: (_) => EditNameView());
       default:
         return _unDefinedRoute();
     }

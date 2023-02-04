@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:geolocator/geolocator.dart';
 
 class AppUser {
   String id;
@@ -11,12 +10,13 @@ class AppUser {
   String? name;
   String? phoneNumber;
   String? secondPhoneNumber;
-  List<String>? postsId;
-  List<Position>? places;
+  Map<String, String>? postsId;
+  List<String>? places;
   bool panned = false;
   bool seen = false;
 
   String get subscribeId => id.replaceAll("+", "");
+  String get firstPlace => places?.isEmpty ?? true ? "" : places?.first ?? "";
 
   @override
   String toString() {
@@ -36,6 +36,29 @@ class AppUser {
       this.postsId,
       this.secondPhoneNumber});
 
+  AppUser copyWith(
+      {String? password,
+      String? email,
+      String? photoUrl,
+      String? name,
+      String? phoneNumber,
+      String? secondPhoneNumber,
+      List<String>? places}) {
+    return AppUser(
+      panned: panned,
+      seen: seen,
+      id: id,
+      password: password ?? this.password,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      photoUrl: photoUrl,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      secondPhoneNumber: secondPhoneNumber ?? this.secondPhoneNumber,
+      places: places ?? this.places,
+      postsId: postsId,
+    );
+  }
+
   bool get isComplete => postsId != null;
 
   Map<String, dynamic> get toJson => {
@@ -47,7 +70,7 @@ class AppUser {
         "secondPhoneNumber": secondPhoneNumber,
         "postsId": postsId,
         "password": password,
-        "places": places?.map((e) => e.toJson()),
+        "places": places ?? [],
       };
 
   factory AppUser.fromJson(dynamic jsonData, {bool seen = false}) {
@@ -62,10 +85,12 @@ class AppUser {
       photoUrl: jsonData["photoUrl"],
       phoneNumber: jsonData['phoneNumber'],
       secondPhoneNumber: jsonData['secondPhoneNumber'],
-      places: jsonData['places']?.map((e) => Position.fromMap(e)),
-      postsId: jsonData['postsId'] == null
+      places: jsonData['places'] == null
           ? []
-          : List<String>.from(jsonData['postsId']),
+          : List<String>.from(jsonData['places']),
+      postsId: jsonData['postsId'] == null
+          ? {}
+          : Map<String, String>.from(jsonData['postsId']),
     );
   }
 

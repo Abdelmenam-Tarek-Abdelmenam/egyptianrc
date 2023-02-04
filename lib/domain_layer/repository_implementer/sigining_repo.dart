@@ -75,7 +75,6 @@ class SigningRepository {
       Map<String, dynamic>? userData = await repository.getUserInfo(phone);
       if (userData != null) {
         bool seen = await RealTimeDataBaseRepository().getSeenInfo(phone);
-        print(seen);
         return Right(AppUser.fromJson(userData, seen: seen));
       } else {
         return Right(AppUser.empty());

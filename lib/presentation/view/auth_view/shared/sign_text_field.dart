@@ -4,13 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SignTextField extends StatelessWidget {
   final String label;
   final bool isPassword;
+  final bool validate;
   final TextInputType? keyboardType;
   final TextEditingController controller;
+
   const SignTextField({
     Key? key,
     required this.controller,
     required this.label,
-    required this.isPassword,
+    this.isPassword = false,
+    this.validate = true,
     this.keyboardType,
   }) : super(key: key);
 
@@ -23,12 +26,14 @@ class SignTextField extends StatelessWidget {
           color: Colors.black, fontSize: 14, fontWeight: FontWeight.w300),
       textAlign: TextAlign.right,
       obscureText: isPassword,
-      validator: (txt) {
-        if (txt!.isEmpty) {
-          return "الحقل $label لا يمكن ان يكون فارغ ";
-        }
-        return null;
-      },
+      validator: validate
+          ? (txt) {
+              if (txt!.isEmpty) {
+                return "الحقل $label لا يمكن ان يكون فارغ ";
+              }
+              return null;
+            }
+          : null,
       decoration: InputDecoration(
         labelText: label,
         hintStyle: Theme.of(context).textTheme.labelLarge?.copyWith(

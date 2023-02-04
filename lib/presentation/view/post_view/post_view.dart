@@ -30,9 +30,9 @@ class _PostViewState extends State<PostView> {
 
   @override
   void initState() {
-    imageFileController.addListener(() {
-      print(imageFileController.value);
-    });
+    // imageFileController.addListener(() {
+    //   print(imageFileController.value);
+    // });
     _determinePosition().then((value) {
       setState(() {
         controller = MapController(

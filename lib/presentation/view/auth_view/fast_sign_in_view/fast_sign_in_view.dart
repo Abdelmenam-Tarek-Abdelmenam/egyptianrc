@@ -1,5 +1,7 @@
+import 'package:egyptianrc/domain_layer/validator.dart';
 import 'package:egyptianrc/presentation/resources/routes_manger.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
+import 'package:egyptianrc/presentation/shared/toast_helper.dart';
 import 'package:egyptianrc/presentation/view/auth_view/shared/sign_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,7 +60,11 @@ class _FastSignInViewState extends State<FastSignInView> {
               label: StringManger.needHelp,
               onPressed: () {
                 if (formKey.currentState!.validate()) {
-                  context.read<AuthBloc>().add(LoginInAsGuest(phone.text));
+                  if (validateMobile(phone.text)) {
+                    context.read<AuthBloc>().add(LoginInAsGuest(phone.text));
+                  } else {
+                    showToast(StringManger.phoneInvalid);
+                  }
                 }
               },
             ),

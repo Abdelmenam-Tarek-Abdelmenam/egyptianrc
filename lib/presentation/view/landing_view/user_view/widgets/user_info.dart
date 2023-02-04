@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:egyptianrc/data/models/app_user.dart';
 import 'package:egyptianrc/presentation/resources/asstes_manager.dart';
+import 'package:egyptianrc/presentation/resources/routes_manger.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:egyptianrc/presentation/shared/widget/customs_icons.dart';
 import 'package:egyptianrc/presentation/shared/widget/dividers.dart';
@@ -14,27 +15,27 @@ class UserInfo extends StatelessWidget {
               label: StringManger.name,
               icon: IconsManager.profile,
               data: user.name,
-              route: "route"),
+              route: Routes.editName),
           InfoItem(
               label: StringManger.email,
               icon: IconsManager.email,
               data: user.email,
-              route: "route"),
+              route: Routes.editEmail),
           InfoItem(
               label: StringManger.password,
               icon: IconsManager.lock,
               data: List.filled(user.password?.length ?? 0, "*").join(""),
-              route: "route"),
+              route: Routes.editPassword),
           InfoItem(
               label: StringManger.address,
               icon: IconsManager.address,
-              data: user.places?.first.toString(),
-              route: "route"),
+              data: user.firstPlace,
+              route: Routes.editAddress),
           InfoItem(
               label: StringManger.mobilePhone,
               icon: IconsManager.phoneNum,
               data: user.phoneNumber,
-              route: "route"),
+              route: Routes.editPhone),
         ];
   final List<InfoItem> items;
 
@@ -50,19 +51,22 @@ class UserInfo extends StatelessWidget {
 
   Widget infoItemBuilder(BuildContext context, InfoItem item) => ListTile(
         onTap: () {
-          print(item.route);
+          Navigator.of(context).pushNamed(item.route);
         },
         minLeadingWidth: 10,
         leading: CustomIcon(item.icon),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              item.label,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium!
-                  .copyWith(fontSize: 14),
+            Hero(
+              tag: item.label,
+              child: Text(
+                item.label,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium!
+                    .copyWith(fontSize: 14),
+              ),
             ),
             Dividers.w10,
             Expanded(
