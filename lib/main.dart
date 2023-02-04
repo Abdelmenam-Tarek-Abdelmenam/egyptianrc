@@ -1,5 +1,6 @@
 import 'package:egyptianrc/presentation/view/user_view/post_disaster_view/post_disaster.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +29,23 @@ void main() async {
   if (mapsImplementation is GoogleMapsFlutterAndroid) {
     mapsImplementation.useAndroidViewSurface = true;
   }
+
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyCpHOJR0jXHno5Ipue_tlUKQQ6xd43c3tA",
+            authDomain: "egyptianrc-41529.firebaseapp.com",
+            databaseURL: "https://egyptianrc-41529-default-rtdb.firebaseio.com",
+            projectId: "egyptianrc-41529",
+            storageBucket: "egyptianrc-41529.appspot.com",
+            messagingSenderId: "462455386900",
+            appId: "1:462455386900:web:c4d8f9a4bb61ec2e59c801",
+            measurementId: "G-3EZ9RQ2ZBE"));
+  } else {
+    await Firebase.initializeApp();
+    FireNotificationHelper(print);
+  }
+
   Bloc.observer = MyBlocObserver();
 
   String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);

@@ -74,7 +74,8 @@ class SigningRepository {
       FireStoreRepository repository = FireStoreRepository();
       Map<String, dynamic>? userData = await repository.getUserInfo(phone);
       if (userData != null) {
-        bool seen = await RealTimeDataBaseRepository().getSeenInfo();
+        bool seen = await RealTimeDataBaseRepository().getSeenInfo(phone);
+        print(seen);
         return Right(AppUser.fromJson(userData, seen: seen));
       } else {
         return Right(AppUser.empty());
@@ -91,7 +92,8 @@ class SigningRepository {
     Map<String, dynamic>? userData =
         await repository.getUserInfo(user.phoneNumber ?? user.uid);
     if (userData != null) {
-      bool seen = await RealTimeDataBaseRepository().getSeenInfo();
+      bool seen = await RealTimeDataBaseRepository()
+          .getSeenInfo(user.phoneNumber ?? user.uid);
 
       return AppUser.fromJson(userData, seen: seen);
     } else {

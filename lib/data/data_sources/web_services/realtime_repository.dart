@@ -10,7 +10,7 @@ class RealTimeDataBaseRepository {
   final DatabaseReference reference = FirebaseDatabase.instance.ref();
   String get userId => AuthBloc.user.id;
 
-  Future<bool> getSeenInfo() async {
+  Future<bool> getSeenInfo(String userId) async {
     DataSnapshot data =
         await reference.child(userId).child(_seenUserChild).get();
 
