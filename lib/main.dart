@@ -1,3 +1,4 @@
+import 'package:egyptianrc/bloc/bloc/location_bloc.dart';
 import 'package:egyptianrc/presentation/view/user_view/post_disaster_view/post_disaster.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => AuthBloc(user), lazy: false),
           BlocProvider(create: (context) => HomeBloc()),
+          BlocProvider(create: (context) => LocationBloc())
         ],
         child: ScreenUtilInit(
           designSize: const Size(360, 690),
@@ -81,7 +83,7 @@ class MyApp extends StatelessWidget {
               // onGenerateRoute: RouteGenerator.getRoute,
               // //TODO: don't forget to change this {user == null ? Routes.first : }
               // initialRoute: Routes.home,
-              home: PostDisasterView(),
+              home: const PostDisasterView(),
               // ),
             );
           },

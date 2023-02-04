@@ -31,4 +31,6 @@ class IconsManager {
   static const work = "${iconsPath}work.svg";
   static const home2 = "${iconsPath}home2.svg";
   static const add = "${iconsPath}add.svg";
+
+  static const cam = "${iconsPath}cam.svg";
 }
