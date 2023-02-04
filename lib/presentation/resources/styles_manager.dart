@@ -30,7 +30,7 @@ class StyleManager {
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          radius15,
+          radius15.r,
         ),
       ),
     ),

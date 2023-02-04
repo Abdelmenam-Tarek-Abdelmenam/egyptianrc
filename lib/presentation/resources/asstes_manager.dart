@@ -23,6 +23,12 @@ class IconsManager {
   static const email = "${iconsPath}email.svg";
   static const profile = "${iconsPath}profile.svg";
   static const address = "${iconsPath}address.svg";
-  static const mic = "${iconsPath}mic.svg";
-  static const cam = "${iconsPath}cam.svg";
+
+  static const camera = "${iconsPath}camera.svg";
+  static const mic = "${iconsPath}microphone.svg";
+  static const micSearch = "${iconsPath}microphone-search.svg";
+  static const search = "${iconsPath}search.svg";
+  static const work = "${iconsPath}work.svg";
+  static const home2 = "${iconsPath}home2.svg";
+  static const add = "${iconsPath}add.svg";
 }

@@ -13,7 +13,7 @@ import '../view/auth_view/first_view/first_view.dart';
 import '../view/auth_view/sign_up_view/otp_view.dart';
 import '../view/chat_view/chat_view.dart';
 import '../view/landing_view/landing_view.dart';
-import '../view/post_view/post_view.dart';
+import '../view/user_view/post_disaster_view/post_disaster.dart';
 
 class Routes {
   static const String first = "/";
@@ -51,7 +51,7 @@ class RouteGenerator {
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const LandingView());
       case Routes.post:
-        return MaterialPageRoute(builder: (_) => const PostView());
+        return MaterialPageRoute(builder: (_) => const PostDisasterView());
       case Routes.editPhone:
         return MaterialPageRoute(builder: (_) => EditPhoneView());
       case Routes.editAddress:

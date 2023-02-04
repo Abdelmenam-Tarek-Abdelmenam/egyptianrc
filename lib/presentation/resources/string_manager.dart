@@ -73,4 +73,5 @@ class StringManger {
   static const panned = "هذا الحساب محظور لا يمكن استخدامه مره اخري";
   static const timeout = "وقت انتظار الرساله تعدي و برجاء المحاوله مره اخري";
   static const phoneInvalid = "هذا الرقم غير صحيح";
+  static const searchOnTheMap = "ابحث في الخريطه";
 }

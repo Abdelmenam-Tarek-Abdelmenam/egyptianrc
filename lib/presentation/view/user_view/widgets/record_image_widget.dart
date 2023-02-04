@@ -23,7 +23,7 @@ class RecordImageIcon extends StatelessWidget {
         }
       },
       backgroundColor: Theme.of(context).colorScheme.primary,
-      child: const CustomIcon(IconsManager.cam),
+      child: const CustomIcon(IconsManager.camera),
     );
   }
 }
