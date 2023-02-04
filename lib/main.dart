@@ -1,3 +1,4 @@
+import 'package:egyptianrc/presentation/view/user_view/post_disaster_view/post_disaster.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/home_bloc/home_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
 import 'data/data_sources/fcm.dart';
 import 'data/data_sources/pref_repository.dart';
@@ -19,6 +23,11 @@ void main() async {
   await PreferenceRepository.init();
   await Firebase.initializeApp();
   FireNotificationHelper(print);
+  final GoogleMapsFlutterPlatform mapsImplementation =
+      GoogleMapsFlutterPlatform.instance;
+  if (mapsImplementation is GoogleMapsFlutterAndroid) {
+    mapsImplementation.useAndroidViewSurface = true;
+  }
   Bloc.observer = MyBlocObserver();
 
   String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);
@@ -51,9 +60,10 @@ class MyApp extends StatelessWidget {
               theme: lightThemeData,
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.light,
-              onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: user == null ? Routes.first : Routes.home,
-
+              // onGenerateRoute: RouteGenerator.getRoute,
+              // //TODO: don't forget to change this {user == null ? Routes.first : }
+              // initialRoute: Routes.home,
+              home: PostDisasterView(),
               // ),
             );
           },

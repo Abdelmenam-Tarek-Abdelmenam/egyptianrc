@@ -60,4 +60,5 @@ class StringManger {
   static const otpVerification = "تاكيد رقم الهاتف";
   static const otpInsert = "برجاء ادخال كود التعريف";
   static const timeout = "وقت انتظار الرساله تعدي و برجاء المحاوله مره اخري";
+  static const searchOnTheMap = "ابحث في الخريطه";
 }
