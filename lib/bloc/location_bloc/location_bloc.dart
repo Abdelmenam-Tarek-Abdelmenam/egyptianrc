@@ -30,7 +30,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       await event.controller
           .moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(left.latitude, left.longitude),
-        zoom: 15,
+        zoom: 7,
       )));
 
       List<Marker> markers = <Marker>[

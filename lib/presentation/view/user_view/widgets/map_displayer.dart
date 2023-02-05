@@ -18,10 +18,8 @@ class MapDisplayer extends StatefulWidget {
 }
 
 class _MapState extends State<MapDisplayer> {
-  void _onMapCreated(GoogleMapController controller) {
-    print("object");
-    context.read<LocationBloc>().add(LocationRequested(controller));
-  }
+  void _onMapCreated(GoogleMapController controller) =>
+      context.read<LocationBloc>().add(LocationRequested(controller));
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,7 @@ class _MapState extends State<MapDisplayer> {
                   markers: Set.from(state.markers),
                   onMapCreated: _onMapCreated,
                   initialCameraPosition:
-                      CameraPosition(target: state.location, zoom: 11.0),
+                      CameraPosition(target: state.location, zoom: 7.0),
                 ),
                 const Align(
                   alignment: Alignment.topCenter,

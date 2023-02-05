@@ -7,8 +7,8 @@ class Location {
   });
   final double latitude;
   final double longitude;
-  static final intialLocation = Location(latitude: 0, longitude: 0);
-  static final _goToLocation = Location(latitude: 0, longitude: 0);
+  // static final intialLocation = Location(latitude: 0, longitude: 0);
+  // static final _goToLocation = Location(latitude: 0, longitude: 0);
 
   get geoHash => encode(latitude, longitude);
 

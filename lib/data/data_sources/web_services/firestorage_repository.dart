@@ -13,11 +13,13 @@ class FireStorageRepository {
     final fileRef = _storageRef.child(file.refName);
     try {
       // final task = fileRef.putFile(file.file); //This task give some methods
-      await fileRef.putFile(file.file);
+      await fileRef.putFile(
+          file.file, SettableMetadata(contentType: file.type.extension));
 
       String url = await fileRef.getDownloadURL();
       return url;
     } on FirebaseException catch (e) {
+      print(e);
       throw Failure(e.message ?? StringManger.defaultError);
     } catch (err) {
       throw const Failure();

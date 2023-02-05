@@ -51,7 +51,9 @@ class RouteGenerator {
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const LandingView());
       case Routes.post:
-        return MaterialPageRoute(builder: (_) => const PostDisasterView());
+        return MaterialPageRoute(
+            builder: (_) =>
+                PostDisasterView(settings.arguments as DisasterGridItem));
       case Routes.editPhone:
         return MaterialPageRoute(builder: (_) => EditPhoneView());
       case Routes.editAddress:

@@ -2,7 +2,10 @@ import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:egyptianrc/presentation/resources/styles_manager.dart';
 import 'package:egyptianrc/presentation/resources/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../resources/routes_manger.dart';
+import '../../../user_view/post_disaster_view/post_disaster.dart';
 
 class DisasterGrid extends StatelessWidget {
   DisasterGrid({Key? key}) : super(key: key);
@@ -33,6 +36,7 @@ class DisasterGrid extends StatelessWidget {
             borderRadius: StyleManager.border,
           ),
           onTap: () {
+            Navigator.of(context).pushNamed(Routes.post, arguments: e);
             print(e.text);
           },
           child: Container(
@@ -51,11 +55,4 @@ class DisasterGrid extends StatelessWidget {
           ),
         ),
       );
-}
-
-class DisasterGridItem {
-  Color color;
-  String text;
-
-  DisasterGridItem(this.text, this.color);
 }

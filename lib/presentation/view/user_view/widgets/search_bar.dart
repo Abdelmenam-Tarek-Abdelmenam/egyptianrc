@@ -74,7 +74,7 @@ class _SearchBarState extends State<SearchBar> {
               children: Colors.accents.map((color) {
                 return Container(
                   height: 112,
-                  color: Colors.black,
+                  color: Colors.white,
                   // child: Text('data'),
                 );
               }).toList(),

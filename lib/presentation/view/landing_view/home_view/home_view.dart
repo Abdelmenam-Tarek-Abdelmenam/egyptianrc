@@ -6,11 +6,9 @@ import 'package:egyptianrc/presentation/view/landing_view/home_view/widgets/call
 import 'package:egyptianrc/presentation/view/landing_view/home_view/widgets/disaster_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../../bloc/auth_bloc/auth_status_bloc.dart';
 import '../../../resources/routes_manger.dart';
 import '../../../resources/string_manager.dart';
-import '../../../shared/toast_helper.dart';
 import 'widgets/home_icon.dart';
 
 class HomeView extends StatelessWidget {
@@ -56,18 +54,7 @@ class HomeView extends StatelessWidget {
             onPressed: () => Navigator.of(context).pushNamed(Routes.chat),
             active: AuthBloc.user.seen,
           ),
-          InkWell(
-              // iconSize: 30,
-              onTap: () async {
-                const String phoneUrl = "tel://123";
-
-                if (await canLaunchUrl(Uri.parse(phoneUrl))) {
-                  await launchUrl(Uri.parse(phoneUrl));
-                } else {
-                  showToast(StringManger.contactsErrors);
-                }
-              },
-              child: const CustomIcon(IconsManager.call)),
+          const CustomIcon(IconsManager.call),
           HomeIcon(
             icon: const CustomIcon(IconsManager.notification),
             onPressed: () {},
