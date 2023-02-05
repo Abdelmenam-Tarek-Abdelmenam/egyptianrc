@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/edit_user_bloc/edit_user_bloc.dart';
@@ -20,12 +19,11 @@ import 'presentation/resources/theme/theme_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenceRepository.init();
-  FireNotificationHelper(print);
-  final GoogleMapsFlutterPlatform mapsImplementation =
-      GoogleMapsFlutterPlatform.instance;
-  if (mapsImplementation is GoogleMapsFlutterAndroid) {
-    mapsImplementation.useAndroidViewSurface = true;
-  }
+  // final GoogleMapsFlutterPlatform mapsImplementation =
+  //     GoogleMapsFlutterPlatform.instance;
+  // if (mapsImplementation is GoogleMapsFlutterAndroid) {
+  //   mapsImplementation.useAndroidViewSurface = true;
+  // }
 
   if (kIsWeb) {
     await Firebase.initializeApp(

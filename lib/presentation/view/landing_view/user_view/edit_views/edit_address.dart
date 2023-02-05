@@ -10,8 +10,10 @@ class EditAddressView extends StatelessWidget {
   EditAddressView({Key? key}) : super(key: key);
   final TextEditingController controller1 =
       TextEditingController(text: AuthBloc.user.firstPlace);
-  final TextEditingController controller2 = TextEditingController();
-  final TextEditingController controller3 = TextEditingController();
+  final TextEditingController controller2 =
+      TextEditingController(text: AuthBloc.user.secondPlace);
+  final TextEditingController controller3 =
+      TextEditingController(text: AuthBloc.user.thirdPlace);
 
   @override
   Widget build(BuildContext context) {
