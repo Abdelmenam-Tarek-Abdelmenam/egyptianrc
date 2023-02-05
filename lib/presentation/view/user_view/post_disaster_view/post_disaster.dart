@@ -35,6 +35,7 @@ class _PostDisasterViewState extends State<PostDisasterView> {
   @override
   void initState() {
     moveCameraToMe();
+
     super.initState();
   }
 
@@ -134,6 +135,14 @@ class _PostDisasterViewState extends State<PostDisasterView> {
         zoom: 15,
       )))
           .then((value) {
+        markers = <Marker>[
+          Marker(
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueAzure),
+              markerId: MarkerId('$myLat$myLan'),
+              position: LatLng(myLat, myLan),
+              infoWindow: const InfoWindow(title: 'Your Location')),
+        ];
         setState(() {
           _center = LatLng(myLan, myLan);
         });
@@ -143,3 +152,6 @@ class _PostDisasterViewState extends State<PostDisasterView> {
     });
   }
 }
+
+//! Last EDIT : Yassin
+//! Grades 9/10
