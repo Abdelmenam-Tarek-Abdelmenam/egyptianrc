@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:egyptianrc/bloc/bloc/location_bloc.dart';
 import 'package:flutter/foundation.dart';
 
 class MyBlocObserver extends BlocObserver {
@@ -29,8 +30,6 @@ class MyBlocObserver extends BlocObserver {
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    if (kDebugMode) {
-      print(transition);
-    }
+    if (kDebugMode && transition.nextState is LocationState) {}
   }
 }

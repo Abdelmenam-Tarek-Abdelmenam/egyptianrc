@@ -53,4 +53,11 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
           ),
         );
   }
+
+  @override
+  void onTransition(Transition<LocationEvent, LocationState> transition) {
+    print(
+        '222transition: ${transition.currentState.currentPosition.fold((left) => left.errorMessage, (right) => right.latitude)} to  ${transition.nextState.currentPosition.fold((left) => left.errorMessage, (right) => right.longitude)}');
+    super.onTransition(transition);
+  }
 }

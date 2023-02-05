@@ -28,4 +28,9 @@ class LocationState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
     );
   }
+
+  @override
+  String toString() {
+    return 'LocationState(currentPosition: ${currentPosition.map((right) => right.latitude)} ${currentPosition.map((right) => right.longitude)}, isLoading: $isLoading)';
+  }
 }
