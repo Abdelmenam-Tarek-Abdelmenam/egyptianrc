@@ -17,6 +17,8 @@ class AppUser {
 
   String get subscribeId => id.replaceAll("+", "");
   String get firstPlace => places?.isEmpty ?? true ? "" : places?.first ?? "";
+  String get secondPlace => (places?.length ?? 0) < 1 ? "" : places![1];
+  String get thirdPlace => (places?.length ?? 0) < 2 ? "" : places![2];
 
   @override
   String toString() {

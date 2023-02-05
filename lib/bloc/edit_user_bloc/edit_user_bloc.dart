@@ -94,6 +94,7 @@ class EditUserBloc extends Bloc<EditUserEvent, EditUserStatus> {
 
   Future<void> _editAddressHandler(EditUserAddress event, emit) async {
     emit(EditUserStatus.editing);
+    print(event.addresses);
     Either<Failure, void> value =
         await _repo.editUser(AuthBloc.user.copyWith(places: event.addresses));
 

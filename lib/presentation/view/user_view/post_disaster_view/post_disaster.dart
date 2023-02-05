@@ -12,9 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
-import '../../../../bloc/bloc/location_bloc.dart';
-import '../../../resources/theme/theme_manager.dart';
+import '../../../shared/toast_helper.dart';
+import '../../../shared/widget/buttons.dart';
+import '../../../shared/widget/dividers.dart';
+import '../../../shared/widget/loading_text.dart';
+import '../widgets/record_image_widget.dart';
+import '../widgets/record_sound_widget.dart';
+//? should I use this or not? YEs yyou can use it
 
 class PostDisasterView extends StatefulWidget {
   const PostDisasterView({super.key});
@@ -29,71 +35,130 @@ class _PostDisasterViewState extends State<PostDisasterView> {
   final ValueNotifier<String?> imageFileController = ValueNotifier(null);
 
   LatLng _center = const LatLng(45.521563, -122.677433);
+  List<Marker> markers = [];
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
   @override
+  void initState() {
+    moveCameraToMe();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LocationBloc()..add(const LocationRequested()),
-      child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-          // floatingActionButton: CameraMicBtn(path: IconsManager.camera, color: ColorManager.darkColor),
-          body: BlocBuilder<LocationBloc, LocationState>(
-            builder: (context, state) {
-              return Stack(
-                children: [
-                  MapDisplayer(
-                    currentPosition: state.currentPosition.fold(
-                      (l) => _center,
-                      (r) => LatLng(r.latitude, r.longitude),
-                    ),
-                  ),
-                  const Align(
-                    alignment: Alignment.topCenter,
-                    child: SearchBar(),
-                  ),
-                  const SizedBox(width: double.infinity),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 80.h, right: 20.w),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            CameraMicBtn(
-                              path: IconsManager.mic,
-                              backgroundColor: ColorManager.whiteColor,
-                              iconColor: ColorManager.blackColor,
-                              onPressed: () {},
-                            ),
-                            const SizedBox(height: 10),
-                            CameraMicBtn(
-                              path: IconsManager.camera,
-                              backgroundColor: ColorManager.darkColor,
-                              iconColor: ColorManager.whiteColor,
-                              onPressed: () {},
-                            ),
-                          ]),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 20.h),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: PostDisasterBtn(
-                        onPressed: () {},
-                        text: StringManger.post,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          )),
-    );
+    return Scaffold(
+        extendBody: true,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RecordSoundWidget(audioFileController),
+            Dividers.h10,
+            RecordImageIcon(imageFileController),
+          ],
+        ),
+        bottomNavigationBar: confirmWidget(),
+        body: Stack(
+          children: [
+            GoogleMap(
+              markers: Set.from(
+                markers,
+              ),
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center ?? const LatLng(45.521563, -122.677433),
+                zoom: 11.0,
+              ),
+            ),
+            const Align(
+              alignment: Alignment.topCenter,
+              child: SearchBar(),
+            ),
+            Visibility(
+              visible: _center == null,
+              child: Expanded(
+                child: Container(
+                  color: Colors.white.withOpacity(0.5),
+                  alignment: Alignment.center,
+                  child: const Center(child: LoadingText()),
+                ),
+              ),
+            ),
+
+            // const SizedBox(width: double.infinity),
+          ],
+        ));
+  }
+
+  Widget confirmWidget() => BottomAppBar(
+        color: Colors.transparent,
+        elevation: 0,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30)
+              .copyWith(bottom: 20, right: 70),
+          child: DefaultFilledButton(
+            label: StringManger.post,
+            onPressed: () {},
+          ),
+        ),
+      );
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
+  Future<void> moveCameraToMe() async {
+    _determinePosition().then((value) async {
+      double myLat = value.latitude;
+      double myLan = value.longitude;
+
+      mapController
+          .moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(myLat, myLan),
+        zoom: 15,
+      )))
+          .then((value) {
+        markers = <Marker>[
+          Marker(
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueAzure),
+              markerId: MarkerId('$myLat$myLan'),
+              position: LatLng(myLat, myLan),
+              infoWindow: const InfoWindow(title: 'Your Location')),
+        ];
+        setState(() {
+          _center = LatLng(myLan, myLan);
+        });
+      });
+    }).catchError((err) {
+      showToast(err.toString());
+    });
   }
 }
 
