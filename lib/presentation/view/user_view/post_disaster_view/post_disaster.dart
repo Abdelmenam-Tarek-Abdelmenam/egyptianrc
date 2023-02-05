@@ -25,6 +25,8 @@ class PostDisasterView extends StatefulWidget {
 
 class _PostDisasterViewState extends State<PostDisasterView> {
   late GoogleMapController mapController;
+  final ValueNotifier<String?> audioFileController = ValueNotifier(null);
+  final ValueNotifier<String?> imageFileController = ValueNotifier(null);
 
   LatLng _center = const LatLng(45.521563, -122.677433);
 

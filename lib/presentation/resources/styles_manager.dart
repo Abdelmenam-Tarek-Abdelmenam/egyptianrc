@@ -43,4 +43,5 @@ class PaddingManager {
   static const p8 = EdgeInsets.all(8.0);
   static const p10 = EdgeInsets.all(10.0);
   static const p15 = EdgeInsets.all(15.0);
+  static const p30 = EdgeInsets.all(30.0);
 }

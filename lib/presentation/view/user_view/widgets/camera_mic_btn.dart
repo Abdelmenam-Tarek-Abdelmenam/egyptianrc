@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:egyptianrc/presentation/resources/asstes_manager.dart';
-import 'package:egyptianrc/presentation/resources/theme/theme_manager.dart';
-
 class CameraMicBtn extends StatelessWidget {
-  String path;
-  Color backgroundColor;
-  Color iconColor;
-  VoidCallback onPressed;
-  CameraMicBtn({
+  final String path;
+  final Color backgroundColor;
+  final Color iconColor;
+  final VoidCallback onPressed;
+  const CameraMicBtn({
     Key? key,
     required this.path,
     required this.backgroundColor,
@@ -27,7 +22,6 @@ class CameraMicBtn extends StatelessWidget {
       borderRadius: BorderRadius.circular(50.r),
       color: Colors.transparent,
       child: Ink(
-        
         decoration: ShapeDecoration(
           color: backgroundColor,
           shape: const CircleBorder(),

@@ -36,8 +36,8 @@ TextTheme _textTheme() => TextTheme(
           fontWeight: FontWeight.w700,
           color: ColorManager.whiteColor),
       titleSmall: GoogleFonts.notoSansArabic(
-          fontSize: 24,
-          fontWeight: FontWeight.w400,
+          fontSize: 22,
+          fontWeight: FontWeight.w700,
           color: ColorManager.mainColor),
       labelLarge:
           GoogleFonts.notoSansArabic(fontSize: 22, fontWeight: FontWeight.w500),

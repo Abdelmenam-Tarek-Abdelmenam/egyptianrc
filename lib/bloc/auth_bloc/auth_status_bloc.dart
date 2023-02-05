@@ -235,6 +235,7 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
           showToast(StringManger.wrongCode);
           emit(state.copyWith(status: AuthStatus.error));
         } else if (completeUser.isComplete) {
+          await _authRepository.registerUser(user);
           PreferenceRepository.putData(
               key: PreferenceKey.userData, value: user.toJson);
           emit(state.copyWith(status: AuthStatus.successLogIn));

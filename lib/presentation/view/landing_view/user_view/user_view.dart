@@ -7,7 +7,9 @@ import 'package:egyptianrc/presentation/view/landing_view/user_view/widgets/logo
 import 'package:egyptianrc/presentation/view/landing_view/user_view/widgets/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../bloc/edit_user_bloc/edit_user_bloc.dart';
 import '../../../shared/widget/dividers.dart';
 
 class UserView extends StatefulWidget {
@@ -38,19 +40,27 @@ class _UserViewState extends State<UserView> {
 
   @override
   Widget build(BuildContext context) {
-    AppUser user = AuthBloc.user;
     return SizedBox(
       width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          userImage(context, user.photoUrl),
-          infoText(context, user.name, user.email),
-          Dividers.h10,
-          UserInfo(user),
-          Dividers.h30,
-          const LogOutButton(),
-        ],
+      child: BlocBuilder<EditUserBloc, EditUserStatus>(
+        buildWhen: (_, state) => state == EditUserStatus.edited,
+        builder: (context, state) {
+          AppUser user = AuthBloc.user;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              userImage(context, user.photoUrl),
+              infoText(context, user.name, user.email),
+              Dividers.h10,
+              AbsorbPointer(
+                absorbing: user.name?.isEmpty ?? true,
+                child: UserInfo(user),
+              ),
+              Dividers.h30,
+              const LogOutButton(),
+            ],
+          );
+        },
       ),
     );
   }

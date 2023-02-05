@@ -1,0 +1,58 @@
+import 'package:egyptianrc/data/data_sources/web_services/firestore_repository.dart';
+import 'package:egyptianrc/data/error_state.dart';
+import 'package:either_dart/either.dart';
+
+import '../../data/models/app_user.dart';
+import '../../data/models/disaster_post.dart';
+
+class DatabaseRepo {
+  final FireStoreRepository _repository = FireStoreRepository();
+
+  Future<Either<Failure, void>> editUser(AppUser user) async {
+    try {
+      Map<String, dynamic> data = user.toJson;
+      await _repository.updateUserInfo(data);
+      return const Right(null);
+    } catch (_) {
+      return const Left(Failure("حدث خطأ اثناء نعديل بيانات المستخدم"));
+    }
+  }
+
+  Future<Either<Failure, void>> postDisaster(DisasterPost post) async {
+    try {
+      Map<String, dynamic> data = post.toMap();
+      await _repository.updateUserInfo(data);
+      return const Right(null);
+    } catch (_) {
+      return const Left(Failure("حدث خطأ اثناء نعديل بيانات المستخدم"));
+    }
+  }
+
+  Future<Either<Failure, DisasterHolder>> readDisasters(
+      Map<String, String> ids) async {
+    try {
+      DisasterHolder holder = DisasterHolder();
+      for (String id in ids.keys) {
+        Map<String, dynamic>? data = await _repository.getPost(id, ids[id]!);
+        if (data != null) {
+          if (ids[id] == archiveColl) {
+            holder.addActive(DisasterPost.fromMap(data));
+          } else {
+            holder.addArchive(DisasterPost.fromMap(data));
+          }
+        }
+      }
+      return Right(DisasterHolder());
+    } catch (_) {
+      return const Left(Failure("حدث خطأ اثناء نعديل بيانات المستخدم"));
+    }
+  }
+}
+
+class DisasterHolder {
+  List<DisasterPost> archived = [];
+  List<DisasterPost> active = [];
+
+  void addArchive(DisasterPost post) => archived.add(post);
+  void addActive(DisasterPost post) => active.add(post);
+}

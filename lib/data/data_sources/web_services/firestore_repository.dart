@@ -56,7 +56,7 @@ class FireStoreRepository {
   Future<void> setUserInfo(Map<String, dynamic> data) async =>
       await _fireStore.collection(usersColl).doc(_userId).set(data);
 
-  void updateUserInfo(Map<String, dynamic> data) async =>
+  Future<void> updateUserInfo(Map<String, dynamic> data) async =>
       await _fireStore.collection(usersColl).doc(_userId).update(data);
 
   void killListener() {
