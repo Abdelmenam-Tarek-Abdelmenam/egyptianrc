@@ -1,23 +1,11 @@
-import 'dart:async';
-
-import 'package:egyptianrc/data/models/location.dart';
-import 'package:egyptianrc/presentation/resources/asstes_manager.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
-import 'package:egyptianrc/presentation/view/user_view/widgets/camera_mic_btn.dart';
 import 'package:egyptianrc/presentation/view/user_view/widgets/map_displayer.dart';
-import 'package:egyptianrc/presentation/view/user_view/widgets/post_disaster_btn.dart';
-import 'package:egyptianrc/presentation/view/user_view/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 
-import '../../../shared/toast_helper.dart';
 import '../../../shared/widget/buttons.dart';
 import '../../../shared/widget/dividers.dart';
-import '../../../shared/widget/loading_text.dart';
 import '../widgets/record_image_widget.dart';
 import '../widgets/record_sound_widget.dart';
 //? should I use this or not? YEs yyou can use it
@@ -34,22 +22,9 @@ class _PostDisasterViewState extends State<PostDisasterView> {
   final ValueNotifier<String?> audioFileController = ValueNotifier(null);
   final ValueNotifier<String?> imageFileController = ValueNotifier(null);
 
-  LatLng _center = const LatLng(45.521563, -122.677433);
-  List<Marker> markers = [];
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
-  @override
-  void initState() {
-    moveCameraToMe();
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    audioFileController.value;
     return Scaffold(
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -62,36 +37,7 @@ class _PostDisasterViewState extends State<PostDisasterView> {
           ],
         ),
         bottomNavigationBar: confirmWidget(),
-        body: Stack(
-          children: [
-            GoogleMap(
-              markers: Set.from(
-                markers,
-              ),
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center ?? const LatLng(45.521563, -122.677433),
-                zoom: 11.0,
-              ),
-            ),
-            const Align(
-              alignment: Alignment.topCenter,
-              child: SearchBar(),
-            ),
-            Visibility(
-              visible: _center == null,
-              child: Expanded(
-                child: Container(
-                  color: Colors.white.withOpacity(0.5),
-                  alignment: Alignment.center,
-                  child: const Center(child: LoadingText()),
-                ),
-              ),
-            ),
-
-            // const SizedBox(width: double.infinity),
-          ],
-        ));
+        body: const MapDisplayer());
   }
 
   Widget confirmWidget() => BottomAppBar(
@@ -107,59 +53,6 @@ class _PostDisasterViewState extends State<PostDisasterView> {
           ),
         ),
       );
-
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
-
-  Future<void> moveCameraToMe() async {
-    _determinePosition().then((value) async {
-      double myLat = value.latitude;
-      double myLan = value.longitude;
-
-      mapController
-          .moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(myLat, myLan),
-        zoom: 15,
-      )))
-          .then((value) {
-        markers = <Marker>[
-          Marker(
-              icon: BitmapDescriptor.defaultMarkerWithHue(
-                  BitmapDescriptor.hueAzure),
-              markerId: MarkerId('$myLat$myLan'),
-              position: LatLng(myLat, myLan),
-              infoWindow: const InfoWindow(title: 'Your Location')),
-        ];
-        setState(() {
-          _center = LatLng(myLan, myLan);
-        });
-      });
-    }).catchError((err) {
-      showToast(err.toString());
-    });
-  }
 }
 
 //! Last EDIT : Yassin

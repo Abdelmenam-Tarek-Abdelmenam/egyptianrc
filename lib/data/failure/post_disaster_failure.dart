@@ -1,3 +1,4 @@
+import 'package:egyptianrc/data/error_state.dart';
 import 'package:flutter/material.dart';
 
 Map<String, PostDisasterFailure> _postDisasterFailureLookUp = const {
@@ -7,9 +8,8 @@ Map<String, PostDisasterFailure> _postDisasterFailureLookUp = const {
 };
 
 @immutable
-class PostDisasterFailure implements Exception {
-  final String errorMessage;
-  const PostDisasterFailure._({required this.errorMessage});
+class PostDisasterFailure extends Failure {
+  const PostDisasterFailure(super.message);
 
   factory PostDisasterFailure.getFailure(String errorCode) {
     if (_postDisasterFailureLookUp.containsKey(errorCode)) {
@@ -21,19 +21,19 @@ class PostDisasterFailure implements Exception {
 }
 
 class ServerError extends PostDisasterFailure {
-  const ServerError() : super._(errorMessage: 'Server Error');
+  const ServerError() : super('Server Error');
 }
 
 class LocationServiceDisabledFailure extends PostDisasterFailure {
   const LocationServiceDisabledFailure()
-      : super._(errorMessage: 'Location Service is Disabled');
+      : super('Location Service is Disabled');
 }
 
 class PermissionDeniedFailure extends PostDisasterFailure {
-  const PermissionDeniedFailure() : super._(errorMessage: 'Permission Denied');
+  const PermissionDeniedFailure() : super('Permission Denied');
 }
 
 class UnknownErrorInLocationService extends PostDisasterFailure {
   const UnknownErrorInLocationService()
-      : super._(errorMessage: 'Unknown Error in Location Service');
+      : super('Unknown Error in Location Service');
 }

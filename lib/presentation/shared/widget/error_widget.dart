@@ -7,27 +7,30 @@ class ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline_sharp,
-            size: 100,
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.9),
-          ),
-          Dividers.h15,
-          FittedBox(
-            child: Text(
-              "Sorry we have a problem now try again later",
-              style: Theme.of(context)
-                  .textTheme
-                  .displayLarge!
-                  .copyWith(fontSize: 20),
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline_sharp,
+              size: 100,
+              color: Theme.of(context).colorScheme.onBackground,
             ),
-          )
-        ],
+            Dividers.h15,
+            FittedBox(
+              child: Text(
+                "Sorry we have a problem now try again later",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineLarge!
+                    .copyWith(fontSize: 20),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

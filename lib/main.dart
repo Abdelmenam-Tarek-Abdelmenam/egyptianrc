@@ -1,3 +1,4 @@
+import 'package:egyptianrc/presentation/resources/routes_manger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +8,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/edit_user_bloc/edit_user_bloc.dart';
 import 'bloc/home_bloc/home_bloc.dart';
+import 'bloc/location_bloc/location_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
-import 'bloc/bloc/location_bloc.dart';
 
 import 'data/data_sources/fcm.dart';
 import 'data/data_sources/pref_repository.dart';
 import 'data/models/app_user.dart';
-import 'presentation/resources/routes_manger.dart';
 import 'presentation/resources/string_manager.dart';
 import 'presentation/resources/theme/theme_manager.dart';
-import 'presentation/view/user_view/post_disaster_view/post_disaster.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +40,7 @@ void main() async {
             measurementId: "G-3EZ9RQ2ZBE"));
   } else {
     await Firebase.initializeApp();
-    // FireNotificationHelper(print);
+    FireNotificationHelper(print);
   }
 
   Bloc.observer = MyBlocObserver();
@@ -78,10 +77,9 @@ class MyApp extends StatelessWidget {
               theme: lightThemeData,
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.light,
-              // onGenerateRoute: RouteGenerator.getRoute,
-              // //TODO: don't forget to change this {user == null ? Routes.first : }
-              // initialRoute: Routes.home,
-              home: PostDisasterView(),
+              onGenerateRoute: RouteGenerator.getRoute,
+              initialRoute: Routes.home,
+              // home: const PostDisasterView(),
               // ),
             );
           },

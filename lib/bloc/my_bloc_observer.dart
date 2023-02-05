@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:egyptianrc/bloc/bloc/location_bloc.dart';
 import 'package:flutter/foundation.dart';
+
+import 'location_bloc/location_bloc.dart';
 
 class MyBlocObserver extends BlocObserver {
   @override
