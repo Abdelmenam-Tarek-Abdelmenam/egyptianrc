@@ -36,6 +36,8 @@ class _FirstLoginViewState extends State<FirstLoginView> {
                   .pushNamedAndRemoveUntil(Routes.home, (_) => false);
             } else if (state.status == AuthStatus.setOtp) {
               Navigator.of(context).pushNamed(Routes.otp);
+            } else if (state.status == AuthStatus.adminLogin) {
+              Navigator.of(context).pushNamed(Routes.admin);
             }
           },
           child: SplashView(

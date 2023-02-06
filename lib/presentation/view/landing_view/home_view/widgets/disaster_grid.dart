@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../resources/routes_manger.dart';
-import '../../../user_view/post_disaster_view/post_disaster.dart';
+import '../../../post_view/post_disaster_view/post_disaster.dart';
 
 class DisasterGrid extends StatelessWidget {
   DisasterGrid({Key? key}) : super(key: key);

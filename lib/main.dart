@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'bloc/admin_bloc/admin_bloc.dart';
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/edit_user_bloc/edit_user_bloc.dart';
 import 'bloc/home_bloc/home_bloc.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => HomeBloc()),
           BlocProvider(create: (context) => LocationBloc()),
           BlocProvider(create: (context) => EditUserBloc()),
+          BlocProvider(create: (context) => AdminBloc()),
         ],
         child: ScreenUtilInit(
           designSize: const Size(360, 690),
@@ -78,7 +80,11 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.light,
               onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: Routes.home,
+              initialRoute: user == null
+                  ? Routes.first
+                  : user!.isAdmin
+                      ? Routes.admin
+                      : Routes.home,
               // home: const PostDisasterView(),
               // ),
             );
