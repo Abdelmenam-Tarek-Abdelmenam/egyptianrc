@@ -30,22 +30,23 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       await event.controller
           .moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(left.latitude, left.longitude),
-        zoom: 7,
+        zoom: 18,
       )));
 
       List<Marker> markers = <Marker>[
         Marker(
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-                BitmapDescriptor.hueAzure),
-            markerId: MarkerId('${left.latitude}${left.longitude}'),
-            position: LatLng(left.latitude, left.longitude),
-            infoWindow: const InfoWindow(title: 'Your Location')),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          markerId: MarkerId('${left.latitude}${left.longitude}'),
+          position: LatLng(left.latitude, left.longitude),
+          infoWindow: const InfoWindow(title: 'Your Location'),
+        ),
       ];
 
       emit(state.copyWith(
           controller: event.controller,
           status: BlocStatus.getData,
           markers: markers,
+          zoom: state.zoom,
           location: LatLng(left.latitude, left.longitude)));
     }, (right) {
       right.show;

@@ -5,33 +5,40 @@ class LocationState extends Equatable {
   final BlocStatus status;
   final List<Marker> markers;
   final GoogleMapController? controller;
-  const LocationState(
-      {required this.markers,
-      required this.location,
-      required this.status,
-      required this.controller});
+  double zoom;
+  LocationState({
+    required this.location,
+    required this.status,
+    required this.markers,
+    this.controller,
+    this.zoom = 15,
+  });
 
   factory LocationState.initial() {
-    return const LocationState(
+    return LocationState(
       markers: [],
       controller: null,
-      location: LatLng(26.8206, 30.8025),
+      location: const LatLng(26.8206, 30.8025),
       status: BlocStatus.idle,
+      zoom: 7,
     );
   }
   @override
-  List<Object> get props => [status, markers.length, location];
+  List<Object> get props => [status, markers.length, location, zoom];
 
-  LocationState copyWith(
-      {List<Marker>? markers,
-      BlocStatus? status,
-      GoogleMapController? controller,
-      LatLng? location}) {
+  LocationState copyWith({
+    LatLng? location,
+    BlocStatus? status,
+    List<Marker>? markers,
+    GoogleMapController? controller,
+    double? zoom,
+  }) {
     return LocationState(
-      controller: controller ?? this.controller,
-      markers: markers ?? this.markers,
-      status: status ?? this.status,
       location: location ?? this.location,
+      status: status ?? this.status,
+      markers: markers ?? this.markers,
+      controller: controller ?? this.controller,
+      zoom: zoom ?? this.zoom,
     );
   }
 }

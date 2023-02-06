@@ -9,7 +9,8 @@ class LocationService {
     LocationPermission permission;
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     permission = await Geolocator.requestPermission();
-
+    print("permission: $permission");
+    print("serviceEnabled: $serviceEnabled");
     if (!serviceEnabled) {
       return Right(PostDisasterFailure.getFailure('location_service_disabled'));
     }
