@@ -80,5 +80,5 @@ class StringManger {
 
   static const waiting = "برجاء الانتظار.....";
   static const yourRequest = "تم استلام طلبك";
-
+  static const waitingPostingPhoto = "يتم رفع صوره الحادث";
 }

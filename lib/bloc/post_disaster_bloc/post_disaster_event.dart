@@ -1,11 +1,30 @@
 part of 'post_disaster_bloc.dart';
 
+abstract class PostDisasterEvent {
+  PostDisasterEvent();
 
-class PostDisasterEvent {
+  List<Object> get props => [];
+}
+
+class PostDisasterToCloudEvent extends PostDisasterEvent {
   DisasterPost disasterPost;
-  PostDisasterEvent({required this.disasterPost});
+  PostDisasterToCloudEvent({required this.disasterPost});
+  @override
+  List<Object> get props => [disasterPost];
+}
 
-  List<Object> get props => [
-        disasterPost,
-      ];
+class PostPhotoDisasterEvent extends PostDisasterEvent {
+  UploadFile mediaFile;
+  PostPhotoDisasterEvent({required this.mediaFile});
+
+  @override
+  List<Object> get props => [mediaFile];
+}
+
+class PostAudioDisasterEvent extends PostDisasterEvent {
+  UploadFile mediaFile;
+  PostAudioDisasterEvent({required this.mediaFile});
+
+  @override
+  List<Object> get props => [mediaFile];
 }

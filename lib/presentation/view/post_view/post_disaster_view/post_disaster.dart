@@ -39,8 +39,13 @@ class _PostDisasterViewState extends State<PostDisasterView> {
       create: (context) => PostDisasterBloc(),
       child: BlocBuilder<PostDisasterBloc, PostDisasterState>(
         builder: (context, state) {
-          if (state.status == BlocStatus.gettingData) {
-            showToast(StringManger.waiting, type: ToastType.info);
+          if (state.status == BlocStatus.gettingData ||
+              state.status == BlocStatus.postingPhoto) {
+            if (state.status == BlocStatus.gettingData) {
+              showToast(StringManger.waiting, type: ToastType.info);
+            } else if (state.status == BlocStatus.postingPhoto) {
+              showToast(StringManger.waitingPostingPhoto, type: ToastType.info);
+            }
           } else {
             if (state.status == BlocStatus.error) {
               // state.successOrFailureOption.left.message
@@ -64,7 +69,41 @@ class _PostDisasterViewState extends State<PostDisasterView> {
                   RecordImageIcon(imageFileController),
                 ],
               ),
-              bottomNavigationBar: confirmWidget(context),
+              bottomNavigationBar:
+                  BlocListener<PostDisasterBloc, PostDisasterState>(
+                listener: (context, state) {
+                  if (state.status == BlocStatus.postedPhoto) {
+                    context.read<PostDisasterBloc>().add(
+                          PostDisasterToCloudEvent(
+                            disasterPost: disaster.DisasterPost(
+                              time: DateTime.now().millisecondsSinceEpoch,
+                              disasterType: widget.type.type,
+                              media: disaster.DisasterMedia(
+                                  image: disaster.MediaFile(
+                                      type: disaster.FileType.image,
+                                      url: state.photoUrl)),
+                              photoUrl: 'https://picsum.photos/250?image=9',
+                              position: Location(
+                                // ignore: use_build_context_synchronously
+                                latitude: context
+                                    .read<LocationBloc>()
+                                    .state
+                                    .location
+                                    .latitude,
+                                longitude: context
+                                    .read<LocationBloc>()
+                                    .state
+                                    .location
+                                    .longitude,
+                              ),
+                              postId: '123',
+                            ),
+                          ),
+                        );
+                  }
+                },
+                child: confirmWidget(context),
+              ),
               body: const MapDisplayer());
         },
       ),
@@ -78,16 +117,22 @@ class _PostDisasterViewState extends State<PostDisasterView> {
         child: Padding(
           padding:
               const EdgeInsets.symmetric(horizontal: 30).copyWith(bottom: 20.h),
-          child: DefaultFilledButton(
+          child: DefaultFilledButton.postDisaster(
             label: StringManger.post,
             onPressed: () async {
-              print('post disaster pressed ... presed');
-
               print(audioFileController.value);
-              disaster.DisasterMedia media = disaster.DisasterMedia(
-                audio: null,
-                image: null,
-              );
+
+              if (imageFileController.value != null) {
+                context.read<PostDisasterBloc>().add(
+                      PostPhotoDisasterEvent(
+                        mediaFile: UploadFile(
+                            file: File(imageFileController.value!),
+                            type: FileType.image),
+                      ),
+                    );
+              } else {
+                showToast(StringManger.providePhoto, type: ToastType.error);
+              }
               if (audioFileController.value != null) {
                 print("sending ...");
                 print(audioFileController.value);
@@ -97,49 +142,8 @@ class _PostDisasterViewState extends State<PostDisasterView> {
                         type: FileType.record,
                         file: File(audioFileController.value!)));
 
-                media.copyWith(
-                    audio: disaster.MediaFile(
-                        type: disaster.FileType.record, url: audioUrl));
                 print("sent $audioUrl");
               }
-              if (imageFileController.value != null) {
-                Future<String> imageUrl = FireStorageRepository().upload(
-                    UploadFile(
-                        type: FileType.image,
-                        file: File(imageFileController.value!)));
-                imageUrl.then((value) {
-                  media.copyWith(
-                      image: disaster.MediaFile(
-                          type: disaster.FileType.image, url: value));
-                  print("change disaster sent $value");
-                  context.read<PostDisasterBloc>().add(
-                        PostDisasterEvent(
-                          disasterPost: disaster.DisasterPost(
-                            time: DateTime.now().millisecondsSinceEpoch,
-                            disasterType: widget.type.type,
-                            media: disaster.DisasterMedia(image: null),
-                            photoUrl: 'https://picsum.photos/250?image=9',
-                            position: Location(
-                              // ignore: use_build_context_synchronously
-                              latitude: context
-                                  .read<LocationBloc>()
-                                  .state
-                                  .location
-                                  .latitude,
-                              longitude: context
-                                  .read<LocationBloc>()
-                                  .state
-                                  .location
-                                  .longitude,
-                            ),
-                            postId: '123',
-                          ),
-                        ),
-                      );
-                });
-              }
-
-              print('post disaster pressed ... ${media.image}');
 
               // if (imageFileController.value != null) {
               //   print("sending ...");

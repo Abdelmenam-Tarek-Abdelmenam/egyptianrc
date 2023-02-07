@@ -12,44 +12,75 @@ class DefaultFilledButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double height;
   final double width;
+  final bool isDisasterView;
   const DefaultFilledButton(
       {super.key,
       required this.label,
       required this.onPressed,
+      this.isDisasterView = false,
       this.height = 50,
       this.width = 300});
-
+  factory DefaultFilledButton.postDisaster({
+    required VoidCallback onPressed,
+    required String label,
+  }) {
+    return DefaultFilledButton(
+      label: label,
+      onPressed: onPressed,
+      height: 50,
+      isDisasterView: true,
+      width: 300,
+    );
+  }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocationBloc, LocationState>(
-      builder: (context, state) {
-        return ElevatedButton(
-          style: state.status != BlocStatus.getData
-              ? StyleManager.signBtnStyle.copyWith(
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.grey,
-                  ),
-                  fixedSize: MaterialStateProperty.all(
-                    Size(width.w, height.h),
-                  ),
-                )
-              : StyleManager.signBtnStyle.copyWith(
-                  fixedSize: MaterialStateProperty.all(
-                    Size(width.w, height.h),
+    return isDisasterView
+        ? BlocBuilder<LocationBloc, LocationState>(
+            builder: (context, state) {
+              return ElevatedButton(
+                style: state.status != BlocStatus.getData
+                    ? StyleManager.signBtnStyle.copyWith(
+                        backgroundColor: MaterialStateProperty.all(
+                          Colors.grey,
+                        ),
+                        fixedSize: MaterialStateProperty.all(
+                          Size(width.w, height.h),
+                        ),
+                      )
+                    : StyleManager.signBtnStyle.copyWith(
+                        fixedSize: MaterialStateProperty.all(
+                          Size(width.w, height.h),
+                        ),
+                      ),
+                onPressed:
+                    state.status == BlocStatus.getData ? onPressed : null,
+                child: Center(
+                  child: Text(
+                    label,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          color: Colors.white,
+                        ),
                   ),
                 ),
-          onPressed: state.status == BlocStatus.getData ? onPressed : null,
-          child: Center(
-            child: Text(
-              label,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.white,
-                  ),
+              );
+            },
+          )
+        : ElevatedButton(
+            style: StyleManager.signBtnStyle.copyWith(
+              fixedSize: MaterialStateProperty.all(
+                Size(width.w, height.h),
+              ),
             ),
-          ),
-        );
-      },
-    );
+            onPressed: onPressed,
+            child: Center(
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Colors.white,
+                    ),
+              ),
+            ),
+          );
   }
 }
 
