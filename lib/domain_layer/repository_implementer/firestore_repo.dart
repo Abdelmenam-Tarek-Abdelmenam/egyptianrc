@@ -47,6 +47,19 @@ class DatabaseRepo {
       return const Left(Failure("حدث خطأ اثناء نعديل بيانات المستخدم"));
     }
   }
+
+  Future<Either<Failure, List<DisasterPost>>> getActiveDisasters() async {
+    try {
+      List<Map<String, dynamic>> data = await _repository.readAllActivePosts();
+      List<DisasterPost> posts =
+          data.map((e) => DisasterPost.fromMap(e)).toList();
+      return Right(posts);
+    } catch (_, trace) {
+      print(_);
+      print(trace);
+      return const Left(Failure("حدث خطأ اثناء الحصول علي البيانات"));
+    }
+  }
 }
 
 class DisasterHolder {

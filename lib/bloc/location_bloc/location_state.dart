@@ -5,8 +5,8 @@ class LocationState extends Equatable {
   final BlocStatus status;
   final List<Marker> markers;
   final GoogleMapController? controller;
-  double zoom;
-  LocationState({
+  final double zoom;
+  const LocationState({
     required this.location,
     required this.status,
     required this.markers,
@@ -15,10 +15,10 @@ class LocationState extends Equatable {
   });
 
   factory LocationState.initial() {
-    return LocationState(
+    return const LocationState(
       markers: [],
       controller: null,
-      location: const LatLng(26.8206, 30.8025),
+      location: LatLng(26.8206, 30.8025),
       status: BlocStatus.idle,
       zoom: 7,
     );

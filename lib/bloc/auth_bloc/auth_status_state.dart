@@ -13,6 +13,7 @@ enum AuthStatus {
   registerUser,
   error,
   finishSession,
+  adminLogin,
 }
 
 class AuthStates extends Equatable {

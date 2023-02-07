@@ -1,6 +1,6 @@
 import 'package:egyptianrc/bloc/status.dart';
 import 'package:egyptianrc/presentation/shared/widget/error_widget.dart';
-import 'package:egyptianrc/presentation/view/user_view/widgets/search_bar.dart';
+import 'package:egyptianrc/presentation/view/post_view/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

@@ -70,7 +70,7 @@ class DisasterPost {
       position: Location.fromMap(map['position']),
       description: map['description'],
       disasterType: DisasterType.fromMap(map['disasterType']),
-      media: DisasterMedia.fromMap(map['media']),
+      media: DisasterMedia.fromMap(map['media'] ?? {}),
       time: map['time']?.toInt() ?? 0,
     );
   }
@@ -118,7 +118,7 @@ class DisasterMedia {
   DisasterMedia({this.image, this.video, this.audio});
 
   factory DisasterMedia.fromMap(Map<String, dynamic> map) => DisasterMedia(
-        image: MediaFile.fromMap(map['image']),
+        image: map['image'] == null ? null : MediaFile.fromMap(map['image']),
         video: map['video'] == null ? null : MediaFile.fromMap(map['video']),
         audio: map['audio'] == null ? null : MediaFile.fromMap(map['audio']),
       );

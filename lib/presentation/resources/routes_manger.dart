@@ -1,4 +1,5 @@
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
+import 'package:egyptianrc/presentation/view/admin_view/admin_view.dart';
 import 'package:egyptianrc/presentation/view/auth_view/sign_in_view/sign_in_view.dart';
 import 'package:egyptianrc/presentation/view/auth_view/sign_up_view/sign_up_view.dart';
 import 'package:egyptianrc/presentation/view/landing_view/user_view/edit_views/edit_address.dart';
@@ -13,7 +14,7 @@ import '../view/auth_view/first_view/first_view.dart';
 import '../view/auth_view/sign_up_view/otp_view.dart';
 import '../view/chat_view/chat_view.dart';
 import '../view/landing_view/landing_view.dart';
-import '../view/user_view/post_disaster_view/post_disaster.dart';
+import '../view/post_view/post_disaster_view/post_disaster.dart';
 
 class Routes {
   static const String first = "/";
@@ -25,6 +26,7 @@ class Routes {
   static const String user = "/user";
   static const String chat = "/chat";
   static const String post = "/post";
+  static const String admin = "/admin";
 
   static const String editName = "/editName";
   static const String editEmail = "/editEmail";
@@ -48,6 +50,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ChatView());
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => const SignUpView());
+      case Routes.admin:
+        return MaterialPageRoute(builder: (_) => const AdminView());
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const LandingView());
       case Routes.post:

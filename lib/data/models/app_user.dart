@@ -21,9 +21,7 @@ class AppUser {
   String get thirdPlace => (places?.length ?? 0) < 2 ? "" : places![2];
 
   @override
-  String toString() {
-    return "User $name with email $email";
-  }
+  String toString() => "User $name with email $email";
 
   AppUser(
       {required this.id,
@@ -111,4 +109,6 @@ class AppUser {
   factory AppUser.empty() => AppUser(id: '');
 
   bool get isEmpty => id == '';
+
+  bool get isAdmin => id == 'admin';
 }
