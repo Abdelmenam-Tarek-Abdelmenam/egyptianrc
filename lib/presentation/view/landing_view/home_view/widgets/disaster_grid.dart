@@ -1,3 +1,4 @@
+import 'package:egyptianrc/data/models/disaster_type.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:egyptianrc/presentation/resources/styles_manager.dart';
 import 'package:egyptianrc/presentation/resources/theme/theme_manager.dart';
@@ -11,10 +12,12 @@ class DisasterGrid extends StatelessWidget {
   DisasterGrid({Key? key}) : super(key: key);
 
   final List<DisasterGridItem> items = [
-    DisasterGridItem(StringManger.accident, ColorManager.disaster1),
-    DisasterGridItem(StringManger.fire, ColorManager.disaster2),
-    DisasterGridItem(StringManger.explosion, ColorManager.disaster3),
-    DisasterGridItem(StringManger.buildingFall, ColorManager.disaster4),
+    DisasterGridItem(StringManger.accident, ColorManager.disaster1, Accident()),
+    DisasterGridItem(StringManger.fire, ColorManager.disaster2, Fire()),
+    DisasterGridItem(
+        StringManger.explosion, ColorManager.disaster3, Explosion()),
+    DisasterGridItem(
+        StringManger.buildingFall, ColorManager.disaster4, BuildingCollapse()),
   ];
 
   @override

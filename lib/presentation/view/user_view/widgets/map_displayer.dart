@@ -21,8 +21,6 @@ class _MapState extends State<MapDisplayer> {
   void _onMapCreated(GoogleMapController controller) =>
       context.read<LocationBloc>().add(LocationRequested(controller));
 
-  
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LocationBloc, LocationState>(builder: (context, state) {
@@ -31,11 +29,10 @@ class _MapState extends State<MapDisplayer> {
           : Stack(
               children: [
                 GoogleMap(
-                  
+                  zoomControlsEnabled: false,
                   mapType: MapType.normal,
                   markers: Set.from(state.markers),
                   onMapCreated: _onMapCreated,
-                  
                   initialCameraPosition:
                       CameraPosition(target: state.location, zoom: 7.0),
                 ),

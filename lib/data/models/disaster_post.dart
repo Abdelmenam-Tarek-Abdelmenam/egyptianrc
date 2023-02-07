@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:geolocator/geolocator.dart';
+
+import 'package:egyptianrc/data/models/location.dart';
 
 import 'disaster_type.dart';
 
 class DisasterPost {
   String postId;
   String photoUrl;
-  Position position;
+  Location position;
+  String geoHash;
   String? description;
   DisasterType disasterType;
   DisasterMedia media;
@@ -20,12 +24,12 @@ class DisasterPost {
     required this.disasterType,
     required this.media,
     required this.time,
-  });
+  }) : geoHash = position.geoHash;
 
   DisasterPost copyWith({
     String? postId,
     String? photoUrl,
-    Position? position,
+    Location? position,
     String? description,
     DisasterType? disasterType,
     DisasterMedia? media,
@@ -54,6 +58,7 @@ class DisasterPost {
     result.addAll({'disasterType': disasterType.toMap()});
     result.addAll({'media': media.toMap()});
     result.addAll({'time': time});
+    result.addAll({'geoHash': geoHash});
 
     return result;
   }
@@ -62,7 +67,7 @@ class DisasterPost {
     return DisasterPost(
       postId: map['postId'] ?? '',
       photoUrl: map['photoUrl'] ?? '',
-      position: Position.fromMap(map['position']),
+      position: Location.fromMap(map['position']),
       description: map['description'],
       disasterType: DisasterType.fromMap(map['disasterType']),
       media: DisasterMedia.fromMap(map['media']),
@@ -107,22 +112,34 @@ class DisasterPost {
 }
 
 class DisasterMedia {
-  MediaFile image;
+  MediaFile? image;
   MediaFile? video;
   MediaFile? audio;
-  DisasterMedia({required this.image, this.video, this.audio});
+  DisasterMedia({this.image, this.video, this.audio});
 
   factory DisasterMedia.fromMap(Map<String, dynamic> map) => DisasterMedia(
         image: MediaFile.fromMap(map['image']),
         video: map['video'] == null ? null : MediaFile.fromMap(map['video']),
         audio: map['audio'] == null ? null : MediaFile.fromMap(map['audio']),
       );
-
+  factory DisasterMedia.inital() => DisasterMedia(image: MediaFile.inital());
   Map<String, dynamic> toMap() => {
-        "image": image.toMap(),
+        "image": image?.toMap(),
         "video": video?.toMap(),
         "audio": audio?.toMap(),
       };
+
+  DisasterMedia copyWith({
+    MediaFile? image,
+    MediaFile? video,
+    MediaFile? audio,
+  }) {
+    return DisasterMedia(
+      image: image ?? this.image,
+      video: video ?? this.video,
+      audio: audio ?? this.audio,
+    );
+  }
 }
 
 class MediaFile {
@@ -133,7 +150,7 @@ class MediaFile {
   MediaFile({this.file, this.url, required this.type});
   factory MediaFile.fromMap(Map<String, dynamic> map) =>
       MediaFile(url: map['url'], type: FileType.values[map['fileType']]);
-
+  factory MediaFile.inital() => MediaFile(type: FileType.image);
   Map<String, dynamic> toMap() => {"fileType": type.index, "url": url};
 }
 

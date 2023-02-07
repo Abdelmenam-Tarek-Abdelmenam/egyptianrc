@@ -1,4 +1,6 @@
-import 'dart:typed_data';
+import 'dart:convert';
+
+import 'package:dart_geohash/dart_geohash.dart';
 
 class Location {
   Location({
@@ -10,138 +12,51 @@ class Location {
   // static final intialLocation = Location(latitude: 0, longitude: 0);
   // static final _goToLocation = Location(latitude: 0, longitude: 0);
 
-  get geoHash => encode(latitude, longitude);
+  get geoHash => GeoHasher().encode(longitude, latitude, precision: 7);
 
-  static const String _baseSequence = '0123456789bcdefghjkmnpqrstuvwxyz';
-
-  /// Creates a Map of available characters for a geohash
-  final _base32Map = <String, int>{
-    for (var value in _baseSequence.split(''))
-      value: _baseSequence.indexOf(value),
-  };
-
-  /// Creates a reversed Map of available characters for a geohash
-
-  final _base32MapR = <int, String>{
-    for (var value in _baseSequence.split(''))
-      _baseSequence.indexOf(value): value,
-  };
-
-  List<int> _doubleToBits({
-    required double value,
-    double lower = -90.0,
-    double middle = 0.0,
-    double upper = 90.0,
-    int length = 15,
+  Location copyWith({
+    double? latitude,
+    double? longitude,
   }) {
-    final ret = <int>[];
-
-    for (var i = 0; i < length; i++) {
-      if (value >= middle) {
-        lower = middle;
-        ret.add(1);
-      } else {
-        upper = middle;
-        ret.add(0);
-      }
-      middle = (upper + lower) / 2;
-    }
-
-    return ret;
-  }
-
-  /// Converts a List<int> bits into a String geohash
-  String _bitsToGeoHash(List<int> bitValue) {
-    final geoHashList = <String>[];
-
-    var remainingBits = List<int>.from(bitValue);
-    var subBits = <int>[];
-    String subBitsAsString;
-    for (var i = 0; i < bitValue.length / 5; i++) {
-      subBits = remainingBits.sublist(0, 5);
-      remainingBits = remainingBits.sublist(5);
-
-      subBitsAsString = '';
-      for (final value in subBits) {
-        subBitsAsString += value.toString();
-      }
-
-      final value =
-          int.parse(int.parse(subBitsAsString, radix: 2).toRadixString(10));
-      geoHashList.add(_base32MapR[value]!);
-    }
-
-    return geoHashList.join('');
-  }
-
-  /// Converts a String geo hash into List<int> bits
-  // ignore: unused_element
-  List<int> _geoHashToBits(String geoHash) {
-    final bitList = <int>[];
-
-    for (final letter in geoHash.split('')) {
-      if (_base32Map[letter] == null) {
-        continue;
-      }
-
-      final buffer = Uint8List(5).buffer;
-      final bufferData = ByteData.view(buffer);
-
-      bufferData.setUint32(0, _base32Map[letter]!);
-      for (final letter in bufferData
-          .getUint32(0)
-          .toRadixString(2)
-          .padLeft(5, '0')
-          .split('')) {
-        bitList.add(int.parse(letter));
-      }
-    }
-
-    return bitList;
-  }
-
-  String encode(double longitude, double latitude, {int precision = 12}) {
-    var originalPrecision = precision + 0;
-    if (longitude < -180.0 || longitude > 180.0) {
-      throw RangeError.range(longitude, -180, 180, 'Longitude');
-    }
-    if (latitude < -90.0 || latitude > 90.0) {
-      throw RangeError.range(latitude, -90, 90, 'Latitude');
-    }
-
-    if (precision % 2 == 1) {
-      precision = precision + 1;
-    }
-    if (precision != 1) {
-      precision ~/= 2;
-    }
-
-    final longitudeBits = _doubleToBits(
-      value: longitude,
-      lower: -180.0,
-      upper: 180.0,
-      length: precision * 5,
+    return Location(
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
     );
-    final latitudeBits = _doubleToBits(
-      value: latitude,
-      lower: -90.0,
-      upper: 90.0,
-      length: precision * 5,
-    );
-
-    final ret = <int>[];
-    for (var i = 0; i < longitudeBits.length; i++) {
-      ret.add(longitudeBits[i]);
-      ret.add(latitudeBits[i]);
-    }
-    final geohashString = _bitsToGeoHash(ret);
-
-    if (originalPrecision == 1) {
-      return geohashString.substring(0, 1);
-    }
-    if (originalPrecision % 2 == 1) {
-      return geohashString.substring(0, geohashString.length - 1);
-    }
-    return geohashString;
   }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'latitude': latitude});
+    result.addAll({'longitude': longitude});
+
+    return result;
+  }
+
+  factory Location.fromMap(Map<String, dynamic> map) {
+    return Location(
+      latitude: map['latitude']?.toDouble() ?? 0.0,
+      longitude: map['longitude']?.toDouble() ?? 0.0,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Location.fromJson(String source) =>
+      Location.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'Location(latitude: $latitude, longitude: $longitude)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Location &&
+        other.latitude == latitude &&
+        other.longitude == longitude;
+  }
+
+  @override
+  int get hashCode => latitude.hashCode ^ longitude.hashCode;
 }

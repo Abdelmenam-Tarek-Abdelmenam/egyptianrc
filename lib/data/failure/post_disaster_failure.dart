@@ -5,6 +5,7 @@ Map<String, PostDisasterFailure> _postDisasterFailureLookUp = const {
   'location_service_disabled': LocationServiceDisabledFailure(),
   'unkown_error_in_location_service': UnknownErrorInLocationService(),
   'permission_denied': PermissionDeniedFailure(),
+  'provide_photo': ProvidePhotoFailure(),
 };
 
 @immutable
@@ -36,4 +37,8 @@ class PermissionDeniedFailure extends PostDisasterFailure {
 class UnknownErrorInLocationService extends PostDisasterFailure {
   const UnknownErrorInLocationService()
       : super('Unknown Error in Location Service');
+}
+
+class ProvidePhotoFailure extends PostDisasterFailure {
+  const ProvidePhotoFailure() : super('Provide Photo');
 }

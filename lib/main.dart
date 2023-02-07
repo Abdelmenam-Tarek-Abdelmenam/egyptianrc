@@ -1,3 +1,4 @@
+import 'package:egyptianrc/bloc/post_disaster_bloc/post_disaster_bloc.dart';
 import 'package:egyptianrc/presentation/resources/routes_manger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => AuthBloc(user), lazy: false),
           BlocProvider(create: (context) => HomeBloc()),
+          BlocProvider(create: (context) => PostDisasterBloc()),
           BlocProvider(create: (context) => LocationBloc()),
           BlocProvider(create: (context) => EditUserBloc()),
         ],

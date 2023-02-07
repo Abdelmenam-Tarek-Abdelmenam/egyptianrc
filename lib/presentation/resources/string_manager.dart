@@ -1,3 +1,5 @@
+import 'package:egyptianrc/data/failure/post_disaster_failure.dart';
+
 class StringManger {
   static const empty = "";
 
@@ -48,6 +50,7 @@ class StringManger {
   static const noConnection = "لا يتوفر اتصال بالانترنت";
   static const contactsErrors = "لا يمكن استخدام هذا الوسيله حاليا";
   static const contactChannel = "يمكنك الاتصال بنا عن طريق هذه الطرق";
+  static const providePhoto = "يجب عليك ان تصور الحدث";
 
   static const needHelp = "احتاج المساعده";
   static const fastLogin = "دخول سريع";
@@ -74,4 +77,8 @@ class StringManger {
   static const timeout = "وقت انتظار الرساله تعدي و برجاء المحاوله مره اخري";
   static const phoneInvalid = "هذا الرقم غير صحيح";
   static const searchOnTheMap = "ابحث في الخريطه";
+
+  static const waiting = "برجاء الانتظار.....";
+  static const yourRequest = "تم استلام طلبك";
+
 }

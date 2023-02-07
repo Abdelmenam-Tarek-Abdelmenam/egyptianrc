@@ -25,15 +25,15 @@ class Fire extends DisasterType {
 
 class BuildingCollapse extends DisasterType {
   int? numberOfCasualties;
-  BuildingCollapse(this.numberOfCasualties) : super(numberOfCasualties);
+  BuildingCollapse({this.numberOfCasualties}) : super(numberOfCasualties);
 }
 
 class Accident extends DisasterType {
   int? numberOfVehiclesInvolved;
-  Accident(this.numberOfVehiclesInvolved) : super(numberOfVehiclesInvolved);
+  Accident({this.numberOfVehiclesInvolved}) : super(numberOfVehiclesInvolved);
 }
 
 class Explosion extends DisasterType {
   int? blastRadius;
-  Explosion(this.blastRadius) : super(blastRadius);
+  Explosion({this.blastRadius}) : super(blastRadius);
 }

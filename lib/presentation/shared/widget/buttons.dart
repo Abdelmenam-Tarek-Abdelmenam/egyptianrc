@@ -1,4 +1,7 @@
+import 'package:egyptianrc/bloc/location_bloc/location_bloc.dart';
+import 'package:egyptianrc/bloc/status.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,21 +21,34 @@ class DefaultFilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: StyleManager.signBtnStyle.copyWith(
-        fixedSize: MaterialStateProperty.all(
-          Size(width.w, height.h),
-        ),
-      ),
-      onPressed: onPressed,
-      child: Center(
-        child: Text(
-          label,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: Colors.white,
-              ),
-        ),
-      ),
+    return BlocBuilder<LocationBloc, LocationState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          style: state.status != BlocStatus.getData
+              ? StyleManager.signBtnStyle.copyWith(
+                  backgroundColor: MaterialStateProperty.all(
+                    Colors.grey,
+                  ),
+                  fixedSize: MaterialStateProperty.all(
+                    Size(width.w, height.h),
+                  ),
+                )
+              : StyleManager.signBtnStyle.copyWith(
+                  fixedSize: MaterialStateProperty.all(
+                    Size(width.w, height.h),
+                  ),
+                ),
+          onPressed: state.status == BlocStatus.getData ? onPressed : null,
+          child: Center(
+            child: Text(
+              label,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                  ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
