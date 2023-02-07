@@ -13,6 +13,7 @@ part 'admin_state.dart';
 class AdminBloc extends Bloc<AdminEvent, AdminState> {
   AdminBloc() : super(AdminState.initial()) {
     on<GetAdminDataEvent>(_getDataHandler);
+    on<ChangeViewModel>(_changeViewModel);
 
     add(GetAdminDataEvent());
   }
@@ -25,12 +26,36 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
         await _repo.getActiveDisasters();
 
     posts.fold((left) {
-      print("Here");
       left.show;
       emit(state.copyWith(status: BlocStatus.error));
     }, (right) {
-      print("Here");
       emit(state.copyWith(status: BlocStatus.getData, active: right));
+    });
+  }
+
+  _changeViewModel(ChangeViewModel event, Emitter emit) async {
+    if (state.viewMode == AdminViewMode.active) {
+      await _getArchiveHandler(emit);
+    } else {
+      emit(state.copyWith(viewMode: AdminViewMode.active));
+    }
+  }
+
+  _getArchiveHandler(Emitter emit) async {
+    if (state.archived.isNotEmpty) {
+      emit(state.copyWith(viewMode: AdminViewMode.archive));
+      return;
+    }
+    emit(state.copyWith(
+        status: BlocStatus.gettingData, viewMode: AdminViewMode.archive));
+    Either<Failure, List<DisasterPost>> posts =
+        await _repo.getArchiveDisasters();
+
+    posts.fold((left) {
+      left.show;
+      emit(state.copyWith(status: BlocStatus.error));
+    }, (right) {
+      emit(state.copyWith(status: BlocStatus.getData, archived: right));
     });
   }
 }

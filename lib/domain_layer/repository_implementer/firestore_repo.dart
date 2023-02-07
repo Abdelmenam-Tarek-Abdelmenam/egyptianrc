@@ -60,6 +60,19 @@ class DatabaseRepo {
       return const Left(Failure("حدث خطأ اثناء الحصول علي البيانات"));
     }
   }
+
+  Future<Either<Failure, List<DisasterPost>>> getArchiveDisasters() async {
+    try {
+      List<Map<String, dynamic>> data = await _repository.readAllArchivePosts();
+      List<DisasterPost> posts =
+          data.map((e) => DisasterPost.fromMap(e)).toList();
+      return Right(posts);
+    } catch (_, trace) {
+      print(_);
+      print(trace);
+      return const Left(Failure("حدث خطأ اثناء الحصول علي البيانات"));
+    }
+  }
 }
 
 class DisasterHolder {

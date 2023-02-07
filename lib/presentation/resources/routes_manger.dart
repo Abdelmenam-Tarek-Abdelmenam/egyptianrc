@@ -9,6 +9,7 @@ import 'package:egyptianrc/presentation/view/landing_view/user_view/edit_views/e
 import 'package:egyptianrc/presentation/view/landing_view/user_view/edit_views/edit_phone.dart';
 import 'package:flutter/material.dart';
 
+import '../shared/view_photo.dart';
 import '../view/auth_view/fast_sign_in_view/fast_sign_in_view.dart';
 import '../view/auth_view/first_view/first_view.dart';
 import '../view/auth_view/sign_up_view/otp_view.dart';
@@ -27,6 +28,7 @@ class Routes {
   static const String chat = "/chat";
   static const String post = "/post";
   static const String admin = "/admin";
+  static const String photo = "/photo";
 
   static const String editName = "/editName";
   static const String editEmail = "/editEmail";
@@ -68,6 +70,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => EditEmailView());
       case Routes.editName:
         return MaterialPageRoute(builder: (_) => EditNameView());
+      case Routes.photo:
+        return MaterialPageRoute(
+            builder: (_) => ViewPhoto(settings.arguments as String));
       default:
         return _unDefinedRoute();
     }

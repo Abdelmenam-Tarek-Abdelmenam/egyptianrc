@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:geolocator/geolocator.dart';
-
 import 'package:egyptianrc/data/models/location.dart';
 
 import 'disaster_type.dart';
 
 class DisasterPost {
   String postId;
-  String photoUrl;
+  String? photoUrl;
   Location position;
   String geoHash;
   String? description;
@@ -154,8 +152,8 @@ class MediaFile {
   Map<String, dynamic> toMap() => {"fileType": type.index, "url": url};
 }
 
-extension on Position {
-  Map<String, dynamic> toMap() => {"lat": latitude, "lon": longitude};
-}
+// extension on Position {
+//   Map<String, dynamic> toMap() => {"lat": latitude, "lon": longitude};
+// }
 
 enum FileType { image, video, record }

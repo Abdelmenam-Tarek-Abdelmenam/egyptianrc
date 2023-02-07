@@ -1,5 +1,3 @@
-import 'package:egyptianrc/data/failure/post_disaster_failure.dart';
-
 class StringManger {
   static const empty = "";
 

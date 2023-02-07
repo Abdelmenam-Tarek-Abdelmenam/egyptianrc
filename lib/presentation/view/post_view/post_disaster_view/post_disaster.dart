@@ -9,10 +9,8 @@ import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../bloc/status.dart';
-import '../../../../data/failure/post_disaster_failure.dart';
 import '../../../../data/models/disaster_post.dart' as disaster;
 import '../../../shared/toast_helper.dart';
 import '../../../shared/widget/buttons.dart';
