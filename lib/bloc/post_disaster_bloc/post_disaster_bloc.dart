@@ -63,30 +63,23 @@ class PostDisasterBloc extends Bloc<PostDisasterEvent, PostDisasterState> {
       });
     }
   }
-  //! I have bug here 
+
+  //! I have bug here
   FutureOr<void> _postPhotoDisasterEvent(
       PostPhotoDisasterEvent event, Emitter<PostDisasterState> emit) async {
-    emit(state.copyWith(status: BlocStatus.postingPhoto));
-    Either<PostDisasterFailure, String> result = await _fireStorageRepository
-        .upload(event.mediaFile)
-        .then((value) => Right(value) as Right<PostDisasterFailure, String>)
-        .catchError((error) => Left(PostDisasterFailure(error.toString())));
-
-    result.fold(
-        (left) => emit(
-              state.copyWith(
-                status: BlocStatus.error,
-                successOrFailureOption: Left(
-                  PostDisasterFailure(left.toString()),
-                ),
-              ),
-            ),
-        (right) => emit(
-              state.copyWith(
-                  status: BlocStatus.postedPhoto,
-                  successOrFailureOption: const Right(null),
-                  photoUrl: right),
-            ));
+    try {
+      String result = await _fireStorageRepository.upload(event.mediaFile);
+      print('BLOC change result: url $result');
+      emit(state.copyWith(
+          status: BlocStatus.postedPhoto,
+          successOrFailureOption: const Right(null),
+          photoUrl: result));
+    } catch (e) {
+      emit(state.copyWith(
+        status: BlocStatus.postedPhoto,
+        successOrFailureOption: Left(PostDisasterFailure(e.toString())),
+      ));
+    }
   }
 
   FutureOr<void> _postAudioDisasterEvent(
@@ -96,7 +89,7 @@ class PostDisasterBloc extends Bloc<PostDisasterEvent, PostDisasterState> {
     await _fireStorageRepository.upload(event.mediaFile).then((value) {
       emit(
         state.copyWith(
-            status: BlocStatus.postedPhoto,
+            status: BlocStatus.postingAudio,
             successOrFailureOption: const Right(null),
             audioUrl: value),
       );

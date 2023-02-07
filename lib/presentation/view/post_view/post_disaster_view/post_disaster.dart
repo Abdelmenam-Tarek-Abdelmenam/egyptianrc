@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:egyptianrc/bloc/auth_bloc/auth_status_bloc.dart';
 import 'package:egyptianrc/bloc/location_bloc/location_bloc.dart';
 import 'package:egyptianrc/bloc/post_disaster_bloc/post_disaster_bloc.dart';
+import 'package:egyptianrc/data/data_sources/pref_repository.dart';
 import 'package:egyptianrc/data/data_sources/web_services/firestorage_repository.dart';
 import 'package:egyptianrc/data/models/disaster_type.dart';
 import 'package:egyptianrc/data/models/location.dart';
@@ -35,6 +37,8 @@ class _PostDisasterViewState extends State<PostDisasterView> {
   final ValueNotifier<String?> imageFileController = ValueNotifier(null);
   @override
   Widget build(BuildContext context) {
+    print(
+        'User data ${PreferenceRepository.getData(key: PreferenceKey.userData)}');
     return BlocProvider(
       create: (context) => PostDisasterBloc(),
       child: BlocBuilder<PostDisasterBloc, PostDisasterState>(
@@ -73,8 +77,6 @@ class _PostDisasterViewState extends State<PostDisasterView> {
                   BlocListener<PostDisasterBloc, PostDisasterState>(
                 listener: (context, state) {
                   if (state.status == BlocStatus.postedPhoto) {
-                    print(
-                        'yassin change posted photo ${state.photoUrl} ||||  ${state.audioUrl}');
                     context.read<PostDisasterBloc>().add(
                           PostDisasterToCloudEvent(
                             disasterPost: disaster.DisasterPost(
@@ -87,7 +89,8 @@ class _PostDisasterViewState extends State<PostDisasterView> {
                                   image: disaster.MediaFile(
                                       type: disaster.FileType.image,
                                       url: state.photoUrl)),
-                              photoUrl: 'https://picsum.photos/250?image=9',
+                              photoUrl: PreferenceRepository.getData(
+                                  key: PreferenceKey.userData)['photoUrl'],
                               position: Location(
                                 // ignore: use_build_context_synchronously
                                 latitude: context
