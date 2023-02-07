@@ -73,12 +73,17 @@ class _PostDisasterViewState extends State<PostDisasterView> {
                   BlocListener<PostDisasterBloc, PostDisasterState>(
                 listener: (context, state) {
                   if (state.status == BlocStatus.postedPhoto) {
+                    print(
+                        'yassin change posted photo ${state.photoUrl} ||||  ${state.audioUrl}');
                     context.read<PostDisasterBloc>().add(
                           PostDisasterToCloudEvent(
                             disasterPost: disaster.DisasterPost(
                               time: DateTime.now().millisecondsSinceEpoch,
                               disasterType: widget.type.type,
                               media: disaster.DisasterMedia(
+                                  audio: disaster.MediaFile(
+                                      type: disaster.FileType.record,
+                                      url: state.audioUrl),
                                   image: disaster.MediaFile(
                                       type: disaster.FileType.image,
                                       url: state.photoUrl)),
@@ -134,15 +139,13 @@ class _PostDisasterViewState extends State<PostDisasterView> {
                 showToast(StringManger.providePhoto, type: ToastType.error);
               }
               if (audioFileController.value != null) {
-                print("sending ...");
-                print(audioFileController.value);
-
-                String audioUrl = await FireStorageRepository().upload(
-                    UploadFile(
-                        type: FileType.record,
-                        file: File(audioFileController.value!)));
-
-                print("sent $audioUrl");
+                context.read<PostDisasterBloc>().add(
+                      PostAudioDisasterEvent(
+                        mediaFile: UploadFile(
+                            type: FileType.record,
+                            file: File(audioFileController.value!)),
+                      ),
+                    );
               }
 
               // if (imageFileController.value != null) {

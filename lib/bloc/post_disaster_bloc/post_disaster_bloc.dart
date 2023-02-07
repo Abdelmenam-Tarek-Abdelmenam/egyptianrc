@@ -19,6 +19,7 @@ class PostDisasterBloc extends Bloc<PostDisasterEvent, PostDisasterState> {
   PostDisasterBloc() : super(PostDisasterState.initial()) {
     on<PostDisasterToCloudEvent>(_postDisasterEvent);
     on<PostPhotoDisasterEvent>(_postPhotoDisasterEvent);
+    on<PostAudioDisasterEvent>(_postAudioDisasterEvent);
   }
 
   FutureOr<void> _postDisasterEvent(
@@ -62,29 +63,52 @@ class PostDisasterBloc extends Bloc<PostDisasterEvent, PostDisasterState> {
       });
     }
   }
-
+  //! I have bug here 
   FutureOr<void> _postPhotoDisasterEvent(
       PostPhotoDisasterEvent event, Emitter<PostDisasterState> emit) async {
     emit(state.copyWith(status: BlocStatus.postingPhoto));
-    await _fireStorageRepository
+    Either<PostDisasterFailure, String> result = await _fireStorageRepository
         .upload(event.mediaFile)
-        .then((value) => {
-              emit(
-                state.copyWith(
-                    status: BlocStatus.postedPhoto,
-                    successOrFailureOption: const Right(null),
-                    photoUrl: value),
-              ),
-            })
-        .catchError((error) => {
-              emit(
-                state.copyWith(
-                  status: BlocStatus.error,
-                  successOrFailureOption: Left(
-                    PostDisasterFailure(error.toString()),
-                  ),
+        .then((value) => Right(value) as Right<PostDisasterFailure, String>)
+        .catchError((error) => Left(PostDisasterFailure(error.toString())));
+
+    result.fold(
+        (left) => emit(
+              state.copyWith(
+                status: BlocStatus.error,
+                successOrFailureOption: Left(
+                  PostDisasterFailure(left.toString()),
                 ),
-              )
-            });
+              ),
+            ),
+        (right) => emit(
+              state.copyWith(
+                  status: BlocStatus.postedPhoto,
+                  successOrFailureOption: const Right(null),
+                  photoUrl: right),
+            ));
+  }
+
+  FutureOr<void> _postAudioDisasterEvent(
+      PostAudioDisasterEvent event, Emitter<PostDisasterState> emit) async {
+    emit(state.copyWith(status: BlocStatus.postingAudio));
+
+    await _fireStorageRepository.upload(event.mediaFile).then((value) {
+      emit(
+        state.copyWith(
+            status: BlocStatus.postedPhoto,
+            successOrFailureOption: const Right(null),
+            audioUrl: value),
+      );
+    }).catchError((error) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.error,
+          successOrFailureOption: Left(
+            PostDisasterFailure(error.toString()),
+          ),
+        ),
+      );
+    });
   }
 }
