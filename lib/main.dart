@@ -82,12 +82,8 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.light,
               onGenerateRoute: RouteGenerator.getRoute,
-
-              initialRoute: user == null
-                  ? Routes.first
-                  : user!.isAdmin
-                      ? Routes.admin
-                      : Routes.home,
+//             ! warning about initialRoute
+              initialRoute: Routes.admin,
               // home: const PostDisasterView(),
               // ),
             );

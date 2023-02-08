@@ -54,6 +54,7 @@ class ActiveList extends StatelessWidget {
                             ),
                             trailing: IconButton(
                               icon: const Icon(Icons.remove_red_eye_outlined),
+                              //  e.media.image!.url
                               onPressed: () {
                                 Navigator.of(context).pushNamed(Routes.photo,
                                     arguments: e.photoUrl);

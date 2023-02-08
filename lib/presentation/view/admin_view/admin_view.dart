@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/admin_bloc/admin_bloc.dart';
+import 'widgets/web_map.dart';
 
 class AdminView extends StatelessWidget {
   const AdminView({Key? key}) : super(key: key);
@@ -12,7 +13,23 @@ class AdminView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Text("Drawer Header"),
+            ),
+            ListTile(
+              title: Text("Item 1"),
+            ),
+            ListTile(
+              title: Text("Item 2"),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
+        
         automaticallyImplyLeading: false,
         centerTitle: true,
         leading: BlocBuilder<AdminBloc, AdminState>(
@@ -45,11 +62,7 @@ class AdminView extends StatelessWidget {
                 .isEmpty) {
               return const Center(child: Text("No data"));
             } else {
-              return ActiveList(
-                  state.viewMode == AdminViewMode.archive
-                      ? state.archived
-                      : state.active,
-                  state.viewMode == AdminViewMode.archive);
+              return WebMap(positions:state.active ,);
             }
           } else if (state.status == BlocStatus.error) {
             return const ErrorView();
@@ -58,6 +71,7 @@ class AdminView extends StatelessWidget {
           }
         },
       ),
+      // body: WebMap(positions: ,),
     );
   }
 }

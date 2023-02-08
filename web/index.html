@@ -1,90 +1,119 @@
-<!DOCTYPE html><html><head>
-  <base href="$FLUTTER_BASE_HREF">
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="$FLUTTER_BASE_HREF" />
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Project for Egyptian Red Crescent">
-  <meta name="google-signin-client_id" content="462455386900-ibt2isajp3sdt3d76g8m0t3k8qa3hhf0.apps.googleusercontent.com" />
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta name="description" content="Project for Egyptian Red Crescent" />
+    <meta
+      name="google-signin-client_id"
+      content="462455386900-ibt2isajp3sdt3d76g8m0t3k8qa3hhf0.apps.googleusercontent.com"
+    />
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="egyptianrc">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="egyptianrc" />
+    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.ico">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.ico" />
 
-  <title>egyptian-rc</title>
-  <link rel="manifest" href="manifest.json">
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <title>egyptian-rc</title>
+    <link rel="manifest" href="manifest.json" />
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer=""></script>
-  <link rel="stylesheet" type="text/css" href="splash/style.css">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-  <script src="splash/splash.js"></script>
-</head>
-<body>  <picture id="splash">
-      <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
-      <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
-      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
-  </picture>
+    <script>
+      // The value below is injected by flutter build, do not touch.
+      var serviceWorkerVersion = null;
+    </script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer=""></script>
+    <link rel="stylesheet" type="text/css" href="splash/style.css" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDU3-cdwotRUEPrtPzEmjeKDcy4KN2o3BQ"></script>
 
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      name="viewport"
+    />
+    <script src="splash/splash.js"></script>
+  </head>
+  <body>
+    <picture id="splash">
+      <source
+        srcset="
+          splash/img/light-1x.png 1x,
+          splash/img/light-2x.png 2x,
+          splash/img/light-3x.png 3x,
+          splash/img/light-4x.png 4x
+        "
+        media="(prefers-color-scheme: light)"
+      />
+      <source
+        srcset="
+          splash/img/dark-1x.png 1x,
+          splash/img/dark-2x.png 2x,
+          splash/img/dark-3x.png 3x,
+          splash/img/dark-4x.png 4x
+        "
+        media="(prefers-color-scheme: dark)"
+      />
+      <img
+        class="center"
+        aria-hidden="true"
+        src="splash/img/light-1x.png"
+        alt=""
+      />
+    </picture>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
-<script type="module">
+    <script type="module">
+      const firebaseConfig = {
+        apiKey: "AIzaSyCpHOJR0jXHno5Ipue_tlUKQQ6xd43c3tA",
+        authDomain: "egyptianrc-41529.firebaseapp.com",
+        databaseURL: "https://egyptianrc-41529-default-rtdb.firebaseio.com",
+        projectId: "egyptianrc-41529",
+        storageBucket: "egyptianrc-41529.appspot.com",
+        messagingSenderId: "462455386900",
+        appId: "1:462455386900:web:8e23c5d98365589a59c801",
+        measurementId: "G-KXN9ERH0G5",
+      };
 
- const firebaseConfig = {
-    apiKey: "AIzaSyCpHOJR0jXHno5Ipue_tlUKQQ6xd43c3tA",
-    authDomain: "egyptianrc-41529.firebaseapp.com",
-    databaseURL: "https://egyptianrc-41529-default-rtdb.firebaseio.com",
-    projectId: "egyptianrc-41529",
-    storageBucket: "egyptianrc-41529.appspot.com",
-    messagingSenderId: "462455386900",
-    appId: "1:462455386900:web:8e23c5d98365589a59c801",
-    measurementId: "G-KXN9ERH0G5"
-  };
+      // Initialize Firebase
+      if (!firebase.apps.length) {
+        console.log("1");
+        const app = firebase.initializeApp(firebaseConfig);
+      } else {
+        console.log("2");
+        const app = firebase.app();
+      }
 
-  // Initialize Firebase
-  if (!firebase.apps.length) {
-      console.log("1");
-     const app = firebase.initializeApp(firebaseConfig);
-  }else{
-     console.log("2");
-    const app = firebase.app();
-  }
+      const analytics = firebase.analytics();
+    </script>
 
-   const analytics = firebase.analytics();
-</script>
-
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
+    <script>
+      window.addEventListener("load", function (ev) {
+        // Download main.dart.js
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          onEntrypointLoaded: function (engineInitializer) {
+            engineInitializer.initializeEngine().then(function (appRunner) {
+              appRunner.runApp();
+            });
+          },
+        });
       });
-    });
-  </script>
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
-
-
-</body></html>
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  </body>
+</html>
