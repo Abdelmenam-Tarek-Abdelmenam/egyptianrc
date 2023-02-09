@@ -19,22 +19,33 @@ class RealTimeDataBaseRepository {
 
   Future<void> setSeenInfo() async =>
       await reference.child(userId).update({_seenUserChild: false});
+  Future<void> setNotSeenInfo(String id) async =>
+      await reference.child(id).update({_seenUserChild: true});
 
   Future<void> setAdminSeen() async =>
       await reference.child(userId).update({_seenAdminChild: true});
 
-  void setCallback(Function(String key, Object value) callback) {
-    reference.child(userId).child(_messagesChild).onChildAdded.listen((event) {
+  void setCallback(String? id, Function(String key, Object value) callback) {
+    reference
+        .child(id ?? userId)
+        .child(_messagesChild)
+        .onChildAdded
+        .listen((event) {
       callback(event.snapshot.key!, event.snapshot.value!);
     });
   }
 
-  Future<List<DataSnapshot>> getMessages() async {
+  Future<List<DataSnapshot>> getMessages(String? id) async {
     DataSnapshot data =
-        await reference.child(userId).child(_messagesChild).get();
+        await reference.child(id ?? userId).child(_messagesChild).get();
     return data.children.toList();
   }
 
-  Future<void> sendMessage(String id, Map<String, dynamic> data) async =>
-      await reference.child(userId).child(_messagesChild).child(id).set(data);
+  Future<void> sendMessage(
+          String id, Map<String, dynamic> data, String? branchId) async =>
+      await reference
+          .child(branchId ?? userId)
+          .child(_messagesChild)
+          .child(id)
+          .set(data);
 }

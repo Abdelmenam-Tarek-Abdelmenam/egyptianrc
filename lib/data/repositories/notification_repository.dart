@@ -27,6 +27,7 @@ class NotificationSender {
     required String body,
     String receiver = "all",
   }) async {
+    print("send to $receiver");
     dio.options.headers = {
       'Content-Type': 'application/json',
       'Authorization': 'key=$_fcmKey',

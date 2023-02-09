@@ -14,8 +14,9 @@ class PostDisasterToCloudEvent extends PostDisasterEvent {
 }
 
 class PostPhotoDisasterEvent extends PostDisasterEvent {
-  UploadFile mediaFile;
-  PostPhotoDisasterEvent({required this.mediaFile});
+  final UploadFile mediaFile;
+  final bool isEnd;
+  PostPhotoDisasterEvent({required this.mediaFile, required this.isEnd});
 
   @override
   List<Object> get props => [mediaFile];

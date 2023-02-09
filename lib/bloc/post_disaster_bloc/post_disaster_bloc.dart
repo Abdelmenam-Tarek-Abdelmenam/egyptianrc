@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:egyptianrc/bloc/auth_bloc/auth_status_bloc.dart';
 import 'package:egyptianrc/bloc/status.dart';
 import 'package:egyptianrc/data/data_sources/web_services/firestorage_repository.dart';
 import 'package:egyptianrc/data/data_sources/web_services/firestore_repository.dart';
@@ -25,48 +26,38 @@ class PostDisasterBloc extends Bloc<PostDisasterEvent, PostDisasterState> {
   FutureOr<void> _postDisasterEvent(
       PostDisasterToCloudEvent event, Emitter<PostDisasterState> emit) async {
     emit(state.copyWith(status: BlocStatus.gettingData));
+    Map<String, dynamic> data = {
+      ...event.disasterPost.toMap(),
+      "userData": AuthBloc.user.toJson
+    };
+    await _fireStoreRepository.uploadPost(data).then((value) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.getData,
+          successOrFailureOption: Right(value),
+        ),
+      );
 
-    if (event.disasterPost.photoUrl == null) {
-      print('BLOC change error to provide_photo');
+      return value;
+    }).catchError((error) {
       emit(
         state.copyWith(
           status: BlocStatus.error,
-          successOrFailureOption: const Left(
-            PostDisasterFailure('provide_photo'),
+          successOrFailureOption: Left(
+            PostDisasterFailure(error.toString()),
           ),
         ),
       );
-      return;
-    } else {
-      await _fireStoreRepository
-          .uploadPost(event.disasterPost.toMap())
-          .then((value) {
-        emit(
-          state.copyWith(
-            status: BlocStatus.getData,
-            successOrFailureOption: Right(value),
-          ),
-        );
-
-        return value;
-      }).catchError((error) {
-        emit(
-          state.copyWith(
-            status: BlocStatus.error,
-            successOrFailureOption: Left(
-              PostDisasterFailure(error.toString()),
-            ),
-          ),
-        );
-        print(error.toString());
-        return error;
-      });
-    }
+      print(error.toString());
+      return error;
+    });
   }
 
   //! I have bug here
   FutureOr<void> _postPhotoDisasterEvent(
       PostPhotoDisasterEvent event, Emitter<PostDisasterState> emit) async {
+    emit(state.copyWith(status: BlocStatus.gettingData));
+
     try {
       String result = await _fireStorageRepository.upload(event.mediaFile);
       print('BLOC change result: url $result');
@@ -84,12 +75,12 @@ class PostDisasterBloc extends Bloc<PostDisasterEvent, PostDisasterState> {
 
   FutureOr<void> _postAudioDisasterEvent(
       PostAudioDisasterEvent event, Emitter<PostDisasterState> emit) async {
-    emit(state.copyWith(status: BlocStatus.postingAudio));
+    emit(state.copyWith(status: BlocStatus.gettingData));
 
     await _fireStorageRepository.upload(event.mediaFile).then((value) {
       emit(
         state.copyWith(
-            status: BlocStatus.postingAudio,
+            status: BlocStatus.postedAudio,
             successOrFailureOption: const Right(null),
             audioUrl: value),
       );

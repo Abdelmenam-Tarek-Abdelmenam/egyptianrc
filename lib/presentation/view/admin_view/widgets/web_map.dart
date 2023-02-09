@@ -1,12 +1,11 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:html';
 import 'dart:ui' as ui;
 import 'package:egyptianrc/data/models/disaster_post.dart';
 import 'package:flutter/material.dart';
-import 'package:egyptianrc/data/models/location.dart' as disaster;
-import 'package:google_maps/google_maps.dart' as gMap;
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_flutter_web/google_maps_flutter_web.dart'
-    as moveMap;
+import 'package:google_maps/google_maps.dart' as g_map;
 
 class WebMap extends StatefulWidget {
   final List<DisasterPost> positions;
@@ -26,14 +25,14 @@ class _WebMapState extends State<WebMap> {
   Widget _map(List<DisasterPost> positions) {
     const String htmlId = "map";
     ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
-      gMap.MapOptions mapOptions = gMap.MapOptions()
+      g_map.MapOptions mapOptions = g_map.MapOptions()
         ..zoom = 6.5
         ..mapId = htmlId
         ..zoomControl = false
-        ..mapTypeId = gMap.MapTypeId.ROADMAP
-        ..center = gMap.LatLng(26.8357675, 30.7956597);
+        ..mapTypeId = g_map.MapTypeId.ROADMAP
+        ..center = g_map.LatLng(26.8357675, 30.7956597);
       final elem = DivElement()..id = htmlId;
-      gMap.GMap map = gMap.GMap(elem, mapOptions);
+      g_map.GMap map = g_map.GMap(elem, mapOptions);
       // gMap.CircleOptions circleOptions = gMap.CircleOptions()
       //   ..center = gMap.LatLng(26, 30)
       //   ..radius = 150
@@ -41,18 +40,18 @@ class _WebMapState extends State<WebMap> {
       //   ..strokeOpacity = 0.8
       //   ..strokeWeight = 2
       //   ..fillColor = '#FF0000'
-        ..fillOpacity = 0.35;
+      //   ..fillOpacity = 0.35;
       for (var element in positions) {
-        gMap.Marker(gMap.MarkerOptions()
-              ..position = gMap.LatLng(
+        g_map.Marker(g_map.MarkerOptions()
+              ..position = g_map.LatLng(
                   element.position.latitude, element.position.longitude)
               ..map = map
               ..clickable = true
-              ..animation = gMap.Animation.DROP
+              ..animation = g_map.Animation.DROP
               ..title = htmlId)
             .onClick
             .listen((event) {
-          map.panTo(gMap.LatLng(
+          map.panTo(g_map.LatLng(
               element.position.latitude, element.position.longitude));
           map.zoom = 16;
 

@@ -1,4 +1,5 @@
 import 'package:egyptianrc/bloc/auth_bloc/auth_status_bloc.dart';
+import 'package:egyptianrc/data/models/app_user.dart';
 import 'package:egyptianrc/presentation/resources/asstes_manager.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:egyptianrc/presentation/shared/toast_helper.dart';
@@ -9,7 +10,8 @@ import '../../../bloc/chat_bloc/chat_bloc.dart';
 import '../../../data/models/chat_model.dart';
 
 class ChatView extends StatelessWidget {
-  ChatView({Key? key}) : super(key: key);
+  ChatView({this.user, Key? key}) : super(key: key);
+  final AppUser? user;
 
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
@@ -19,13 +21,13 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ChatBloc(),
+      create: (context) => ChatBloc(user?.id),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.5,
-          title: const Text(
-            StringManger.chatWithRc,
-            style: TextStyle(color: Colors.red),
+          title: Text(
+            user == null ? StringManger.chatWithRc : user?.name ?? "Guest",
+            style: const TextStyle(color: Colors.red),
           ),
           centerTitle: true,
         ),
@@ -59,7 +61,8 @@ class ChatView extends StatelessWidget {
   }
 
   Widget buildItem(int index, MessageChat messageChat) {
-    if (messageChat.idFrom == userId) {
+    bool myMessage = messageChat.idFrom.toLowerCase() == userId.toLowerCase();
+    if (user == null ? myMessage : !myMessage) {
       // Right (my message)
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,

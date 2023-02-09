@@ -48,7 +48,9 @@ void main() async {
   Bloc.observer = MyBlocObserver();
 
   String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);
+  print(userData);
   AppUser? user = userData == null ? null : AppUser.fromJson(userData);
+
   runApp(MyApp(user));
 }
 
@@ -82,10 +84,11 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.light,
               onGenerateRoute: RouteGenerator.getRoute,
-//             ! warning about initialRoute
-              initialRoute: Routes.admin,
-              // home: const PostDisasterView(),
-              // ),
+              initialRoute: user == null
+                  ? Routes.first
+                  : user!.isAdmin
+                      ? Routes.admin
+                      : Routes.home, // ),
             );
           },
         ),

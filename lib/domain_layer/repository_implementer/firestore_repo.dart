@@ -8,6 +8,21 @@ import '../../data/models/disaster_post.dart';
 class DatabaseRepo {
   final FireStoreRepository _repository = FireStoreRepository();
 
+  void addListener(Function(List<DisasterPost>) callback) {
+    _repository.buildListener(
+        (data) => callback(data.map((e) => DisasterPost.fromMap(e)).toList()));
+  }
+
+  Future<Either<Failure, void>> setArchivePost(DisasterPost post) async {
+    try {
+      await _repository.setArchivePost(post.toMap());
+      await _repository.deleteActivePost(post.postId);
+      return const Right(null);
+    } catch (_) {
+      return const Left(Failure("حدث خطأ اثناء نعديل بيانات المستخدم"));
+    }
+  }
+
   Future<Either<Failure, void>> editUser(AppUser user) async {
     try {
       Map<String, dynamic> data = user.toJson;

@@ -14,12 +14,13 @@ class ChatRepository {
   final RealTimeDataBaseRepository repository = RealTimeDataBaseRepository();
   String get userId => AuthBloc.user.id;
 
-  void getChatStream(Function(MessageChat) callback) => repository
-      .setCallback((key, value) => callback(MessageChat.fromJson(value, key)));
+  void getChatStream(String? id, Function(MessageChat) callback) =>
+      repository.setCallback(
+          id, (key, value) => callback(MessageChat.fromJson(value, key)));
 
-  Future<Either<Failure, List<MessageChat>>> getMessages() async {
+  Future<Either<Failure, List<MessageChat>>> getMessages(String? id) async {
     try {
-      List<DataSnapshot> data = await repository.getMessages();
+      List<DataSnapshot> data = await repository.getMessages(id);
       List<MessageChat> messages = data
           .map((e) => MessageChat.fromJson(e.value, e.key!))
           .toList()
@@ -34,27 +35,36 @@ class ChatRepository {
     }
   }
 
-  Future<Either<Failure, MessageChat>> sendMessage(String content) async {
+  Future<Either<Failure, MessageChat>> sendMessage(
+      String content, String? id) async {
     try {
       MessageChat messageChat = MessageChat(
         id: DateTime.now().microsecondsSinceEpoch.toString(),
-        idFrom: AuthBloc.user.id,
+        idFrom: id == null ? AuthBloc.user.id : "admin",
         timestamp: DateTime.now().formatDate,
         content: content,
       );
 
-      await repository.sendMessage(messageChat.id, messageChat.toJson());
-      await repository.setAdminSeen();
-      NotificationSender().postData(
-        sendData: {},
-        title: "رساله جديده",
-        body: content,
-        receiver: "admin",
-      );
+      await repository.sendMessage(messageChat.id, messageChat.toJson(), id);
+      if (id == null) {
+        await repository.setAdminSeen();
+      } else {
+        await repository.setNotSeenInfo(id);
+        (await NotificationSender().postData(
+          sendData: {},
+          title: "رساله جديده",
+          body: content,
+          receiver: id.replaceAll("+", ""),
+        ))
+            .fold((left) => print(left.message), (right) => print(right));
+      }
+
       return Right(messageChat);
     } on FirebaseException catch (err) {
+      print(err);
       return Left(Failure.fromFirebaseCode(err.code));
     } catch (_) {
+      print(_);
       return const Left(Failure(StringManger.messageSendError));
     }
   }

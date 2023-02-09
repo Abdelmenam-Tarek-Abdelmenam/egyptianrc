@@ -73,8 +73,10 @@ class SigningRepository {
     try {
       FireStoreRepository repository = FireStoreRepository();
       Map<String, dynamic>? userData = await repository.getUserInfo(phone);
+      print(userData);
       if (userData != null) {
         bool seen = await RealTimeDataBaseRepository().getSeenInfo(phone);
+        print(seen);
         return Right(AppUser.fromJson(userData, seen: seen));
       } else {
         return Right(AppUser.empty());

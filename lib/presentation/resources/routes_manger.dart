@@ -1,3 +1,4 @@
+import 'package:egyptianrc/data/models/app_user.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:egyptianrc/presentation/view/admin_view/admin_view.dart';
 import 'package:egyptianrc/presentation/view/auth_view/sign_in_view/sign_in_view.dart';
@@ -40,6 +41,10 @@ class Routes {
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.chat:
+        print(settings.arguments);
+        return MaterialPageRoute(
+            builder: (_) => ChatView(user: settings.arguments as AppUser?));
       case Routes.first:
         return MaterialPageRoute(builder: (_) => const FirstLoginView());
       case Routes.fastLogin:
@@ -48,8 +53,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const SignInView());
       case Routes.otp:
         return MaterialPageRoute(builder: (_) => const OtpView());
-      case Routes.chat:
-        return MaterialPageRoute(builder: (_) => ChatView());
+
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => const SignUpView());
       case Routes.admin:

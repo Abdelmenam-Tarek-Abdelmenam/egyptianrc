@@ -64,6 +64,8 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
 
   Future<void> _getUserInfo(GetUserInfoEvent event, Emitter emit) async {
     {
+      print("getting user");
+      print(user.id);
       emit(state.copyWith(status: AuthStatus.gettingUser));
       Either<Failure, AppUser> value =
           await _authRepository.getUserInfo(user.id);
@@ -74,6 +76,7 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
       }, (completeUser) async {
         completeUser.id = user.id;
         user = completeUser;
+
         if (user.panned) {
           showToast(StringManger.panned);
           AuthRepository.signOut();
@@ -84,6 +87,7 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
           FirebaseMessaging.instance.subscribeToTopicModified(user.subscribeId);
           PreferenceRepository.putData(
               key: PreferenceKey.userData, value: completeUser.toJson);
+          emit(state.copyWith(status: AuthStatus.initial));
         }
       });
     }

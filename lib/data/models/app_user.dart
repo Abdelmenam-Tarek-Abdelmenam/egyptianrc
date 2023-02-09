@@ -71,6 +71,7 @@ class AppUser {
         "postsId": postsId,
         "password": password,
         "places": places ?? [],
+        "panned": panned,
       };
 
   factory AppUser.fromJson(dynamic jsonData, {bool seen = false}) {

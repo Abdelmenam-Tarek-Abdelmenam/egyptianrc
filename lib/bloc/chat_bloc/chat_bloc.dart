@@ -12,26 +12,29 @@ part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  ChatBloc() : super(ChatState.initial()) {
+  ChatBloc(this.id) : super(ChatState.initial()) {
     on<GetInitialMessagesEvent>(_getInitialDataHandler);
     on<AddNewMessagesEvent>(_addNewMessageHandler);
     on<SendMessagesEvent>(_sendNewMessageHandler);
 
     add(GetInitialMessagesEvent());
   }
+  String? id;
   final ChatRepository _repository = ChatRepository();
 
   Future<void> _getInitialDataHandler(
       GetInitialMessagesEvent event, Emitter emit) async {
     emit(state.copyWith(status: ChatStatus.gettingInitial));
-    Either<Failure, List<MessageChat>> value = await _repository.getMessages();
+    Either<Failure, List<MessageChat>> value =
+        await _repository.getMessages(id);
     value.fold((failure) {
       failure.show;
       emit(state.copyWith(status: ChatStatus.error));
     }, (right) {
       emit(state.copyWith(messages: right, status: ChatStatus.idle));
     });
-    _repository.getChatStream((message) => add(AddNewMessagesEvent(message)));
+    _repository.getChatStream(
+        id, (message) => add(AddNewMessagesEvent(message)));
   }
 
   void _addNewMessageHandler(AddNewMessagesEvent event, Emitter emit) {
@@ -47,7 +50,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emit(state.copyWith(status: ChatStatus.sendingMessage));
 
     Either<Failure, MessageChat> value =
-        await _repository.sendMessage(event.text);
+        await _repository.sendMessage(event.text, id);
     value.fold((failure) {
       failure.show;
       emit(state.copyWith(status: ChatStatus.error));

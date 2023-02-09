@@ -9,7 +9,6 @@ const String usersColl = "users";
 class FireStoreRepository {
   StreamSubscription? listener;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-  String get _uniqueId => DateTime.now().microsecondsSinceEpoch.toString();
   String get _userId => AuthBloc.user.id;
 
   void buildListener(Function(List<Map<String, dynamic>>) callBack) {
@@ -21,10 +20,16 @@ class FireStoreRepository {
   }
 
   Future<void> uploadPost(Map<String, dynamic> postMap) async =>
-      await _fireStore.collection(activeColl).doc(_uniqueId).set(postMap);
+      await _fireStore
+          .collection(activeColl)
+          .doc(postMap['postId'])
+          .set(postMap);
 
   Future<void> setArchivePost(Map<String, dynamic> postMap) async =>
-      await _fireStore.collection(archiveColl).doc(_uniqueId).set(postMap);
+      await _fireStore
+          .collection(archiveColl)
+          .doc(postMap['postId'])
+          .set(postMap);
 
   Future<void> deleteActivePost(String id) async =>
       await _fireStore.collection(activeColl).doc(id).delete();
@@ -57,7 +62,7 @@ class FireStoreRepository {
       await _fireStore.collection(usersColl).doc(_userId).set(data);
 
   Future<void> updateUserInfo(Map<String, dynamic> data) async =>
-      await _fireStore.collection(usersColl).doc(_userId).update(data);
+      await _fireStore.collection(usersColl).doc(data['id']).update(data);
 
   void killListener() {
     if (listener != null) {

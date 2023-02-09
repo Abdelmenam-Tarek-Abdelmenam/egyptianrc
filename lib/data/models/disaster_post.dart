@@ -1,41 +1,39 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:egyptianrc/data/models/app_user.dart';
 import 'package:egyptianrc/data/models/location.dart';
-
-import 'disaster_type.dart';
 
 class DisasterPost {
   String postId;
-  String? photoUrl;
   Location position;
   String geoHash;
   String? description;
-  DisasterType disasterType;
+  String disasterType;
   DisasterMedia media;
+  AppUser? user;
   int time = DateTime.now().millisecondsSinceEpoch;
-  DisasterPost({
-    required this.postId,
-    required this.photoUrl,
-    required this.position,
-    this.description,
-    required this.disasterType,
-    required this.media,
-    required this.time,
-  }) : geoHash = position.geoHash;
+  DisasterPost(
+      {required this.postId,
+      required this.position,
+      this.description,
+      required this.disasterType,
+      required this.media,
+      required this.time,
+      this.user})
+      : geoHash = position.geoHash;
 
   DisasterPost copyWith({
     String? postId,
     String? photoUrl,
     Location? position,
     String? description,
-    DisasterType? disasterType,
+    String? disasterType,
     DisasterMedia? media,
     int? time,
   }) {
     return DisasterPost(
       postId: postId ?? this.postId,
-      photoUrl: photoUrl ?? this.photoUrl,
       position: position ?? this.position,
       description: description ?? this.description,
       disasterType: disasterType ?? this.disasterType,
@@ -48,12 +46,11 @@ class DisasterPost {
     final result = <String, dynamic>{};
 
     result.addAll({'postId': postId});
-    result.addAll({'photoUrl': photoUrl});
     result.addAll({'position': position.toMap()});
     if (description != null) {
       result.addAll({'description': description});
     }
-    result.addAll({'disasterType': disasterType.toMap()});
+    result.addAll({'disasterType': disasterType});
     result.addAll({'media': media.toMap()});
     result.addAll({'time': time});
     result.addAll({'geoHash': geoHash});
@@ -64,12 +61,13 @@ class DisasterPost {
   factory DisasterPost.fromMap(Map<String, dynamic> map) {
     return DisasterPost(
       postId: map['postId'] ?? '',
-      photoUrl: map['photoUrl'] ?? '',
       position: Location.fromMap(map['position']),
       description: map['description'],
-      disasterType: DisasterType.fromMap(map['disasterType']),
+      disasterType:
+          map['disasterType'], //DisasterType.fromMap(map['disasterType']),
       media: DisasterMedia.fromMap(map['media'] ?? {}),
       time: map['time']?.toInt() ?? 0,
+      user: map['userData'] == null ? null : AppUser.fromJson(map['userData']),
     );
   }
 
@@ -80,7 +78,7 @@ class DisasterPost {
 
   @override
   String toString() {
-    return 'DisasterPost(postId: $postId, photoUrl: $photoUrl, position: $position, description: $description, disasterType: $disasterType, media: $media, time: $time)';
+    return 'DisasterPost(postId: $postId, position: $position, description: $description, disasterType: $disasterType, media: $media, time: $time)';
   }
 
   @override
@@ -89,7 +87,6 @@ class DisasterPost {
 
     return other is DisasterPost &&
         other.postId == postId &&
-        other.photoUrl == photoUrl &&
         other.position == position &&
         other.description == description &&
         other.disasterType == disasterType &&
@@ -100,7 +97,6 @@ class DisasterPost {
   @override
   int get hashCode {
     return postId.hashCode ^
-        photoUrl.hashCode ^
         position.hashCode ^
         description.hashCode ^
         disasterType.hashCode ^
