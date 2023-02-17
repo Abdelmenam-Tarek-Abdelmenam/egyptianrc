@@ -6,6 +6,8 @@ import 'package:egyptianrc/data/models/disaster_post.dart';
 import 'package:flutter/material.dart';
 import 'dart:html';
 import 'package:google_maps/google_maps.dart' as g_map;
+import 'package:google_maps_flutter_web/google_maps_flutter_web.dart'
+    as g_map_web;
 
 class WebMap extends StatefulWidget {
   final List<DisasterPost> positions;
@@ -36,14 +38,16 @@ class _WebMapState extends State<WebMap> {
         ..center = g_map.LatLng(26.8357675, 30.7956597);
       final elem = DivElement()..id = htmlId;
       g_map.GMap map = g_map.GMap(elem, mapOptions);
-      // gMap.CircleOptions circleOptions = gMap.CircleOptions()
-      //   ..center = gMap.LatLng(26, 30)
-      //   ..radius = 150
-      //   ..strokeColor = '#FF0000'
-      //   ..strokeOpacity = 0.8
-      //   ..strokeWeight = 2
-      //   ..fillColor = '#FF0000'
-      //   ..fillOpacity = 0.35;
+      g_map_web.CircleController circleController = g_map_web.CircleController(
+          circle: g_map.Circle(g_map.CircleOptions()
+            ..map = map
+            ..center = g_map.LatLng(26.8357675, 30.7956597)
+            ..radius = 900
+            ..strokeColor = '#FF0000'
+            ..strokeOpacity = 0.8
+            ..strokeWeight = 2
+            ..fillColor = '#FF0000'
+            ..fillOpacity = 0.35));
 
       for (int i = 0; i < positions.length; i++) {
         final element = positions[i];
@@ -54,13 +58,22 @@ class _WebMapState extends State<WebMap> {
               ..map = map
               ..clickable = true
               ..animation = g_map.Animation.DROP
-              ..title = "${i + 1}")
+              ..title = element.disasterType)
             .onClick
             .listen((event) {
           map.panTo(g_map.LatLng(
               element.position.latitude, element.position.longitude));
           map.zoom = 16;
-
+          circleController.update(g_map.CircleOptions()
+            ..map = map
+            ..center = g_map.LatLng(
+                element.position.latitude, element.position.longitude)
+            ..radius = 150
+            ..strokeColor = '#FF0000'
+            ..strokeOpacity = 0.8
+            ..strokeWeight = 2
+            ..fillColor = '#FF0000'
+            ..fillOpacity = 0.35);
           // print('click on marker ${map.data?.get('getProperty')}');
           // final areaCircle = gMap.CircleOptions()
           //   ..map = map
