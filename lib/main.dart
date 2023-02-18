@@ -48,7 +48,6 @@ void main() async {
   Bloc.observer = MyBlocObserver();
 
   String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);
-  print(userData);
   AppUser? user = userData == null ? null : AppUser.fromJson(userData);
 
   runApp(MyApp(user));

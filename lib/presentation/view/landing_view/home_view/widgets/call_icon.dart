@@ -15,7 +15,7 @@ class CallIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        const String phoneUrl = "tel://123";
+        const String phoneUrl = "tel://15322";
         if (await canLaunchUrl(Uri.parse(phoneUrl))) {
           await launchUrl(Uri.parse(phoneUrl));
         } else {

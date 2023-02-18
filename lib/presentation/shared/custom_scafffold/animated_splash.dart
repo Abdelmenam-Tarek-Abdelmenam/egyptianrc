@@ -59,7 +59,7 @@ class _SplashViewState extends State<SplashView> {
               ],
         title: widget.title == null ? null : Text(widget.title!),
       ),
-      body: Column(
+      body: NoConnectionView(Column(
         children: [
           animationFinished == AnimationState.end
               ? splashImage()
@@ -70,7 +70,7 @@ class _SplashViewState extends State<SplashView> {
               crossFadeState: animationFinished.fadeState,
               duration: const Duration(milliseconds: 500)),
         ],
-      ),
+      )),
     );
   }
 

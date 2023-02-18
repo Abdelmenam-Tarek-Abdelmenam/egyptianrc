@@ -99,7 +99,6 @@ class PostDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(post.media.audio!.url);
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
       child: Dialog(

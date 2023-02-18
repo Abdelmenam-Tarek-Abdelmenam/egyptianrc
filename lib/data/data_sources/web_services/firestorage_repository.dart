@@ -4,12 +4,20 @@ import 'dart:typed_data';
 import 'package:egyptianrc/data/error_state.dart';
 import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FireStorageRepository {
   final _storageRef = FirebaseStorage.instance.ref();
 
   Future<String> upload(UploadFile file) async {
+    if (file.type == FileType.image) {
+      File? newFile = await testCompressAndGetFile(file.file);
+      if (newFile != null) {
+        file.file = newFile;
+      }
+    }
+
     final fileRef = _storageRef.child(file.refName);
     try {
       // final task = fileRef.putFile(file.file); //This task give some methods
@@ -19,11 +27,21 @@ class FireStorageRepository {
       String url = await fileRef.getDownloadURL();
       return url;
     } on FirebaseException catch (e) {
-      print(e);
       throw Failure(e.message ?? StringManger.defaultError);
     } catch (err) {
       throw const Failure();
     }
+  }
+
+  Future<File?> testCompressAndGetFile(File file) async {
+    String programPath = (await getTemporaryDirectory()).absolute.path;
+    File? result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      "$programPath/output.jpg",
+      quality: 10,
+    );
+
+    return result;
   }
 
   Future<UploadFile?> download(String url) async {

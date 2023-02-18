@@ -40,7 +40,6 @@ class DisasterGrid extends StatelessWidget {
           ),
           onTap: () {
             Navigator.of(context).pushNamed(Routes.post, arguments: e);
-            print(e.text);
           },
           child: Container(
             width: 150,

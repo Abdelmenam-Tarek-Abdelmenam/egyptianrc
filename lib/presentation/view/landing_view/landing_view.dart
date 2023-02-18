@@ -1,4 +1,5 @@
 import 'package:egyptianrc/bloc/home_bloc/home_bloc.dart';
+import 'package:egyptianrc/presentation/shared/custom_scafffold/no_connection_view.dart';
 import 'package:egyptianrc/presentation/view/landing_view/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class LandingView extends StatelessWidget {
           bottomNavigationBar: const HomeBottomBar(),
           body: AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
-            child: context.watch<HomeBloc>().state.toWidget(),
+            child: NoConnectionView(context.watch<HomeBloc>().state.toWidget()),
           ),
         ),
       ),

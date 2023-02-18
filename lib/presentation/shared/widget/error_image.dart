@@ -12,7 +12,6 @@ class ErrorImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(url);
     return CachedNetworkImage(
       imageUrl: url,
       height: height,

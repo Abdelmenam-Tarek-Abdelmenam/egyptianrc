@@ -61,10 +61,8 @@ class ChatRepository {
 
       return Right(messageChat);
     } on FirebaseException catch (err) {
-      print(err);
       return Left(Failure.fromFirebaseCode(err.code));
     } catch (_) {
-      print(_);
       return const Left(Failure(StringManger.messageSendError));
     }
   }

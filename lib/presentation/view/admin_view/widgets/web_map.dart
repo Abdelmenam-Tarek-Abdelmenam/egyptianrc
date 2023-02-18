@@ -21,7 +21,6 @@ class WebMap extends StatefulWidget {
 class _WebMapState extends State<WebMap> {
   @override
   Widget build(BuildContext context) {
-    print(widget.positions.length);
     return _map(widget.positions);
   }
 

@@ -64,8 +64,6 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
 
   Future<void> _getUserInfo(GetUserInfoEvent event, Emitter emit) async {
     {
-      print("getting user");
-      print(user.id);
       emit(state.copyWith(status: AuthStatus.gettingUser));
       Either<Failure, AppUser> value =
           await _authRepository.getUserInfo(user.id);
@@ -96,8 +94,6 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
   Future<void> _loginUsingPhoneHandler(
       LoginInUsingPhoneAndPassword event, Emitter emit) async {
     if (loading) return;
-    print(event.pass);
-    print(event.phone);
 
     if (event.phone == "+2admin" && event.pass == "admin") {
       user = AppUser(id: 'admin');

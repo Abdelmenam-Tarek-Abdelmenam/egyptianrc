@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
+import 'dart:html';
+import 'dart:ui' as ui;
 
 class ViewPhoto extends StatelessWidget {
   final String photoUrl;
@@ -8,34 +9,20 @@ class ViewPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String imageUrl = photoUrl;
+    // https://github.com/flutter/flutter/issues/41563
+    // ignore: undefined_prefixed_name
+    ui.platformViewRegistry.registerViewFactory(
+      imageUrl,
+      (int _) => ImageElement()..src = imageUrl,
+    );
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
       ),
-      body: Dismissible(
-        background: Container(
-          color: Colors.black,
-        ),
-        key: const Key('key'),
-        direction: DismissDirection.down,
-        onDismissed: (_) => Navigator.pop(context),
-        child: Hero(
-          tag: 'image',
-          child: PhotoView(
-            imageProvider: NetworkImage(photoUrl),
-            loadingBuilder: (_, __) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-            errorBuilder: (_, __, ___) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          ),
-        ),
+      body: HtmlElementView(
+        viewType: imageUrl,
       ),
     );
   }

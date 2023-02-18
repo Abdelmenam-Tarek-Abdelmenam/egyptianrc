@@ -48,7 +48,6 @@ class PostDisasterBloc extends Bloc<PostDisasterEvent, PostDisasterState> {
           ),
         ),
       );
-      print(error.toString());
       return error;
     });
   }
@@ -60,7 +59,6 @@ class PostDisasterBloc extends Bloc<PostDisasterEvent, PostDisasterState> {
 
     try {
       String result = await _fireStorageRepository.upload(event.mediaFile);
-      print('BLOC change result: url $result');
       emit(state.copyWith(
           status: BlocStatus.postedPhoto,
           successOrFailureOption: const Right(null),

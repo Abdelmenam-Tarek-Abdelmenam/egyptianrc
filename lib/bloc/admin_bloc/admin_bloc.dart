@@ -63,6 +63,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   }
 
   _newDataAdded(NewDataEvent event, Emitter emit) async {
+    event.data.sort((r, l) => r.time.compareTo(l.time));
+    showToast("New Disaster Come", type: ToastType.info);
+
     emit(state.copyWith(active: event.data));
   }
 

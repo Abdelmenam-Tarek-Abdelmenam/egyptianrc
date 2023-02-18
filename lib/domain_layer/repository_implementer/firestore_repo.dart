@@ -68,10 +68,10 @@ class DatabaseRepo {
       List<Map<String, dynamic>> data = await _repository.readAllActivePosts();
       List<DisasterPost> posts =
           data.map((e) => DisasterPost.fromMap(e)).toList();
+
+      posts.sort((r, l) => r.time.compareTo(l.time));
       return Right(posts);
-    } catch (_, trace) {
-      print(_);
-      print(trace);
+    } catch (_) {
       return const Left(Failure("حدث خطأ اثناء الحصول علي البيانات"));
     }
   }
@@ -81,10 +81,10 @@ class DatabaseRepo {
       List<Map<String, dynamic>> data = await _repository.readAllArchivePosts();
       List<DisasterPost> posts =
           data.map((e) => DisasterPost.fromMap(e)).toList();
+      posts.sort((r, l) => r.time.compareTo(l.time));
+
       return Right(posts);
-    } catch (_, trace) {
-      print(_);
-      print(trace);
+    } catch (_) {
       return const Left(Failure("حدث خطأ اثناء الحصول علي البيانات"));
     }
   }

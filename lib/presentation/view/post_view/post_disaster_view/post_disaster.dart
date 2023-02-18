@@ -35,8 +35,6 @@ class _PostDisasterViewState extends State<PostDisasterView> {
   final ValueNotifier<String?> imageFileController = ValueNotifier(null);
   @override
   Widget build(BuildContext context) {
-    print(
-        'User data ${PreferenceRepository.getData(key: PreferenceKey.userData)}');
     return BlocProvider(
       create: (context) => PostDisasterBloc(),
       child: BlocBuilder<PostDisasterBloc, PostDisasterState>(
@@ -110,7 +108,11 @@ class _PostDisasterViewState extends State<PostDisasterView> {
                 child: confirmWidget(
                     context,
                     context.watch<PostDisasterBloc>().state.status ==
-                        BlocStatus.gettingData),
+                            BlocStatus.gettingData ||
+                        context.watch<PostDisasterBloc>().state.status ==
+                            BlocStatus.postingAudio ||
+                        context.watch<PostDisasterBloc>().state.status ==
+                            BlocStatus.postingPhoto),
               ),
               body: const MapDisplayer());
         },
@@ -130,8 +132,6 @@ class _PostDisasterViewState extends State<PostDisasterView> {
             child: DefaultFilledButton.postDisaster(
               label: StringManger.post,
               onPressed: () async {
-                print(audioFileController.value);
-
                 if (imageFileController.value != null) {
                   context.read<PostDisasterBloc>().add(
                         PostPhotoDisasterEvent(

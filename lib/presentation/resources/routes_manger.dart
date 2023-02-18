@@ -42,7 +42,6 @@ class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.chat:
-        print(settings.arguments);
         return MaterialPageRoute(
             builder: (_) => ChatView(user: settings.arguments as AppUser?));
       case Routes.first:
