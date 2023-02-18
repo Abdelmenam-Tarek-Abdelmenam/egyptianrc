@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:html';
+// import 'dart:html';
 import 'dart:ui' as ui;
 
 class ViewPhoto extends StatelessWidget {
@@ -12,10 +12,10 @@ class ViewPhoto extends StatelessWidget {
     String imageUrl = photoUrl;
     // https://github.com/flutter/flutter/issues/41563
     // ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory(
-      imageUrl,
-      (int _) => ImageElement()..src = imageUrl,
-    );
+    // ui.platformViewRegistry.registerViewFactory(
+    //   imageUrl,
+    //   (int _) => ImageElement()..src = imageUrl,
+    // );
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(

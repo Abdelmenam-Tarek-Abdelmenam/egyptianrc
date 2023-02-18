@@ -42,12 +42,10 @@ class _MapState extends State<MapDisplayer> {
                 ),
                 Visibility(
                   visible: state.status == BlocStatus.gettingData,
-                  child: Expanded(
-                    child: Container(
-                      color: Colors.white.withOpacity(0.5),
-                      alignment: Alignment.center,
-                      child: const Center(child: LoadingText()),
-                    ),
+                  child: Container(
+                    color: Colors.white.withOpacity(0.5),
+                    alignment: Alignment.center,
+                    child: const Center(child: LoadingText()),
                   ),
                 ),
                 // const SizedBox(width: double.infinity),
