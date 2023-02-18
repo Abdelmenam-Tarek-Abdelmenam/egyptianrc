@@ -3,7 +3,9 @@
 
 import 'dart:ui' as ui;
 import 'package:egyptianrc/data/models/disaster_post.dart';
+import 'package:egyptianrc/presentation/resources/string_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:html';
 import 'package:google_maps/google_maps.dart' as g_map;
 import 'package:google_maps_flutter_web/google_maps_flutter_web.dart'
@@ -16,6 +18,21 @@ class WebMap extends StatefulWidget {
 
   @override
   State<WebMap> createState() => _WebMapState();
+}
+
+String getLocationIcon(String type) {
+  switch (type) {
+    case StringManger.fire:
+      return 'assets/map_icon/fire_icon_final.png';
+    case StringManger.accident:
+      return 'assets/map_icon/car_accident_final.png';
+    case StringManger.explosion:
+      return 'assets/map_icon/fire_icon_final.png';
+    case StringManger.buildingFall:
+      return 'assets/map_icon/collapse_icon_final.png';
+    default:
+      return 'assets/map_icon/fire_icon_final.png';
+  }
 }
 
 class _WebMapState extends State<WebMap> {
@@ -50,14 +67,17 @@ class _WebMapState extends State<WebMap> {
 
       for (int i = 0; i < positions.length; i++) {
         final element = positions[i];
-
+        final _icon = g_map.Icon()
+          ..scaledSize = g_map.Size(25.r, 25.r)
+          ..url = getLocationIcon(element.disasterType);
         g_map.Marker(g_map.MarkerOptions()
               ..position = g_map.LatLng(
                   element.position.latitude, element.position.longitude)
               ..map = map
               ..clickable = true
+              ..icon = _icon
               ..animation = g_map.Animation.DROP
-              ..title = element.disasterType)
+              ..title = "${i + 1} - ${element.disasterType}")
             .onClick
             .listen((event) {
           map.panTo(g_map.LatLng(
